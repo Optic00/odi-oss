@@ -160,6 +160,7 @@ test-host:
 	bash test/slot_state_test.sh
 	bash test/trial_guard_test.sh
 	bash test/release_ancestry_test.sh
+	bash test/ci_version_test.sh
 	$(MAKE) -C src/nv test
 	bash test/fwu_guard_test.sh
 	bash test/fwu_minimal_path_test.sh
