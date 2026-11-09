@@ -20,6 +20,13 @@ listed here.
   with the same output. `test/flash_test.sh` checks the order and the
   first-line-wins rule.
 
+- CI: manual reproducibility runs flatten slashes in branch names before
+  naming image artifacts. The multicast-probe test publishes its synthetic
+  owner atomically and ignores incomplete owner reads, so a concurrent
+  status query cannot mistake an empty file for a dead process. Regression
+  tests cover branch names, incomplete and dead owners, and the SIGKILL
+  precondition; the device probe script is unchanged.
+
 - VLAN: frames the router tags itself now pass when the OLT's extended VLAN
   table adds a tag to untagged frames and the line has no VLAN filter (class
   84). With `VLAN_CFG_TYPE` other than 1, omcid built only the add-tag rule
