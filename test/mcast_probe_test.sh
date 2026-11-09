@@ -27,7 +27,12 @@ cat > "$W/bin/diag" <<'EOF'
 S=$FAKE_STATE
 gone() { rm -f "$S"/slot* "$S/owner"; }
 # The holder dead, as after a SIGKILL: the kernel would have closed its file.
-held() { [ -f "$S/owner" ] && ! kill -0 "$(cat "$S/owner")" 2>/dev/null && gone; return 0; }
+held() {
+    owner=$(cat "$S/owner" 2>/dev/null) || return 0
+    case "$owner" in *[!0-9]*|'') return 0 ;; esac
+    kill -0 "$owner" 2>/dev/null || gone
+    return 0
+}
 show() {
 	if [ -f "$S/slot$1" ]; then cat "$S/slot$1"
 	else echo "slot=$1 entry=$((88 + $1)) counter=$((16 + 2 * $1)) empty"; fi
@@ -44,7 +49,8 @@ run() {
 	"acl-probe count"|"acl-probe bytes"|"acl-probe mirror"|"acl-probe trap")
 		if [ "$OWNER" != 1 ]; then echo "% busy"; return; fi
 		[ -f "$S/slot$3" ] && { echo "% busy"; return; }
-		echo "$$" > "$S/owner"
+		echo "$$" > "$S/owner.tmp"
+		mv "$S/owner.tmp" "$S/owner"
 		echo "slot=$3 entry=$((88 + $3)) counter=$((16 + 2 * $3)) port=0 action=$2 unit=frames proto=2 dst=0.0.0.0/0 counted=7 base=0x00000000 now=0x00000007 cpu=7 cpu_ports=0x1 cpu_bytes=448 uni_igmp_other=0 other_reason=0" > "$S/slot$3"
 		echo "$*" >> "$S/log" ;;
 	"mib dump")
@@ -97,6 +103,19 @@ setup() {
 }
 probes_left() { ls "$W/state"/slot* 2> /dev/null | wc -l | tr -d ' '; }
 
+# A reader must not treat an incomplete owner publication as a dead pid.
+setup
+: > "$W/state/owner"
+echo "slot=0 synthetic" > "$W/state/slot0"
+diag acl-probe show 0 > "$W/empty-owner.log"
+[ -f "$W/state/slot0" ] && ok "an incomplete owner does not delete live probes" || bad "incomplete owner deleted probes"
+# A genuinely dead owner still releases its slots.
+sleep 0.1 & dead=$!
+wait "$dead"
+echo "$dead" > "$W/state/owner"
+diag acl-probe show 0 > "$W/dead-owner.log"
+[ "$(probes_left)" = 0 ] && ok "a dead owner releases probes" || bad "dead owner probes left"
+
 # 1. A whole run.
 setup
 if sh "$SCRIPT" > "$W/run.log" 2>&1; then ok "a run ends with status 0"; else bad "a run failed"; cat "$W/run.log"; fi
@@ -140,9 +159,16 @@ export COUNT_S=20
 sh "$SCRIPT" > "$W/run.log" 2>&1 &
 pid=$!
 for _ in $(seq 50); do [ "$(probes_left)" -ge 5 ] && break; sleep 0.1; done
+[ "$(probes_left)" -ge 5 ] && ok "SIGKILL: count window started" || bad "SIGKILL: count window never started"
 { kill -KILL "$pid"; wait "$pid"; } 2> /dev/null || true
 for _ in $(seq 50); do [ "$(probes_left)" = 0 ] && break; sleep 0.1; done
-[ "$(probes_left)" = 0 ] && ok "SIGKILL: the probes go with the holder" || bad "SIGKILL: probes left"
+if [ "$(probes_left)" = 0 ]; then
+    ok "SIGKILL: the probes go with the holder"
+else
+    bad "SIGKILL: probes left"
+    ls -l "$W/state"
+    cat "$W/state/owner" "$W/out/holder.out" "$W/run.log" 2>/dev/null || true
+fi
 
 [ "$fail" = 0 ] && echo "mcast_probe_test: all checks passed"
 exit "$fail"

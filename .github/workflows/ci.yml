@@ -323,7 +323,9 @@ jobs:
           key: dl-reproducible-${{ runner.os }}-${{ hashFiles('build-a/packages/fetch.sh', 'build-a/packages/*/build.sh', 'build-a/kernel/618/fetch.sh', 'build-a/src/fetch-releases.sh', 'build-a/src/release-sha256.txt') }}
 
       - name: Version for this comparison
-        run: echo "VERSION=${GITHUB_REF_NAME:-repro-dispatch}" >> "$GITHUB_ENV"
+        run: |
+          version=${GITHUB_REF_NAME:-repro-dispatch}
+          echo "VERSION=${version//\//-}" >> "$GITHUB_ENV"
 
       - name: squashfs-tools (unsquashfs, for the comparison step)
         run: build-a/tools/ci-apt.sh squashfs-tools
