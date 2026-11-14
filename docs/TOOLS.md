@@ -250,8 +250,40 @@ keys=...` (key names, never values), `event=reload_step verb=... rc=...` for
 each driver verb, and `event=reload_done ... result=... duration_s=...
 [o5_s=...] services=N`. They are never rate limited. `/var/run/omcid-reload`
 holds the same outcome for `apply.sh` (`id` pid.sequence, `state`, `changed`,
-`action`, `result`, `keys`, `duration_ms`, `o5_ms`, `services`), replaced whole
-by a rename; omcid removes a stale one at start.
+`action`, `result`, `keys`, `duration_ms`, `o5_ms`, `services`, and for an
+identity change `refusals`, `streak` and, with the clock set, `today`),
+replaced whole by a rename; omcid removes a stale one at start.
+
+**Re-registrations are counted, and held back after refusals.** Some
+operators are said to block a line after a few refused registrations, and a
+wrong serial number or password costs one with every try. While a
+re-registration waits for O5, omcid counts the Deactivate_ONU-ID PLOAMs the
+OLT sends (`/proc/odi_gpon/ploam`, type 0x05). Three of them before O5, or
+O7 (the OLT disabled the serial number), end the wait at once with
+`result=refused`; one or two do not, since an OLT may turn a correct
+credential down for a few discovery windows before it admits it. Every
+re-registration is one line in `/etc/config/odi-reregister` on the config
+partition, the newest 16 kept: the wall clock (0 while it is not set), `c` for
+a change or `r` for a revert (`apply.sh omci --revert`, the identity trial
+going back), the result, the deactivations and the key names, never values.
+From that record:
+
+- `refused` and `timeout` (an unknown serial number is never ranged) are
+  refusals; `ok`, `no_services` and `sn_not_applied` are accepted (the OLT
+  ranged the ONU); `failed` (a local driver step) is neither.
+- **streak**, the refused changes in a row, newest first, within 24 h when the
+  clock is set: an accepted change ends it, reverts are skipped.
+- From one refusal on `apply.sh omci` warns; from **two**, omcid holds a
+  changed identity back: `event=reload changed=identity action=held`,
+  `result=held`, the ONU stays on the identity it runs and nothing reaches the
+  driver or the record. `apply.sh omci --confirm` confirms one reload (a file
+  in `/var/run` that every reload takes away, used or not), and a change
+  confirmed that way is counted like any other.
+- `today`, the accepted changes in the last 24 h (with the clock set):
+  `apply.sh omci` warns from five on, and holds nothing.
+
+`omcli state` shows the record (`reregister`). The numbers are starting
+values: no operator's real limit is known here.
 
 ### `confd` -- the web UI
 
@@ -917,7 +949,13 @@ omcli uses omcid's own queue and commands:
                                          since omcid started (`mib resets`:
                                          from the OLT, local, from the OLT in
                                          the last 600 s, whether that is a
-                                         loop now, and how many loops)
+                                         loop now, and how many loops), and
+                                         the re-registrations recorded
+                                         (`reregister`: how many, refused
+                                         in a row, accepted in 24 h, the
+                                         last result, and whether a change
+                                         is held until `apply.sh omci
+                                         --confirm`)
     omcli provision                      what the OLT provisioned: T-CONTs,
                                          GEM ports, VLANs, traffic descriptors
                                          (the format is under metricsd)
@@ -1802,7 +1840,7 @@ the same line goes to `/var/log/omcid.log` among the frames around it.
 | `omcid: event=vlan_fwdop code=0x10 inst=4354 result=override built_as=0x00` | notice | a class 84 port built with the FwdOp the owner set in `RTK_DEVINFO_SPECVER` (docs/SETTINGS.md) instead of the code the OLT wrote; once per port and pair of codes per omcid run |
 | `omcid: event=reload changed=vlan action=rebuild keys=VLAN_MANU_TAG_VID` | notice | omcid took a SIGHUP (`apply.sh omci`) and reread the store: `changed` is `none`, `vlan` (bridge connections rebuilt in place, the ONU stays in O5) or `identity` (`action=reregister`: the ONU is deactivated and ranged again); `keys` names the store keys that differ, never their values. Never rate limited |
 | `omcid: event=reload_step verb=gponsn rc=0` | info, notice when `rc` is not 0 | one driver verb of a re-registration (`gpondeact`, `gponsn`, `gponpw`, `gponact`) and its errno (0 is success) |
-| `omcid: event=reload_done changed=identity action=reregister result=ok duration_s=44.700 o5_s=41.310 services=6` | notice | the reload ended. `result` is `ok`; `failed` (the driver refused `gpondeact`, nothing touched, or `gponact`, the ONU left off the line); `timeout` (O5 not reached in 150 s); `no_services` (O5, but none built); `sn_not_applied` (back, on the old serial number). `o5_s` is the time from `gponact` to O5 with services |
+| `omcid: event=reload_done changed=identity action=reregister result=ok duration_s=44.700 o5_s=41.310 services=6` | notice | the reload ended. `result` is `ok`; `failed` (the driver refused `gpondeact`, nothing touched, or `gponact`, the ONU left off the line); `timeout` (O5 not reached in 150 s); `refused` (three Deactivate_ONU-IDs before O5, or O7); `held` (the identity change was held back after two refused ones, `action=held`); `no_services` (O5, but none built); `sn_not_applied` (back, on the old serial number). `o5_s` is the time from `gponact` to O5 with services; `refusals`, on a re-registration, the Deactivate_ONU-IDs while it waited ("omcid", "Re-registrations are counted") |
 | `host-autoneg: event=fallback setting=off running=on ...` | notice | the host-port auto-negotiation (`HOST_AUTONEG`): the boot watch, the fallback and every trial; the events are listed under `host-autoneg.sh` above |
 | `host-serdes: event=fallback setting=2500basex running=fiber1g ...` | notice | the host SerDes mode (`HOST_SERDES`): the boot watch, the fallback, every trial and reapply; the events are listed under `host-serdes.sh` above |
 | `sfp-host-ddm: event=requested setting=on ...` | notice | the host-side SFP EEPROM (`SFP_HOST_DDM`): `requested` (the boot asked the kernel), `off` (the key is 0), `safe_mode_boot`, `bad_value`, `no_kernel`, and from `apply` `applied`, `apply_failed` or `apply_timeout`. The kernel's own lines start `odi_sfp_mirror:` (`host EEPROM on`, `host EEPROM off`, and each failure, once) |

@@ -5,6 +5,18 @@ listed here.
 
 ## Unreleased
 
+- omcid: re-registrations are counted, and held back after refusals. Every
+  re-registration a changed identity starts is one line in
+  `/etc/config/odi-reregister` (the newest 16: time, change or revert, result,
+  Deactivate_ONU-IDs, key names, never values). Three Deactivate_ONU-IDs
+  before O5, or O7, end the wait at once with `result=refused`; one or two do
+  not. After one refused change `apply.sh omci` warns; after two in a row
+  (within 24 h) omcid holds a changed identity back (`result=held`, the ONU
+  stays on the identity it runs) until `apply.sh omci --confirm`.
+  `apply.sh omci --revert` is the confirmation for going back, recorded as a
+  revert and skipped by the count. `omcli state` adds a `reregister` line,
+  `event=reload_done` a `refusals` field, the status file `refusals`,
+  `streak` and `today`. Refs #391.
 - omcid: a MIB reset loop is named instead of left to be counted in the log.
   Three or more MIB resets from the OLT within 600 s log one
   `event=mib_reset_loop state=start` (warning), and `state=end` after 600 s

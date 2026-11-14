@@ -76,7 +76,7 @@ static void catch_signals(int fd, uint32_t tid)
 static void usage(void)
 {
 	out("usage: omcid [-a] [-r] [-d] [-f] [-w units] [-c caps-hex] [-s state]\n"
-	    "             [-g file] [-m file] [-n file] [-t file] [-i file] [-j seconds] [-k pid] [-h]\n"
+	    "             [-g file] [-P file] [-m file] [-n file] [-t file] [-i file] [-j seconds] [-k pid] [-h]\n"
 	    "\n"
 	    "The OMCI responder: registers for redirect type 1 and answers the\n"
 	    "OLT, and serves the omcli and omcicli queues.\n"
@@ -91,6 +91,8 @@ static void usage(void)
 	    "              of asking the driver (test only, see docs/BOOT.md)\n"
 	    "  -g file     read the Alloc-IDs and the serial from this file\n"
 	    "              instead of /proc/odi_gpon/status (test only)\n"
+	    "  -P file     read the PLOAM type counts from this file instead\n"
+	    "              of /proc/odi_gpon/ploam (test only)\n"
 	    "  -l file     read the UNI link bit from this file instead of\n"
 	    "              the odi_switch host_link parameter (test only)\n"
 	    "  -m file     read the bridge MAC address of class 46 from this\n"
@@ -223,6 +225,11 @@ int main(int argc, char **argv)
 			reboot_pid = 0;
 			for (const char *s = argv[++i]; *s >= '0' && *s <= '9'; s++)
 				reboot_pid = reboot_pid * 10 + (*s - '0');
+		}
+		/* -P file: the /proc/odi_gpon/ploam shape (the Deactivate_ONU-ID
+		 * count) from a file, test only, like -g. */
+		else if (str_eq(argv[i], "-P") && i + 1 < argc) {
+			ploam_proc_path = argv[++i];
 		}
 		else if (str_eq(argv[i], "-i") && i + 1 < argc) {
 			odi_init_path = argv[++i];

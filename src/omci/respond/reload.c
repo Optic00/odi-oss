@@ -26,6 +26,9 @@
  * flag set once; the next reload starts after the current one ends and
  * finds, normally, nothing changed.
  *
+ * A changed identity is held back, not re-registered, after refusals the
+ * OLT gave the last changes, until apply.sh confirms the reload (rereg.c).
+ *
  * The outcome is written to RELOAD_STATUS_PATH for apply.sh, one key=value
  * per line, replaced whole by a rename: id (pid.sequence, so a respawned
  * omcid is not mistaken for the run that was asked), state (running or
@@ -62,6 +65,9 @@ static struct {
 	long deadline_s;                 /* RL_WAIT_O5 gives up */
 	long last_check_s;
 	int sn_failed;
+	int confirm;                     /* rereg_take_confirm() of this reload */
+	long deact_base;                 /* Deactivate_ONU-IDs before gponact, -1 unknown */
+	unsigned refusals;               /* and since */
 	struct cfg_snap base;            /* what the running daemon holds */
 } rl;
 
@@ -74,6 +80,7 @@ void reload_on_hup(int sig)
 void reload_init(void)
 {
 	cfg_snap_take(&rl.base);
+	rereg_load();
 	/* A status file of an earlier omcid says nothing about this one. */
 	sys_unlink(RELOAD_STATUS_PATH);
 }
@@ -166,6 +173,14 @@ static void status_write(int done, const char *result, long o5_ms)
 	if (o5_ms >= 0)
 		sline_u(&s, "o5_ms", (unsigned long)o5_ms);
 	sline_u(&s, "services", services_in_use());
+	if (str_eq(rl.changed, "identity")) {
+		int today = rereg_today();
+
+		sline_u(&s, "refusals", rl.refusals);
+		sline_u(&s, "streak", rereg_streak());
+		if (today >= 0)
+			sline_u(&s, "today", (unsigned long)today);
+	}
 	(void)atomic_write(RELOAD_STATUS_PATH, RELOAD_STATUS_TMP_PATH,
 			   (const uint8_t *)s.b, (uint32_t)s.n);
 }
@@ -247,10 +262,15 @@ int gem_port_encrypted(uint16_t port)
 static void finish(const char *result, long o5_ms)
 {
 	long dur = since_ms(rl.start_s, rl.start_ms);
+	int rereg = str_eq(rl.action, "reregister");
 
+	/* Recorded before the status file, so the streak apply.sh reads
+	 * there already counts this one. */
+	if (rereg)
+		rereg_record(rl.confirm == 2, result, rl.refusals, rl.keys);
 	status_write(1, result, o5_ms);
 	ev_reload_done(rl.changed, rl.action, result, dur, o5_ms,
-		       services_in_use());
+		       services_in_use(), rereg ? (long)rl.refusals : -1);
 	out_flush();
 	rl.phase = RL_IDLE;
 }
@@ -279,6 +299,8 @@ static void do_reregister(const struct cfg_snap *old)
 	ev_reload(rl.changed, rl.action, rl.keys);
 	status_write(0, "pending", -1);
 	rl.sn_failed = 0;
+	rl.refusals = 0;
+	rl.deact_base = -1;
 
 	if (apply_hw) {
 		long rc = odi_verb("gpondeact", 0);
@@ -342,6 +364,9 @@ static void activate(void)
 			rc = odi_verb("gponpw", 0);
 			ev_reload_step("gponpw", rc);
 		}
+		/* The count the refusals are measured from: whatever the
+		 * OLT sends after the activation is its answer to it. */
+		rl.deact_base = rereg_ploam_deacts();
 		rc = odi_verb("gponact", 0);
 		ev_reload_step("gponact", rc);
 		if (rc) {
@@ -360,6 +385,20 @@ static void activate(void)
 		finish("ok", -1);
 }
 
+/* The guard (rereg.c): the OLT refused the last changes, and nobody
+ * confirmed this one. The daemon goes on with the identity it runs, the OLT
+ * sees nothing, and a confirmed reload applies the store as it then is.
+ * Nothing is recorded: a held change never reached the OLT. */
+static void hold(const struct cfg_snap *old)
+{
+	cfg_snap_restore(old);
+	rl.base = *old;
+	rl.changed = "identity";
+	rl.action = "held";
+	ev_reload(rl.changed, rl.action, rl.keys);
+	finish("held", -1);
+}
+
 static void do_reload(void)
 {
 	struct cfg_snap old, cur;
@@ -367,6 +406,10 @@ static void do_reload(void)
 
 	rl.seq++;
 	now_ms(&rl.start_s, &rl.start_ms);
+	/* Taken away by every reload, used or not: a confirmation is for the
+	 * reload apply.sh asked for, never a later one. */
+	rl.confirm = rereg_take_confirm();
+	rl.refusals = 0;
 	cfg_snap_take(&old);
 	cfg_load_all();
 	cfg_snap_take(&cur);
@@ -384,6 +427,11 @@ static void do_reload(void)
 	/* The baseline moves with the decision: the daemon now runs the new
 	 * values. do_reregister puts the old ones back if it cannot start. */
 	rl.base = cur;
+	if ((mask & CFGD_IDENTITY) && !rl.confirm &&
+	    rereg_streak() >= REREG_HOLD) {
+		hold(&old);
+		return;
+	}
 	if (mask & CFGD_IDENTITY) {
 		do_reregister(&old);
 		if (rl.phase == RL_IDLE)
@@ -396,6 +444,7 @@ static void do_reload(void)
 void reload_poll(void)
 {
 	long s, ms;
+	int st;
 
 	if (rl.phase == RL_IDLE) {
 		if (!reload_pending)
@@ -414,7 +463,21 @@ void reload_poll(void)
 	if (s == rl.last_check_s)
 		return;
 	rl.last_check_s = s;
-	if (onu_state_now() == 5 && services_in_use() > 0) {
+	st = onu_state_now();
+	if (rl.deact_base >= 0) {
+		long d = rereg_ploam_deacts();
+
+		if (d >= rl.deact_base)
+			rl.refusals = (unsigned)(d - rl.deact_base);
+	}
+	/* O7: the OLT disabled the serial number, which no wait undoes. A few
+	 * deactivations before O5: the OLT turned the credential down more
+	 * than an OLT that is still learning it does. */
+	if (st == 7 || (st != 5 && rl.refusals >= REREG_REFUSALS)) {
+		finish("refused", -1);
+		return;
+	}
+	if (st == 5 && services_in_use() > 0) {
 		finish(rl.sn_failed ? "sn_not_applied" : "ok",
 		       since_ms(rl.act_s, rl.act_ms));
 		return;

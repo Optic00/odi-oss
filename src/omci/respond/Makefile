@@ -36,7 +36,7 @@ LDFLAGS := -nostdlib -nostartfiles -static -Wl,-e,_start -Wl,--build-id=none \
 # The translation units of omcid, divided by what each one talks to: the
 # store, the driver, the renderers, one file per transport. omcid.h declares
 # everything that crosses.
-SRCS := main mibstore drv apply apply_qos apply_uni apply_bridge show clisrv vqsrv omcimsg cfgstore snapshot events swimage reload alarm mcast pm voip
+SRCS := main mibstore drv apply apply_qos apply_uni apply_bridge show clisrv vqsrv omcimsg cfgstore snapshot events swimage reload rereg alarm mcast pm voip
 
 OBJS := $(BUILD)/start.o $(BUILD)/io.o $(SRCS:%=$(BUILD)/%.o) \
         $(BUILD)/extvlan.o $(BUILD)/mcastvlan.o $(BUILD)/omci_mib.o \

@@ -572,6 +572,7 @@ uint32_t cli_state(void)
 			(long)MIBLOOP_WINDOW_S, (long)recent,
 			loop ? "yes" : "no", (long)loops);
 	}
+	rereg_show();
 	return OMCLI_OK;
 }
 

@@ -42,8 +42,10 @@ SETSID
 chmod +x "$T/bin/pidof" "$T/bin/setsid"
 
 # The stub daemon. On SIGHUP it writes what $T/script says: one line per
-# phase, "state changed action result keys duration_ms o5_ms services delay",
-# delay in seconds before the line is written. No script: it ignores the
+# phase, "state changed action result keys duration_ms o5_ms services delay
+# [extra]", delay in seconds before the line is written, extra more key=value
+# lines joined by semicolons. The confirmation apply.sh leaves is taken away,
+# as omcid does, and kept in confirm.seen for the check. No script: it ignores the
 # signal, as an older build that does not write a status file would.
 cat > "$T/daemon" <<DAEMON
 #!/bin/bash
@@ -53,7 +55,9 @@ trap 'reload' HUP
 reload() {
 	[ -f "$T/script" ] || return
 	n=\$((n + 1))
-	while read -r state changed action result keys dur o5 svc delay; do
+	rm -f "$T/confirm.seen"
+	[ -f "$T/confirm" ] && mv "$T/confirm" "$T/confirm.seen"
+	while read -r state changed action result keys dur o5 svc delay extra; do
 		[ "\$delay" -gt 0 ] && sleep "\$delay"
 		{
 			echo "id=\$\$.\$n"; echo "state=\$state"; echo "changed=\$changed"
@@ -61,6 +65,7 @@ reload() {
 			echo "duration_ms=\$dur"
 			[ "\$o5" != - ] && echo "o5_ms=\$o5"
 			echo "services=\$svc"
+			[ -n "\$extra" ] && echo "\$extra" | tr ';' '\n'
 		} > "$T/status.new"
 		mv "$T/status.new" "$T/status"
 	done < "$T/script"
@@ -81,7 +86,7 @@ first=$(cat "$T/omcid.pid")
 # set it small themselves (ACK for the acknowledgement, the argument for the
 # outcome).
 run() {
-	env PATH="$T/bin:$PATH" RELOAD_STATUS="$T/status" MODULES_OFF="$T/modules.off" \
+	env PATH="$T/bin:$PATH" RELOAD_STATUS="$T/status" MODULES_OFF="$T/modules.off" REREG_CONFIRM="$T/confirm" \
 	    ACK_WAIT="${ACK:-15}" APPLY_WAIT=30 NETWORK="$T/network.sh" SERVICES_LOG="$T/services.log" \
 	    sh "$A" "$@" 2>&1
 }
@@ -108,12 +113,34 @@ t "identity: exit 0" "^0$" "$rc"
 t "identity: back in O5 with services, and how long" "back in O5 with 6 service(s) after 2.1 s" "$out"
 
 # A failure is reported and exits 1.
-for r in failed timeout no_services sn_not_applied; do
+for r in failed timeout refused no_services sn_not_applied; do
 	printf 'done identity reregister %s GPON_SN 900 - 0 0\n' "$r" > "$T/script"
 	out=$(run omci); rc=$?
 	t "$r: exit 1" "^1$" "$rc"
 	t "$r: named" "identity (GPON_SN): $r" "$out"
 done
+
+# The re-registration guard (src/omci/respond/rereg.c). Unconfirmed, no
+# confirmation is left for omcid; --confirm and --revert leave theirs.
+echo "done none none ok - 12 - 6 0" > "$T/script"
+run omci > /dev/null
+t "no flag: no confirmation reaches omcid" "^no$" "$([ -e "$T/confirm.seen" ] && echo yes || echo no)"
+run omci --confirm > /dev/null
+t "--confirm: omcid finds it" "^confirm$" "$(cat "$T/confirm.seen" 2>/dev/null)"
+out=$(run omci --revert 2); rc=$?
+t "--revert: omcid finds it" "^revert$" "$(cat "$T/confirm.seen" 2>/dev/null)"
+t "--revert: the bound after it still counts" "^0$" "$rc"
+echo "done identity held held GPON_SN 5 - 6 0 refusals=0;streak=2" > "$T/script"
+out=$(run omci); rc=$?
+t "held: exit 1" "^1$" "$rc"
+t "held: says what to do" "NOT applied: the OLT refused the last 2 changes.*apply.sh omci --confirm" "$out"
+echo "done identity reregister ok GPON_SN 2600 2100 6 0 refusals=1;streak=0;today=5" > "$T/script"
+out=$(run omci); rc=$?
+t "accepted after a deactivation: exit 0, no refusal warning" "^0$" "$rc"
+t "five accepted in a day: a warning" "warning: 5 identity changes in the last 24 h" "$out"
+echo "done identity reregister timeout GPON_SN 2600 - 0 0 refusals=0;streak=1;today=0" > "$T/script"
+out=$(run omci)
+t "one refused: a warning" "warning: the OLT refused the last 1 identity change" "$out"
 
 # Still running at the bound: reported, not a failure.
 printf 'running identity reregister activated GPON_SN 100 - 0 0\n' > "$T/script"

@@ -572,7 +572,8 @@ void ev_alloc_ids(const uint16_t *ids, unsigned n);
 void ev_reload(const char *changed, const char *action, const char *keys);
 void ev_reload_step(const char *verb, long rc);
 void ev_reload_done(const char *changed, const char *action, const char *result,
-		    long duration_ms, long o5_ms, unsigned services);
+		    long duration_ms, long o5_ms, unsigned services,
+		    long refusals);
 /* One software image step: `sections` < 0 and `crc` 0 leave those keys out,
  * `size` < 0 leaves out size and window. */
 void ev_sw_image(const char *op, uint16_t inst, long size, unsigned window,
@@ -659,6 +660,30 @@ extern long reload_o5_wait_s;
 void reload_init(void);
 void reload_on_hup(int sig);
 void reload_poll(void);
+
+/* ------------------------------------------- re-registrations (rereg.c)
+ *
+ * Every re-registration a reload starts, with the OLT's answer, kept on the
+ * config partition; the guard that holds a changed identity back after
+ * refusals until the reload is confirmed. The numbers are starting values:
+ * nothing here knows an operator's real limit. */
+#define REREG_PATH          "/var/config/odi-reregister"
+#define REREG_TMP_PATH      "/var/config/odi-reregister.tmp"
+#define REREG_CONFIRM_PATH  "/var/run/omcid-reregister.confirm"
+#define PLOAM_PROC_PATH     "/proc/odi_gpon/ploam"
+#define REREG_MAX       16  /* lines kept */
+#define REREG_REFUSALS   3  /* Deactivate_ONU-IDs before O5 that make a refusal */
+#define REREG_HOLD       2  /* refused changes in a row that need a confirmation */
+#define REREG_DAY_WARN   5  /* accepted changes in 24 h that apply.sh warns about */
+extern const char *ploam_proc_path;
+void rereg_load(void);
+void rereg_record(int revert, const char *result, unsigned refusals,
+		  const char *keys);
+unsigned rereg_streak(void);
+int rereg_today(void);
+int rereg_take_confirm(void);
+long rereg_ploam_deacts(void);
+void rereg_show(void);
 
 /* ------------------------------------------------ software download (swimage.c)
  *

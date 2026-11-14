@@ -23,7 +23,7 @@
 #                        a trial that reverts by itself, and runs this only in
 #                        a safe-mode boot.
 #
-#     apply.sh omci [SECONDS]
+#     apply.sh omci [--confirm|--revert] [SECONDS]
 #                        Tells the running omcid to reread the config store
 #                        (SIGHUP, the Unix convention for a reload) and waits,
 #                        bounded, for the outcome. omcid compares the store
@@ -58,6 +58,17 @@
 #                        It never starts an omcid: init owns the process
 #                        (inittab respawns svc-omcid.sh), and a second one
 #                        made the ONU cycle through O1 to O3 on hardware.
+#                        omcid records every re-registration and how the OLT
+#                        answered it (/etc/config/odi-reregister, omcli
+#                        state). After REREG_HOLD (2) refused changes in a row
+#                        it holds a changed identity back (result held: the
+#                        ONU stays on the identity it runs) until the reload
+#                        is confirmed: --confirm, for one reload. --revert is
+#                        the same confirmation from identity-trial.sh going
+#                        back to the identity that worked, and is recorded as
+#                        a revert, which the count of refusals skips. From
+#                        one refusal on, and from REREG_DAY_WARN accepted
+#                        changes in 24 h, the report carries a warning.
 #
 #     apply.sh syslog    SERVICE RESTART. Restarts syslogd so it re-reads
 #                        SYSLOG_SERVER. No OMCI interruption, no reboot: the
@@ -110,6 +121,7 @@ PATH=${PATH:+$PATH:}/sbin:/usr/sbin:/bin:/usr/bin
 export PATH
 
 RELOAD_STATUS=${RELOAD_STATUS:-/var/run/omcid-reload}
+REREG_CONFIRM=${REREG_CONFIRM:-/var/run/omcid-reregister.confirm}
 NETWORK=${NETWORK:-/etc/scripts/network.sh}
 MODULES_OFF=${MODULES_OFF:-/etc/config/modules.off}
 SERVICES_LOG=${SERVICES_LOG:-/var/log/services.log}
@@ -138,12 +150,24 @@ status_get() { sed -n "s/^$1=//p" "$RELOAD_STATUS" 2>/dev/null | head -n 1; }
 secs() { echo "$(( ${1:-0} / 1000 )).$(( ${1:-0} % 1000 / 100 ))"; }
 
 omci() {
+	confirm=
+	case ${1:-} in
+	--confirm) confirm=confirm; shift ;;
+	--revert)  confirm=revert; shift ;;
+	esac
 	wait_s=${1:-$APPLY_WAIT}
 	[ ! -f "$MODULES_OFF" ] || die "$MODULES_OFF is set: this boot runs no omcid, nothing to reload"
 	pids=$(pidof omcid 2>/dev/null)
 	[ -n "$pids" ] || die "no omcid is running: nothing to reload (init respawns it; see /var/log/omcid.log)"
 
 	before=$(status_get id)
+	# The confirmation omcid takes away with this reload (and any other):
+	# written before the signal, so the reload it starts finds it.
+	if [ -n "$confirm" ]; then
+		echo "$confirm" > "$REREG_CONFIRM" || die "could not write $REREG_CONFIRM"
+	else
+		rm -f "$REREG_CONFIRM"
+	fi
 	# shellcheck disable=SC2086 # one pid per word
 	kill -HUP $pids 2>/dev/null || die "could not signal omcid $pids"
 	say "omcid $pids told to reload its configuration"
@@ -182,17 +206,35 @@ omci() {
 	vlan:ok)
 		say "VLAN handling changed ($keys): connections rebuilt in place in ${dur} s, the ONU stayed in O5" ;;
 	identity:ok)
-		say "identity changed ($keys): the ONU re-registered and is back in O5 with $(status_get services) service(s) after $(secs "$(status_get o5_ms)") s (omcid $(status_get duration_ms) ms in all)" ;;
+		say "identity changed ($keys): the ONU re-registered and is back in O5 with $(status_get services) service(s) after $(secs "$(status_get o5_ms)") s (omcid $(status_get duration_ms) ms in all)"
+		rereg_warn ;;
+	identity:held)
+		say "identity changed ($keys) and NOT applied: the OLT refused the last $(status_get streak) changes; the ONU stays on the identity it runs. Check the values, then: apply.sh omci --confirm" >&2
+		return 1 ;;
 	*)
 		say "$changed ($keys): $result after ${dur} s -- see /var/log/omcid.log (event=reload_done)" >&2
 		case $result in
 		failed)         say "the driver refused a step; the ONU may be off the line until the next reload or a reboot" >&2 ;;
 		timeout)        say "the ONU did not reach O5 in time; the OLT may not know the new identity" >&2 ;;
+		refused)        say "the OLT refused the new identity ($(status_get refusals) deactivation(s), or disabled the ONU)" >&2 ;;
 		no_services)    say "the ONU is in O5 but the OLT built no services" >&2 ;;
 		sn_not_applied) say "the ONU is back, but the driver did not take the new serial number" >&2 ;;
 		esac
+		[ "$changed" != identity ] || rereg_warn
 		return 1 ;;
 	esac
+}
+
+# rereg_warn: what omcid recorded about re-registrations, when it calls for
+# care: refusals in a row, or many accepted changes in a day.
+rereg_warn() {
+	streak=$(status_get streak) today=$(status_get today)
+	if [ "${streak:-0}" -ge 1 ]; then
+		say "warning: the OLT refused the last ${streak} identity change(s) in a row; some operators block a line after a few. From ${REREG_HOLD:-2} on, a change needs apply.sh omci --confirm" >&2
+	fi
+	if [ -n "$today" ] && [ "$today" -ge "${REREG_DAY_WARN:-5}" ]; then
+		say "warning: ${today} identity changes in the last 24 h" >&2
+	fi
 }
 
 # restart_respawn <name>: kill whatever runs under the respawn entry of
@@ -248,6 +290,6 @@ syslog)  syslog || exit 1 ;;
 ntp)     ntp || exit 1 ;;
 igmp)    igmp || exit 1 ;;
 sfp)     sfp || exit 1 ;;
-*)       echo "usage: $0 network|omci [seconds]|syslog|ntp|igmp|sfp" >&2; exit 1 ;;
+*)       echo "usage: $0 network|omci [--confirm|--revert] [seconds]|syslog|ntp|igmp|sfp" >&2; exit 1 ;;
 esac
 exit 0

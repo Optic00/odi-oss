@@ -267,11 +267,15 @@ void ev_start(int restart, int resumed, const char *why, uint32_t onu_state)
 /* A config reload on SIGHUP (reload.c). Three lines, never rate limited
  * (a reload is an operator's act):
  *
- *   event=reload changed=<none|vlan|identity> action=<none|rebuild|reregister>
- *                keys=<store key names>
+ *   event=reload changed=<none|vlan|identity> action=<none|rebuild|reregister|
+ *                held> keys=<store key names>
  *   event=reload_step verb=<gpondeact|gponsn|gponpw|gponact> rc=<errno>
  *   event=reload_done changed=.. action=.. result=<ok|failed|timeout|
- *                no_services|sn_not_applied> duration_s=.. [o5_s=..] services=..
+ *                no_services|sn_not_applied|refused|held> duration_s=..
+ *                [o5_s=..] services=.. [refusals=..]
+ *
+ * refusals: the Deactivate_ONU-IDs the OLT sent while a re-registration
+ * waited for O5 (rereg.c).
  */
 void ev_reload(const char *changed, const char *action, const char *keys)
 {
@@ -296,7 +300,8 @@ void ev_reload_step(const char *verb, long rc)
 }
 
 void ev_reload_done(const char *changed, const char *action, const char *result,
-		    long duration_ms, long o5_ms, unsigned services)
+		    long duration_ms, long o5_ms, unsigned services,
+		    long refusals)
 {
 	struct evline e;
 
@@ -308,6 +313,8 @@ void ev_reload_done(const char *changed, const char *action, const char *result,
 	if (o5_ms >= 0)
 		ev_secs(&e, "o5_s", o5_ms);
 	ev_num(&e, "services", services);
+	if (refusals >= 0)
+		ev_num(&e, "refusals", (unsigned long)refusals);
 	ev_write(&e, EV_SEV_NOTICE);
 }
 

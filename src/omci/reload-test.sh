@@ -23,6 +23,10 @@
 #      with its services, and the pid never changes. The failure paths (a
 #      verb that fails, O5 never reached, O5 without services) and a burst
 #      of SIGHUPs during a re-registration are covered.
+#   2b. Every re-registration is recorded with the OLT answer (rereg.c):
+#      a refusal (three Deactivate_ONU-IDs before O5, or O7), a timeout,
+#      the guard that holds the third change back until it is confirmed,
+#      a revert that the count skips, and the record surviving a restart.
 #   3. Which key lands in which class, one key at a time, in a dry-run
 #      instance (no driver, no waiting), including the rule that the report
 #      keys count only while the identity switch is on.
@@ -44,10 +48,13 @@ ODI=/var/config/odi.conf
 SW=/var/config/omci-identity.on
 STATUS=/var/run/omcid-reload
 INITLOG=/tmp/rl-init
+REREG=/var/config/odi-reregister
+CONFIRM=/var/run/omcid-reregister.confirm
+PLOAM=/tmp/rl-ploam
 
 mkdir -p /var/config /var/run
 clean_state() {
-	rm -f "$HS" "$ODI" "$SW" /var/run/omcid-mib.snap /var/run/omcid-mib.snap.tmp \
+	rm -f "$HS" "$ODI" "$SW" "$REREG" "$CONFIRM" /var/run/omcid-mib.snap /var/run/omcid-mib.snap.tmp \
 	      /var/run/omcid-resume-decision "$STATUS" "$INITLOG"
 	: > "$INITLOG"
 }
@@ -643,6 +650,100 @@ reload_is "a report key while the switch is off is not a reload" none "" none
 kill -0 "$pid" 2>/dev/null && ok "dry run: still the same process after $nrel reloads" || bad "dry run: died"
 check "dry run: never restarted" "1" "$(grep -c 'event=start ' "$log")"
 check "dry run: no driver verb was written" "0" "$(wc -c < "$INITLOG" | tr -d ' ')"
+stop_omcid
+
+# ------------------------------------------------ 2b. record and guard
+#
+# The ploam file stands in for /proc/odi_gpon/ploam: only the type count of
+# Deactivate_ONU-ID matters. -j 4 as for the failure paths.
+ploam() { printf 'ploam ds_rx 10 us_tx 10\nploam_type ds 0x01 4\nploam_type ds 0x05 %s\nploam_ring 0 entries\n' "$1" > "$PLOAM"; }
+rr_line() { sed -n "${1}p" "$REREG" 2>/dev/null | cut -d' ' -f2-; }
+rr_state() { $Q cli/build/omcli state 2>&1 | sed -n 's/^reregister : //p'; }
+# change <serial>: a new serial in the store, the signal, the outcome.
+change() {
+	hs_sn "$1"
+	old_id=$(st id)
+	kill -HUP "$pid"
+	wait_done "$old_id" 15 || bad "$1: the reload did not finish"
+}
+
+clean_state
+ploam 2
+store 1 11 0 "$(val LOID_OLD user1)
+$(val LOID user1)
+"
+hs_sn ODIT00000001
+gpon /tmp/rl-gpon-isp1 5 "0"
+log=/tmp/rl-rereg.log
+start_omcid "$log" -g /tmp/rl-gpon-isp1 -P "$PLOAM" -j 4
+check "record: none at the start" "0 recorded  refused in a row 0" \
+	"$(rr_state | sed 's/  accepted.*//')"
+
+# 1. Refused: the OLT deactivates the ONU three times before O5. One or two
+# do not end the wait (an OLT may need a few windows); the third does.
+gpon /tmp/rl-gpon-isp1 3 "0"
+hs_sn ODIT00000002
+old_id=$(st id)
+kill -HUP "$pid"
+wait_count "$INITLOG" gponact 1 8 || bad "refused: no gponact"
+ploam 4
+sleep 1.5
+check "refused: two deactivations are not yet a refusal" "running" "$(st state)"
+ploam 5
+if wait_done "$old_id" 3; then ok "refused: the third ends the wait before the deadline"
+else bad "refused: the wait did not end"; fi
+check "refused: result and count" "refused 3 1" "$(st result) $(st refusals) $(st streak)"
+check_grep "refused: logged" "event=reload_done changed=identity action=reregister result=refused .*refusals=3" "$log"
+check "refused: recorded" "c refused 3 GPON_SN" "$(rr_line 1)"
+
+# 2. Timeout: no O5, no deactivation (an unknown serial is never ranged).
+change ODIT00000003
+check "timeout: result, two in a row" "timeout 0 2" "$(st result) $(st refusals) $(st streak)"
+check "timeout: recorded" "c timeout 0 GPON_SN" "$(rr_line 2)"
+
+# 3. Held: the third change in a row, unconfirmed. Nothing reaches the
+# driver and nothing is recorded.
+: > "$INITLOG"
+change ODIT00000004
+check "held: result" "done held identity held" "$(st state) $(st result) $(st changed) $(st action)"
+check "held: no driver verb" "0" "$(wc -c < "$INITLOG" | tr -d ' ')"
+check "held: not recorded" "2" "$(wc -l < "$REREG" | tr -d ' ')"
+check_grep "held: logged" "event=reload changed=identity action=held keys=GPON_SN" "$log"
+case $(rr_state) in
+*"refused in a row 2"*"held: apply.sh omci --confirm") ok "held: omcli state says so" ;;
+*) bad "held: omcli state says '$(rr_state)'" ;;
+esac
+# A further reload is held again: the daemon kept the identity it ran.
+change ODIT00000004
+check "held: still held on the next signal" "held" "$(st result)"
+
+# 4. Confirmed: the change goes through. O7 now, the OLT disabled it.
+gpon /tmp/rl-gpon-isp1 7 "0"
+echo confirm > "$CONFIRM"
+change ODIT00000004
+check "confirmed: re-registered, O7 is a refusal at once" "refused 0 3" "$(st result) $(st refusals) $(st streak)"
+[ ! -e "$CONFIRM" ] && ok "confirmed: the confirmation is used up" || bad "confirmed: the file is still there"
+
+# 5. A revert is recorded and skipped by the count; accepted resets it.
+gpon /tmp/rl-gpon-isp1 5 "0"
+echo revert > "$CONFIRM"
+change ODIT00000001
+check "revert: recorded as one" "r no_services 0 GPON_SN" "$(rr_line 4)"
+check "revert: the count is unchanged" "3" "$(st streak)"
+stop_omcid
+
+# 6. The record survives a restart; an accepted change ends the run.
+start_omcid "$log" -g /tmp/rl-gpon-isp1 -P "$PLOAM" -j 4
+check "restart: the record is read back" "4 recorded  refused in a row 3" \
+	"$(rr_state | sed 's/  accepted.*//')"
+echo confirm > "$CONFIRM"
+change ODIT00000005
+check "accepted: the run of refusals ends" "no_services 0" "$(st result) $(st streak)"
+check "accepted: five lines" "5" "$(wc -l < "$REREG" | tr -d ' ')"
+# A confirmation left for a reload that does not need one is taken anyway.
+echo confirm > "$CONFIRM"
+change ODIT00000005
+[ ! -e "$CONFIRM" ] && ok "unused confirmation: taken by the reload" || bad "unused confirmation: left behind"
 stop_omcid
 
 echo

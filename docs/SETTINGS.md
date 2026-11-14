@@ -81,9 +81,20 @@ how long until the ONU was back in O5 with services; it waits 20 s by
 default (`APPLY_WAIT`, counted from the signal), inside the 25 s the web UI gives it, and a
 re-registration still running then is reported as running, not as failed.
 Exit 1: no omcid running, no answer to the signal, or a `failed`, `timeout`,
-`no_services` or `sn_not_applied` result (`docs/TOOLS.md`, "omcid"). Every
+`refused`, `held`, `no_services` or `sn_not_applied` result (`docs/TOOLS.md`, "omcid"). Every
 step is an `event=reload` line in syslog (`docs/TOOLS.md`, "Link and
 provisioning events").
+
+**Refused re-registrations are counted, and two in a row hold the next
+change back.** omcid records every re-registration and whether the OLT took
+it (`/etc/config/odi-reregister`, `omcli state`); three Deactivate_ONU-IDs
+before O5, or a disabled serial number (O7), are a refusal, and so is no O5 at
+all. After the first refusal `apply.sh omci` warns; after two in a row, within
+24 h, omcid does not re-register for a changed identity until the reload is
+confirmed with `apply.sh omci --confirm`, and the ONU stays on the identity it
+runs (`result=held`). The store keeps what was saved: a reboot or an omcid
+respawn applies it unconfirmed. Details in `docs/TOOLS.md` ("omcid",
+"Re-registrations are counted").
 
 A serial number is applied by rewriting the PLOAM slot the boot activation
 armed, which the driver allows only while the ONU is deactivated; the
