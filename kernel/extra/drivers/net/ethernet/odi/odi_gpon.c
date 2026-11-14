@@ -66,6 +66,7 @@
 #include <linux/errno.h>
 #include <linux/hex.h>
 #include <linux/slab.h>
+#include <linux/mm.h>
 #include <linux/reboot.h>
 #include <linux/umh.h>
 
@@ -74,6 +75,7 @@
 #include "odi_board.h"
 #include "odi_gpon.h"
 #include "odi_gpon_ctr.h"
+#include "odi_gpon_drop.h"
 #include "odi_gpon_dlog.h"
 #include "odi_gpon_drv.h"
 #include "odi_gpon_flow.h"
@@ -218,6 +220,17 @@ static uint8_t odi_gpon_rei_seq;
  * accounting every 100 ms besides (odi_gpon_line_check()).
  */
 static struct odi_gpon_ctr odi_gpon_ctr_inst;
+/* The record around every drop out of O5, /proc/odi_gpon/drops
+ * (odi_gpon_drop.h). Fed under odi_gpon_lock from the PLOAM log, the
+ * transition note, the alarm edges and the 1 s sample.
+ */
+static struct odi_gpon_drop odi_gpon_drop_inst;
+static uint64_t odi_gpon_drop_last_bip;
+
+static uint32_t odi_gpon_now_ms(void)
+{
+	return (uint32_t)jiffies_to_msecs(jiffies - INITIAL_JIFFIES);
+}
 static struct timer_list odi_gpon_ctr_timer;
 #define ODI_GPON_CTR_PERIOD_MS	1000U
 
@@ -343,6 +356,12 @@ static void odi_gpon_ploam_log(unsigned int dir, const struct odi_gpon_ploam *ms
 	odi_gpon_ring_head = (odi_gpon_ring_head + 1U) % ODI_GPON_PLOAM_RING_LEN;
 	if (odi_gpon_ring_count < ODI_GPON_PLOAM_RING_LEN)
 		odi_gpon_ring_count++;
+	{
+		struct odi_gpon_drop_ev de = { .kind = ODI_GPON_DROP_PLOAM, .a = (u8)dir,
+					       .b = msg->type, .c = msg->onu_id };
+
+		odi_gpon_drop_note(&odi_gpon_drop_inst, e->timestamp_ms, &de);
+	}
 
 	if (dir == 0U) {
 		odi_gpon_ds_type_count[msg->type]++;
@@ -545,6 +564,8 @@ static void odi_gpon_note_transition(enum odi_gpon_state prev,
 	if (now == prev)
 		return;
 	odi_gpon_ctr_note_transition(&odi_gpon_ctr_inst, prev, now);
+	odi_gpon_drop_state(&odi_gpon_drop_inst, odi_gpon_now_ms(), prev, now, cause->name,
+			    cause->side);
 	odi_gpon_note_ranging(prev, now);
 	switch (odi_gpon_hw_hold_track(prev, now)) {
 	case ODI_GPON_HOLD_RECORDED:
@@ -593,6 +614,13 @@ static void odi_gpon_alarm_edge(const char *name, int now, int *last, unsigned l
 	unsigned long secs;
 	unsigned int ms;
 
+	if (now != *last) {
+		struct odi_gpon_drop_ev de = { .kind = ODI_GPON_DROP_ALARM,
+					       .a = name[2] == 'f' ? 1 : 0, .b = now ? 1 : 0,
+					       .c = (u8)st };
+
+		odi_gpon_drop_note(&odi_gpon_drop_inst, odi_gpon_now_ms(), &de);
+	}
 	if (now && !*last) {
 		*since = jiffies;
 		if (__ratelimit(&odi_gpon_event_rs))
@@ -656,9 +684,19 @@ static void odi_gpon_line_check(void)
 /* One counter sample now; with the lock held. */
 static void odi_gpon_ctr_sample_locked(void)
 {
+	uint64_t bip;
+	struct odi_gpon_drop_ev de = { .kind = ODI_GPON_DROP_SAMPLE };
+
 	odi_gpon_ctr_sample(&odi_gpon_ctr_inst, jiffies_to_msecs(jiffies - INITIAL_JIFFIES),
 			    odi_gpon_fsm_inst.state);
 	odi_gpon_flows_sample(&odi_gpon_flows_inst);
+	bip = odi_gpon_ctr_inst.total[ODI_GPON_CTR_DS_BIP_ERR_BLOCKS];
+	de.a = (u8)odi_gpon_fsm_inst.state;
+	de.v = odi_gpon_ctr_inst.alarm_state;
+	de.v2 = bip - odi_gpon_drop_last_bip > 0xffffffffULL ? 0xffffffffU :
+		(uint32_t)(bip - odi_gpon_drop_last_bip);
+	odi_gpon_drop_last_bip = bip;
+	odi_gpon_drop_note(&odi_gpon_drop_inst, odi_gpon_now_ms(), &de);
 }
 
 /* The flow tables of odi_switch_cmd.c, as they change. */
@@ -924,6 +962,8 @@ int odi_gpon_init(void)
 	odi_gpon_ber_period_ms = 0U;
 	odi_gpon_state_since = jiffies;
 	odi_gpon_ctr_reset(&odi_gpon_ctr_inst);
+	odi_gpon_drop_reset(&odi_gpon_drop_inst);
+	odi_gpon_drop_last_bip = 0;
 	odi_gpon_flows_reset(&odi_gpon_flows_inst);
 	odi_switch_cmd_set_flow_ops(&odi_gpon_flow_ops);
 	timer_setup(&odi_gpon_ctr_timer, odi_gpon_ctr_fn, 0);
@@ -1541,6 +1581,43 @@ static int odi_gpon_proc_ploam_show(struct seq_file *seq, void *v)
 	return 0;
 }
 
+/* odi_gpon_drop_show()'s state names: enum odi_gpon_state by number. */
+static const char *odi_gpon_drop_state_name(unsigned int st)
+{
+	return odi_gpon_state_name((enum odi_gpon_state)st);
+}
+
+/* /proc/odi_gpon/drops: the records frozen around the drops out of O5,
+ * from a copy taken under the lock (about 40 KB, so kvmalloc), formatted
+ * with interrupts on.
+ */
+static int odi_gpon_proc_drops_show(struct seq_file *seq, void *v)
+{
+	struct odi_gpon_drop *snap = kvmalloc(sizeof(*snap), GFP_KERNEL);
+	unsigned long flags;
+
+	(void)v;
+	if (!snap)
+		return -ENOMEM;
+	spin_lock_irqsave(&odi_gpon_lock, flags);
+	*snap = odi_gpon_drop_inst;
+	spin_unlock_irqrestore(&odi_gpon_lock, flags);
+	odi_gpon_drop_show(snap, odi_gpon_now_ms(), odi_gpon_drop_state_name,
+			   odi_gpon_proc_put, seq);
+	kvfree(snap);
+	return 0;
+}
+
+static int odi_gpon_proc_drops_open(struct inode *inode, struct file *file)
+{
+	return single_open_size(file, odi_gpon_proc_drops_show, NULL, 256 * 1024);
+}
+
+static const struct proc_ops odi_gpon_proc_drops_fops = {
+	.proc_open = odi_gpon_proc_drops_open, .proc_read = seq_read,
+	.proc_lseek = seq_lseek, .proc_release = single_release,
+};
+
 /* /proc/odi_gpon/cam: the Alloc-ID CAM read back from the hardware, one
  * line per row that is valid in the hardware or recorded by the driver:
  * "alloc_cam <row> hw <Alloc-ID|-> recorded <Alloc-ID|->". Row 16 is the
@@ -1729,6 +1806,8 @@ static int __init odi_gpon_module_init(void)
 		pr_info("odi_gpon: /proc/odi_gpon/ploam not created\n");
 	if (!proc_create("cam", 0444, odi_gpon_proc_dir, &odi_gpon_proc_cam_fops))
 		pr_info("odi_gpon: /proc/odi_gpon/cam not created\n");
+	if (!proc_create("drops", 0444, odi_gpon_proc_dir, &odi_gpon_proc_drops_fops))
+		pr_info("odi_gpon: /proc/odi_gpon/drops not created\n");
 	return 0; /* never fail module_init over odi_gpon_init()'s own result */
 }
 module_init(odi_gpon_module_init);

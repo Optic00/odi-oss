@@ -257,7 +257,9 @@ grab pon/odi_omci.txt /proc/odi_omci
 # PON identifier of a PON-ID (ds 0x15, content bytes 2 to 8) names the OLT
 # port, so unless --full it is xx there and MASKED on the pon_id line of
 # status; the class and TOL stay.
-for f in status counters flows ploam; do
+# drops (the records around each drop out of O5) has PLOAM types and
+# ONU-IDs only, never a body, so it is copied as it is.
+for f in status counters flows ploam drops; do
 	if [ -e "$GPON_PROC_DIR/$f" ]; then
 		timeout "$STEP_TIMEOUT_S" cat "$GPON_PROC_DIR/$f" > "$work/gpon-$f.raw" 2>&1
 		rc=$?
