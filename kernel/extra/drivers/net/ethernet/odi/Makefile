@@ -23,7 +23,8 @@ obj-y += odi_soc.o
 endif
 obj-$(CONFIG_ODI_RAMLOG) += odi_ramlog.o
 obj-$(CONFIG_ODI_SWITCH) += odi_gpon.o odi_gpon_hw.o odi_gpon_isr.o odi_gpon_fsm.o \
-			   odi_gpon_ploam.o odi_gpon_pw.o odi_gpon_init.o odi_gpon_ctr.o odi_gpon_flow.o
+			   odi_gpon_ploam.o odi_gpon_pw.o odi_gpon_init.o odi_gpon_ctr.o odi_gpon_flow.o \
+			   odi_gpon_drop.o
 
 # The build id the ramlog stamps into each boot (kernel/build.sh). Only this
 # object carries it, so a new id rebuilds one file, not the tree.
