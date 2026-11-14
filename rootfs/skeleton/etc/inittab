@@ -40,7 +40,7 @@
 # only then runs login.
 ttyS0::askfirst:/bin/login -p
 
-# syslogd, klogd, ntpd, metricsd, confd, dropbear, omcid: each restarted
+# syslogd, klogd, ntpd, metricsd, confd, dropbear, omcid, history: each restarted
 # forever by init itself -- no supervise.sh (docs/SETTINGS.md, "native over
 # hand-rolled"). init has no rate limit, so a daemon that keeps dying young
 # waits a bounded, growing time inside respawn.sh before each start, and
@@ -51,6 +51,10 @@ ttyS0::askfirst:/bin/login -p
 # and sets its oom_score_adj right before exec-ing the daemon in place
 # (rootfs/skeleton/etc/scripts/respawn.sh), so the pid init tracks is always
 # the daemon itself, never a parent that already exited.
+#
+# history is no daemon of its own but a shell loop (scripts/history.sh):
+# one sample of the line a minute into a two-hour ring in /var/run/history,
+# for the Status tab and the diagnostics bundle (docs/TOOLS.md).
 #
 # igmpd is opt-in (IGMP_SNOOPING=1, scripts/svc-igmpd.sh): off, the entry
 # parks in respawn-off.sh and the switch floods multicast as before.
@@ -67,6 +71,7 @@ ttyS0::askfirst:/bin/login -p
 ::respawn:/etc/scripts/svc-dropbear.sh
 ::respawn:/etc/scripts/svc-omcid.sh
 ::respawn:/etc/scripts/svc-igmpd.sh
+::respawn:/etc/scripts/svc-history.sh
 
 ::restart:/sbin/init
 ::ctrlaltdel:/sbin/reboot

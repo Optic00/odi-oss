@@ -1220,7 +1220,7 @@ applies to every later image.
 | file | effect | apply |
 |---|---|---|
 | `omci-identity.on` | report the six OLT identity keys (above); the UI toggles it | INTERRUPTS INTERNET (`apply.sh omci`) |
-| `dropbear.off`, `confd.off`, `metricsd.off`, `syslogd.off`, `klogd.off`, `ntpd.off`, `omcid.off` | that daemon is not started (`/etc/init.d/services stop <name>` writes the flag and kills the process; `start` removes it). `omcid.off` leaves the ONU with no OMCI, so the OLT provisions no service: `stop omcid` also releases omcid's watchdog deadline (registers it with 0) and rcS does not register it while the flag exists; `start omcid` registers it again | REBOOT |
+| `dropbear.off`, `confd.off`, `metricsd.off`, `syslogd.off`, `klogd.off`, `ntpd.off`, `omcid.off`, `history.off` | that daemon is not started (`/etc/init.d/services stop <name>` writes the flag and kills the process; `start` removes it). `omcid.off` leaves the ONU with no OMCI, so the OLT provisions no service: `stop omcid` also releases omcid's watchdog deadline (registers it with 0) and rcS does not register it while the flag exists; `start omcid` registers it again | REBOOT |
 | `lan-ip` | the management address, one line; overrides `LAN_IP_ADDR` | LIVE (`apply.sh network`) |
 | `pon-steps` | development: a PON step list that replaces the built-in one (`docs/BOOT.md`); a wrong list means no PON | REBOOT |
 | `sds.off` | skip the host SerDes check and fix in `network.sh` | REBOOT |

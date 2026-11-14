@@ -11,7 +11,7 @@
 #     history.sh sample    one sample line to stdout, nothing written
 #
 # The ring, $RING (/var/run/history), holds the newest KEEP samples (120,
-# two hours), one line each, oldest first: about 150 bytes a line, so under
+# two hours), one line each, oldest first: about 170 bytes a line, so about
 # 20 KB of the /var tmpfs. It is RAM, so it is gone at every reboot, and it
 # is written to a temporary name and renamed, so a reader (confd, the
 # diagnostics bundle, cat over ssh) never sees half of it. Nothing else is

@@ -178,6 +178,15 @@ project), including `gpon_omci_services` — how many services the OLT has
 actually provisioned, so a stick that is optically up but not provisioned
 is visible as such rather than reading as healthy.
 
+**A look back without Prometheus.** `history.sh` keeps the last two hours
+of the line, one sample a minute (optics, ONU state, alarms, fibre-side
+traffic, BIP and FEC errors, O5 drops, CPU, memory), in a RAM ring of about
+20 KB that the Status tab of the web UI draws and the diagnostics bundle
+carries (`docs/TOOLS.md`, "The minute history"). A drop out of O5 between
+two samples still shows, from the driver transition counters.
+`test/history_test.sh` checks every key against the diag reply the exporter
+contract pins, a stock slot, a failed diag, LOS and the ring.
+
 ## Resilience
 
 A 20 MB `scp` into `/tmp` exhausted RAM on a running stick (`/tmp` was
