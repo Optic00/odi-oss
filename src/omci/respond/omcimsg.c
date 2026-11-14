@@ -634,6 +634,7 @@ void handle(int fd, uint32_t tid, const uint8_t *f)
 		out("-> retransmission, answer repeated\n");
 		return;
 	}
+	ev_rx_msg(mt, cls, inst);
 	/* Before the AR check, so a request that asks for no answer is
 	 * recorded too. */
 	if (!ev_msg_known(mt))

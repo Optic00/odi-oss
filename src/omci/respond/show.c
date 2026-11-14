@@ -561,6 +561,17 @@ uint32_t cli_state(void)
 		(long)omci_rx_reject[RX_REJ_DEVID],
 		(long)omci_rx_reject[RX_REJ_CRC],
 		(long)omci_rx_reject[RX_REJ_TRAILER]);
+	{
+		unsigned long olt, local, loops;
+		unsigned recent;
+		int loop;
+
+		ev_mib_reset_counts(&olt, &local, &recent, &loop, &loops);
+		out_fmt("mib resets : olt %d  local %d  olt in last %d s %d  "
+			"loop %s  (loops %d)\n", (long)olt, (long)local,
+			(long)MIBLOOP_WINDOW_S, (long)recent,
+			loop ? "yes" : "no", (long)loops);
+	}
 	return OMCLI_OK;
 }
 

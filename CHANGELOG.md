@@ -5,6 +5,14 @@ listed here.
 
 ## Unreleased
 
+- omcid: a MIB reset loop is named instead of left to be counted in the log.
+  Three or more MIB resets from the OLT within 600 s log one
+  `event=mib_reset_loop state=start` (warning), and `state=end` after 600 s
+  without one. Each OLT `event=mib_reset` line adds `recent` (the OLT resets
+  in the last 600 s) and `before`, the last six requests before it as
+  `op:class.instance`, so the log shows what the OLT read or wrote just before
+  it gave up. `omcli state` adds a `mib resets` line with the counts and
+  whether a loop is on. Refs #393.
 - Docs: `QUALIFICATION.md` adds a second HSGQ v08 report at 2.5G against a
   MikroTik RB5009 (`HOST_SERDES=2500basex`, v1.15.0 and v1.16.0, warm and cold
   boot, a live try and confirm). Refs #369.

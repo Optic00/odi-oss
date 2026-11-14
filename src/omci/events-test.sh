@@ -366,6 +366,53 @@ check "and the counter moved" "$got" "rx dropped : length 1  devid 1  crc 3  (tr
 omcid_stop "$pid4"
 rm -f /var/config/odi.conf
 
+# A MIB reset loop (respond/events.c, "mib_reset_loop"): three resets from
+# the OLT within the window are one event=mib_reset_loop state=start, logged
+# once however many follow, and each reset line carries the requests just
+# before it (before=, oldest first) and the OLT resets within the window
+# (recent=, this one included). The end of a loop needs a whole window
+# (600 s) without a reset, longer than this suite should wait.
+rx_run
+mlog=/tmp/omcid-rx.log
+reset() {   # reset <tci>: a MIB reset of ONU data, as the OLT sends it
+	$Q cli/build/omcli --inject "$(frame "$1" 4f 0002 0000)" > /dev/null 2>&1
+}
+$Q cli/build/omcli --inject "$(frame 0e40 49 0100 0000)" > /dev/null 2>&1
+$Q cli/build/omcli --inject "$(frame 0e41 49 0101 0000)" > /dev/null 2>&1
+# A MIB upload and its first Next: the upload is kept, the Next is not.
+$Q cli/build/omcli --inject "$(frame 0e46 4d 0002 0000)" > /dev/null 2>&1
+$Q cli/build/omcli --inject "$(frame 0e47 4e 0002 0000)" > /dev/null 2>&1
+reset 0e42
+reset 0e43
+sync_send "$mlog"
+got=$(grep '^event=mib_reset side=olt ' "$mlog" | sed 's/ rows=.* recent=/ recent=/')
+check "each OLT reset says how many came within the window, and what came before it" "$got" \
+      "event=mib_reset side=olt recent=1 before=get:256.0,get:257.0,upload:2.0
+event=mib_reset side=olt recent=2"
+got=$(grep -c '^event=mib_reset_loop ' "$mlog")
+check "two resets are not a loop yet" "$got" "0"
+reset 0e44
+reset 0e45
+sync_send "$mlog"
+got=$(grep '^event=mib_reset_loop ' "$mlog")
+check "the third is, logged once" "$got" \
+      "event=mib_reset_loop state=start resets=3 window_s=600 services=0"
+check "every reset still has its own line" "$(grep -c '^event=mib_reset side=olt ' "$mlog")" "4"
+got=$(grep '^event=mib_reset side=olt ' "$mlog" | sed 's/.* recent=/recent=/' | sed -n '3,4p')
+check "and only the requests since the last reset (the sync Get, then none)" "$got" \
+      "recent=3 before=get:256.0
+recent=4"
+got=$($Q cli/build/omcli state 2>&1 | grep -a '^mib resets')
+check "omcli state shows the counts and the loop" "$got" \
+      "mib resets : olt 4  local 0  olt in last 600 s 4  loop yes  (loops 1)"
+$Q cli/build/omcli -f mib reset > /dev/null 2>&1
+got=$($Q cli/build/omcli state 2>&1 | grep -a '^mib resets')
+check "a local reset is counted apart, and is not part of a loop" "$got" \
+      "mib resets : olt 4  local 1  olt in last 600 s 4  loop yes  (loops 1)"
+[ "$fail" -eq 0 ] || keep_log "$mlog" events-test-loop.log
+omcid_stop "$pid4"
+rm -f /var/config/odi.conf
+
 # OMCI_FIXED_ME: a Get of a listed class, which omcid does not model,
 # answers its bytes under the mask asked for, and the bytes are not logged.
 # A class omcid does model is not overridden; a malformed list is off.

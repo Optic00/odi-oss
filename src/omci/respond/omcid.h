@@ -552,6 +552,15 @@ int rx_accept(const uint8_t *f, uint32_t len);
  * provisioning events". `side` is "olt" or "local". */
 void ev_start(int restart, int resumed, const char *why, uint32_t onu_state);
 void ev_mib_reset(const char *side);
+/* Every request handled, before its answer: the last few go on the next OLT
+ * MIB reset line (before=). Not the upload Nexts or download sections. */
+void ev_rx_msg(uint8_t mt, uint16_t cls, uint16_t inst);
+/* MIB resets since omcid started, the OLT resets within the loop window, and
+ * whether they are a loop now (events.c, "mib_reset_loop"). */
+#define MIBLOOP_RESETS    3
+#define MIBLOOP_WINDOW_S  600
+void ev_mib_reset_counts(unsigned long *olt, unsigned long *local,
+			 unsigned *recent, int *loop, unsigned long *loops);
 void ev_mib_upload(uint16_t total);
 void ev_mib_upload_next(uint16_t seq);
 void ev_config_write(uint8_t mt, uint16_t cls, uint16_t inst);

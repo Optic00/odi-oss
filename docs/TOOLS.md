@@ -912,7 +912,12 @@ collects all of this, masked, under `module/`.
 One binary; `/bin/omcicli` is a symlink to `omcli`. When omcid is running,
 omcli uses omcid's own queue and commands:
 
-    omcli state                          serial, device, ONU state, MIB sync
+    omcli state                          serial, device, ONU state, MIB sync,
+                                         dropped frames, and the MIB resets
+                                         since omcid started (`mib resets`:
+                                         from the OLT, local, from the OLT in
+                                         the last 600 s, whether that is a
+                                         loop now, and how many loops)
     omcli provision                      what the OLT provisioned: T-CONTs,
                                          GEM ports, VLANs, traffic descriptors
                                          (the format is under metricsd)
@@ -1777,7 +1782,8 @@ the same line goes to `/var/log/omcid.log` among the frames around it.
 | `odi_gpon: event=los state=off lasted_s=42.310 onu_state=O1` | info | the LOS bit clear again |
 | `odi_gpon: event=lof state=on onu_state=O5` / `event=lof state=off lasted_s=...` | notice / info | the same for LOF, loss of downstream framing: light without a GPON frame the framer can lock to |
 | `omcid: event=start run=boot mode=reregister reason=not_o5 onu_state=O2 rows=0` | notice on `run=restart`, else info | omcid starting: the first start of the boot or a later one (a respawn), and whether it resumed from its snapshot (`mode=resume`) or starts empty for the OLT to re-provision; `reason` is `not_o5`, `no_snapshot`, `bad_snapshot` or `other_device` |
-| `omcid: event=mib_reset side=olt rows=161 mib_data_sync=184 services=6` | notice | a MIB reset: `side=olt` from the OLT, `side=local` from `omcicli mib reset`; what it threw away |
+| `omcid: event=mib_reset side=olt rows=161 mib_data_sync=184 services=6 recent=1 before=get:256.0,set:171.257` | notice | a MIB reset: `side=olt` from the OLT, `side=local` from `omcicli mib reset`; what it threw away. On `side=olt` also `recent`, the OLT resets within the last 600 s with this one, and `before`, the last six requests since the previous reset as `op:class.instance`, oldest first (no MIB upload Nexts, download sections or retransmissions; no key when there were none): what the OLT read or wrote just before it gave up, which is where to look for what it checks |
+| `omcid: event=mib_reset_loop state=start resets=3 window_s=600 services=0` | warning (`start`), notice (`end`) | three or more MIB resets from the OLT within 600 s: a reset loop, logged once when it starts and once (`state=end`, with `resets`, the OLT resets of the loop, and `duration_s` from its first reset to its last) after 600 s without one; neither is rate limited. Typical when the OLT does not accept what it reads, but a line that keeps dropping out of O5 resets as often: if `event=onu_state` lines come between the resets, start there. Otherwise check the identity (`GPON_ONU_MODEL`, the vendor and product codes, `OMCI_SW_VER1/2`, docs/SETTINGS.md) and the classes in `/var/log/omcid-unknown.txt`, and read the `before` of the resets. `omcli state` shows the counts (`mib resets`) |
 | `omcid: event=mib_upload_begin entities=399` / `event=mib_upload_end entities=399 duration_s=0.009` | info | the OLT reading the MIB back; `entities` is the number of upload records announced (an entity takes one record per 26 bytes of its attributes, as on the stock ONU); an upload it abandons has no end line |
 | `omcid: event=provision_begin op=set class=256 inst=0 after_mib_reset=1` | info | the first Create, Set or Delete of a burst; `after_mib_reset=1` is a full re-provisioning |
 | `omcid: event=provision_end creates=82 sets=102 deletes=0 duration_s=0.827 rows=161 services=6 after_mib_reset=1` | info | 10 s after the burst's last write: what it added up to (Gets and Tests do not count) |

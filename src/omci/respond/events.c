@@ -340,9 +340,188 @@ static void prov_close(void)
 	prov.open = 0;
 }
 
+/* The last few requests before a MIB reset from the OLT, and whether the
+ * resets have become a loop.
+ *
+ * An OLT that does not accept what it reads (the identity, the software
+ * version, an answer it did not expect) typically resets the MIB, uploads it,
+ * provisions, and resets again a minute or two later. Each reset is one
+ * event=mib_reset line, so the loop shows only to someone who reads the log
+ * and counts. Here it is counted: MIBLOOP_RESETS or more resets from the OLT
+ * within MIBLOOP_WINDOW_S are a loop, logged once as event=mib_reset_loop
+ * state=start, and once as state=end after a whole window without one. A
+ * provisioning that settles never resets twice in a row, so three in ten
+ * minutes is a loop by any reading, and short enough to show while someone
+ * is still looking.
+ *
+ * The requests before each reset (before=op:class.inst, oldest first) are
+ * what the OLT read or wrote last, which is where to look for what it checks.
+ * The MIB upload Nexts and software download sections are not kept: they are
+ * hundreds of the same, and would push out the requests that matter. A
+ * retransmission answered from the cache is not kept either (omcimsg.c
+ * records a request after that check).
+ *
+ * Three OLT resets in ten minutes also follow from a line that keeps
+ * dropping out of O5 (each re-activation resets the MIB), so the
+ * event=onu_state lines around them say which kind of loop it is. */
+#define MIB_BEFORE_N      6
+/* The OLT reset times kept: enough for recent= to count a fast loop. */
+#define MIBLOOP_KEEP      16
+
+static struct {
+	uint8_t mt;
+	uint16_t cls, inst;
+} mib_before[MIB_BEFORE_N];
+static int mib_before_n, mib_before_head;
+
+static struct {
+	unsigned long olt, local;     /* since omcid started */
+	long at[MIBLOOP_KEEP];        /* the last OLT resets, seconds */
+	int n;                        /* how many of at[] are set */
+	int head;
+	int loop;                     /* in a loop now */
+	long loop_since;
+	unsigned long loop_resets;    /* OLT resets since the loop started */
+	unsigned long loops;          /* loops since omcid started */
+} mres;
+
+static const char *mib_before_op(uint8_t mt)
+{
+	switch (mt) {
+	case OMCI_MT_CREATE:            return "create";
+	case OMCI_MT_DELETE:            return "delete";
+	case OMCI_MT_SET:               return "set";
+	case OMCI_MT_GET:               return "get";
+	case OMCI_MT_GET_NEXT:          return "get_next";
+	case OMCI_MT_GET_CURRENT_DATA:  return "get_cur";
+	case OMCI_MT_MIB_UPLOAD:        return "upload";
+	case OMCI_MT_MIB_UPLOAD_NEXT:   return "upload_next";
+	case OMCI_MT_GET_ALL_ALARMS:    return "alarms";
+	case OMCI_MT_GET_ALL_ALARMS_NEXT: return "alarms_next";
+	case OMCI_MT_TEST:              return "test";
+	case OMCI_MT_REBOOT:            return "reboot";
+	case OMCI_MT_SYNC_TIME:         return "sync_time";
+	default:                        return 0;
+	}
+}
+
+void ev_rx_msg(uint8_t mt, uint16_t cls, uint16_t inst)
+{
+	if (mt == OMCI_MT_MIB_RESET || mt == OMCI_MT_MIB_UPLOAD_NEXT)
+		return;
+	mib_before[mib_before_head].mt = mt;
+	mib_before[mib_before_head].cls = cls;
+	mib_before[mib_before_head].inst = inst;
+	mib_before_head = (mib_before_head + 1) % MIB_BEFORE_N;
+	if (mib_before_n < MIB_BEFORE_N)
+		mib_before_n++;
+}
+
+/* before=get:256.0,set:171.257,... -- oldest first. The last key of the
+ * line, so a line cut at EV_LINE_MAX loses its newest entries, never the
+ * fields before it; six entries of the longest names with five-digit
+ * classes and instances still fit. */
+static void ev_before(struct evline *e)
+{
+	int first = (mib_before_head - mib_before_n + MIB_BEFORE_N) % MIB_BEFORE_N;
+
+	if (!mib_before_n)
+		return;
+	ev_put(e, " before=");
+	for (int i = 0; i < mib_before_n; i++) {
+		int k = (first + i) % MIB_BEFORE_N;
+		const char *op = mib_before_op(mib_before[k].mt);
+
+		if (i)
+			ev_put(e, ",");
+		if (op) {
+			ev_put(e, op);
+		} else {
+			ev_put(e, "mt");
+			ev_putu(e, mib_before[k].mt);
+		}
+		ev_put(e, ":");
+		ev_putu(e, mib_before[k].cls);
+		ev_put(e, ".");
+		ev_putu(e, mib_before[k].inst);
+	}
+}
+
+/* The OLT resets within the last MIBLOOP_WINDOW_S. */
+static int mres_recent(long now)
+{
+	int n = 0;
+
+	for (int i = 0; i < mres.n; i++)
+		if (now - mres.at[i] < MIBLOOP_WINDOW_S)
+			n++;
+	return n;
+}
+
+static long mres_last(void)
+{
+	return mres.n ? mres.at[(mres.head + MIBLOOP_KEEP - 1) % MIBLOOP_KEEP] : -1;
+}
+
+static void mres_loop_line(const char *state, long now)
+{
+	struct evline e;
+
+	ev_begin(&e, "mib_reset_loop");
+	ev_str(&e, "state", state);
+	ev_num(&e, "resets", mres.loop_resets);
+	ev_num(&e, "window_s", MIBLOOP_WINDOW_S);
+	if (state[0] == 'e')
+		ev_num(&e, "duration_s", (unsigned long)(mres_last() - mres.loop_since));
+	ev_num(&e, "services", ev_services());
+	/* Past the rate limit, as the reload lines are: each is logged once
+	 * and never again, and a reset storm is exactly when the shared burst
+	 * runs out. At most one start and one end per MIBLOOP_WINDOW_S. */
+	ev_write(&e, state[0] == 's' ? EV_SEV_WARNING : EV_SEV_NOTICE);
+}
+
+static void mres_olt(void)
+{
+	long now = ev_now().s;
+
+	mres.olt++;
+	mres.at[mres.head] = now;
+	mres.head = (mres.head + 1) % MIBLOOP_KEEP;
+	if (mres.n < MIBLOOP_KEEP)
+		mres.n++;
+	if (mres.loop) {
+		mres.loop_resets++;
+		return;
+	}
+	if (mres_recent(now) >= MIBLOOP_RESETS) {
+		/* From the first reset of the window: that is when it began. */
+		mres.loop_since = now;
+		for (int i = 0; i < mres.n; i++)
+			if (now - mres.at[i] < MIBLOOP_WINDOW_S &&
+			    mres.at[i] < mres.loop_since)
+				mres.loop_since = mres.at[i];
+		mres.loop = 1;
+		mres.loops++;
+		mres.loop_resets = (unsigned long)mres_recent(now);
+		mres_loop_line("start", now);
+	}
+}
+
+/* For `omcli state` (show.c). */
+void ev_mib_reset_counts(unsigned long *olt, unsigned long *local,
+			 unsigned *recent, int *loop, unsigned long *loops)
+{
+	*olt = mres.olt;
+	*local = mres.local;
+	*recent = (unsigned)mres_recent(ev_now().s);
+	*loop = mres.loop;
+	*loops = mres.loops;
+}
+
 void ev_mib_reset(const char *side)
 {
 	struct evline e;
+	int olt = side[0] == 'o';
 
 	/* A reset in the middle of a burst ends it: what came before is
 	 * about to be thrown away, and the next write starts a new one. */
@@ -352,7 +531,20 @@ void ev_mib_reset(const char *side)
 	ev_num(&e, "rows", (unsigned long)mib_count());
 	ev_num(&e, "mib_data_sync", mib_data_sync);
 	ev_num(&e, "services", ev_services());
+	if (olt) {
+		int recent = mres_recent(ev_now().s);
+
+		/* This one included, and counted as omcli state counts: at most
+		 * the MIBLOOP_KEEP times kept. */
+		ev_num(&e, "recent", (unsigned long)(recent < (int)MIBLOOP_KEEP ? recent + 1 : recent));
+		ev_before(&e);
+	}
 	ev_emit(&e, EV_SEV_NOTICE);
+	if (olt)
+		mres_olt();
+	else
+		mres.local++;
+	mib_before_n = 0;
 	reset_pending = 1;
 }
 
@@ -872,6 +1064,14 @@ void ev_tick(void)
 		prov_close();
 	if (unk_dirty)
 		unk_save();
+	if (mres.loop) {
+		long now = ev_now().s;
+
+		if (now - mres_last() >= MIBLOOP_WINDOW_S) {
+			mres.loop = 0;
+			mres_loop_line("end", now);
+		}
+	}
 }
 
 /* A frame rx_accept() flagged: dropped, or for reason trailer answered anyway
