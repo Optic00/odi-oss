@@ -5,6 +5,15 @@ listed here.
 
 ## Unreleased
 
+- Identity trial: `identity-trial.sh try KEY=VALUE...` changes `GPON_SN`,
+  `GPON_PLOAM_PASSWD`, `LOID` or `LOID_PASSWD` as a trial. The values go to
+  `/var/run/identity-trial.conf`, which omcid reads over the store, and omcid
+  re-registers with them; a refused, timed-out or service-less
+  re-registration, or a MIB reset loop that starts within 600 s on a line that
+  had none, goes back to the stored identity by itself (`apply.sh omci
+  --revert`). After 600 s, or `keep`, the values are stored. A reboot undoes a
+  trial. `status` shows the ONU state, services and MIB resets before and
+  after. The web UI does not use it yet. Refs #392.
 - omcid: re-registrations are counted, and held back after refusals. Every
   re-registration a changed identity starts is one line in
   `/etc/config/odi-reregister` (the newest 16: time, change or revert, result,

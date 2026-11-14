@@ -472,6 +472,30 @@ static int cfg_get_either(const char *first, const char *second,
 	return n >= 0 ? n : cfg_get(second, key, out, max);
 }
 
+/* The identity trial (identity-trial.sh): while CFG_TRIAL_PATH exists, the
+ * values it holds are the ones answered, over the store. KEY=value lines,
+ * read as odi.conf is; an empty value is an empty value here, not an absent
+ * key. LOID and LOID_PASSWD are the values answered, after the LOID_OLD rule
+ * above: the trial says what the OLT is to see. The file is on a tmpfs, so a
+ * reboot drops the trial and the boot reads the store alone. */
+const char *cfg_trial_path = CFG_TRIAL_PATH;
+
+static void trial_overlay(void)
+{
+	int n;
+
+	n = cfg_odi_get(cfg_trial_path, "GPON_SN", ident.sn, sizeof ident.sn);
+	if (n >= 0)
+		ident.snLen = n < (int)sizeof ident.sn ? n : (int)sizeof ident.sn - 1;
+	n = cfg_odi_get(cfg_trial_path, "GPON_PLOAM_PASSWD", ident.ploam,
+			sizeof ident.ploam);
+	if (n >= 0)
+		ident.ploamLen = n < (int)sizeof ident.ploam ? n : (int)sizeof ident.ploam - 1;
+	(void)cfg_odi_get(cfg_trial_path, "LOID", ident.loid, sizeof ident.loid);
+	(void)cfg_odi_get(cfg_trial_path, "LOID_PASSWD", ident.loidPwd,
+			  sizeof ident.loidPwd);
+}
+
 void cfg_load_identity_from(const char *cs, const char *hs)
 {
 	char loid[64], loidOld[64], pwd[64], pwdOld[64];
@@ -492,6 +516,7 @@ void cfg_load_identity_from(const char *cs, const char *hs)
 	b = cfg_get_either(hs, cs, "LOID_PASSWD_OLD", pwdOld, sizeof pwdOld);
 	pick_loid_value(same, pwd, a, pwdOld, b, ident.loidPwd,
 			sizeof ident.loidPwd);
+	trial_overlay();
 	ident.loaded = 1;
 }
 

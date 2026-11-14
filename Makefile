@@ -174,6 +174,7 @@ test-host:
 	bash test/host_serdes_test.sh
 	bash test/sfp_host_ddm_test.sh
 	bash test/mgmt_addr_test.sh
+	bash test/identity_trial_test.sh
 	bash test/safe_mode_test.sh
 	bash test/ntp_event_test.sh
 	bash test/gpon_hold_test.sh

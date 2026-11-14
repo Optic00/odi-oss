@@ -1487,6 +1487,58 @@ the web UI reads the file:
 Nothing persists across a reboot: the state and the trial file are in
 `/var/run`, and the keys are written only by `confirm`.
 
+### `identity-trial.sh` -- the line identity, as a trial
+
+    /etc/scripts/identity-trial.sh try [--confirm] KEY=VALUE...   a trial of GPON_SN, GPON_PLOAM_PASSWD, LOID, LOID_PASSWD
+    /etc/scripts/identity-trial.sh keep                           store the values now (once back in O5 with services)
+    /etc/scripts/identity-trial.sh revert                         end the trial now, back to the stored identity
+    /etc/scripts/identity-trial.sh status                         the state, key=value
+
+A wrong serial number or PLOAM password leaves the line down until someone
+changes it back, so `try` stores nothing. It writes the values to
+`/var/run/identity-trial.conf` (mode 0600, a tmpfs), which omcid reads over the
+store (`cfgstore.c`), and starts a watcher in the background that runs
+`apply.sh omci` (170 s: omcid waits 150 s for O5) and judges the outcome:
+
+- `refused`, `timeout`, `no_services`, `sn_not_applied` or `failed`: the trial
+  goes back at once: the RAM file is removed and `apply.sh omci --revert`
+  re-registers with the stored identity (the re-registration guard lets a
+  revert through and does not count it; "omcid", "Re-registrations are
+  counted");
+- `ok`: the trial watches for 600 s, the MIB reset loop window. A loop that
+  starts then, on a line that had none before the trial (`omcli state`, `mib
+  resets`), goes back too. At the end of the window, or at `keep`, the
+  values are written with `flash set` (LOID and LOID_PASSWD to `LOID_OLD` and
+  `LOID_PASSWD_OLD` as well, where the store has them, so the LOID rule of
+  `docs/SETTINGS.md` answers the new values) and the RAM file removed; omcid
+  then reads from the store what it already runs, and nothing re-registers;
+- `held`: omcid did not re-register (two refused changes in a row); the RAM
+  file is removed and nothing else happens. `try --confirm` passes the
+  confirmation on.
+
+`--confirm` aside, `try` checks the keys (only the four, `GPON_SN` in the
+shape the driver takes) and refuses while a trial runs. A `revert` asked for
+while omcid still re-registers takes effect when that re-registration ends.
+A reboot undoes a trial: the RAM file is gone and the boot reads the store.
+An omcid respawn reads the RAM file and keeps the trial values.
+
+The state file, `/var/run/identity-trial`, and `status`, one `key=value` per
+line; key names, never values:
+
+| key | meaning |
+|---|---|
+| `phase` | `steady`, `applying` (omcid re-registers) or `watching` (back in O5, the loop window) |
+| `keys` | the key names of the trial |
+| `outcome` | `kept`, `reverted`, `held`, or `store_failed` (the OLT took the values but `flash set` refused one: the RAM file stays, so omcid keeps answering them until a reboot reads the store) |
+| `reason` | why a trial went back: the reload result, `mib_reset_loop`, `asked` or `no_answer` |
+| `result`, `refusals` | the reload result of the trial and the Deactivate_ONU-IDs omcid counted |
+| `before_onu`, `before_services`, `before_olt_resets`, `before_loop` | the ONU state, the services, the OLT MIB resets and whether they were a loop, before the trial |
+| `after_onu`, `after_services`, `after_olt_resets`, `after_loop` | the same when it ended |
+| `trial_file`, `warning` (`status` only) | whether the RAM file exists; a warning when the watcher is gone during a trial |
+
+Each step is one line to the kernel log, `identity-trial: event=identity_trial
+keys=... state=start|watching|kept|revert|reverted|held|store_failed`.
+
 ### `safe-mode.sh` -- the boot counter and the recovery boot
 
     /etc/scripts/safe-mode.sh status     this boot and the record, key=value

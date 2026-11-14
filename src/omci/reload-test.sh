@@ -27,6 +27,9 @@
 #      a refusal (three Deactivate_ONU-IDs before O5, or O7), a timeout,
 #      the guard that holds the third change back until it is confirmed,
 #      a revert that the count skips, and the record surviving a restart.
+#   2c. The identity trial file (identity-trial.sh) is read over the store:
+#      its serial number is the one handed to the driver, and taking the
+#      file away goes back to the stored one.
 #   3. Which key lands in which class, one key at a time, in a dry-run
 #      instance (no driver, no waiting), including the rule that the report
 #      keys count only while the identity switch is on.
@@ -51,10 +54,11 @@ INITLOG=/tmp/rl-init
 REREG=/var/config/odi-reregister
 CONFIRM=/var/run/omcid-reregister.confirm
 PLOAM=/tmp/rl-ploam
+TRIALF=/var/run/identity-trial.conf
 
 mkdir -p /var/config /var/run
 clean_state() {
-	rm -f "$HS" "$ODI" "$SW" "$REREG" "$CONFIRM" /var/run/omcid-mib.snap /var/run/omcid-mib.snap.tmp \
+	rm -f "$HS" "$ODI" "$SW" "$REREG" "$CONFIRM" "$TRIALF" /var/run/omcid-mib.snap /var/run/omcid-mib.snap.tmp \
 	      /var/run/omcid-resume-decision "$STATUS" "$INITLOG"
 	: > "$INITLOG"
 }
@@ -744,6 +748,33 @@ check "accepted: five lines" "5" "$(wc -l < "$REREG" | tr -d ' ')"
 echo confirm > "$CONFIRM"
 change ODIT00000005
 [ ! -e "$CONFIRM" ] && ok "unused confirmation: taken by the reload" || bad "unused confirmation: left behind"
+stop_omcid
+
+# ------------------------------------------------ 2c. the identity trial file
+clean_state
+ploam 0
+store 1 11 0 "$(val LOID_OLD user1)
+$(val LOID user1)
+"
+hs_sn ODIT00000001
+gpon /tmp/rl-gpon-isp1 5 "0"
+log=/tmp/rl-trial.log
+start_omcid "$log" -g /tmp/rl-gpon-isp1 -P "$PLOAM" -j 2
+: > "$INITLOG"
+printf 'GPON_SN=ODIT0000ABCD\nLOID=trialuser\n' > "$TRIALF"
+old_id=$(st id)
+kill -HUP "$pid"
+wait_done "$old_id" 15 || bad "trial file: the reload did not finish"
+check "trial file: its serial goes to the driver" "gpondeact gponsn ODIT0000ABCD gponact" \
+	"$(tr '\n' ' ' < "$INITLOG" | sed 's/ $//')"
+check "trial file: the keys it changes" "GPON_SN,LOID" "$(st keys)"
+: > "$INITLOG"
+rm -f "$TRIALF"
+old_id=$(st id)
+kill -HUP "$pid"
+wait_done "$old_id" 15 || bad "trial file gone: the reload did not finish"
+check "trial file gone: back to the stored serial" "gpondeact gponsn ODIT00000001 gponact" \
+	"$(tr '\n' ' ' < "$INITLOG" | sed 's/ $//')"
 stop_omcid
 
 echo

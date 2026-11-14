@@ -948,6 +948,9 @@ int cfg_get(const char *path, const char *key, char *out, int max);
  * CFG_ODI_PATH, which the stock firmware never reads. Returns the value
  * length (0 present and empty), -1 absent or unreadable. */
 #define CFG_ODI_PATH "/var/config/odi.conf"
+/* The identity trial's values, over the store (cfgstore.c, identity-trial.sh). */
+#define CFG_TRIAL_PATH "/var/run/identity-trial.conf"
+extern const char *cfg_trial_path;
 int cfg_odi_get(const char *path, const char *key, char *out, int max);
 extern const char *const CFG_CS_PATH;
 void cfg_load_identity(void);
