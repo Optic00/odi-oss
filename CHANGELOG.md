@@ -5,6 +5,13 @@ listed here.
 
 ## Unreleased
 
+- OMCI tooling: `src/omci/model/g988.json` is a fact table of ITU-T G.988
+  (11/2022) with Amendments 1 and 2 for 75 managed-entity classes: clause,
+  creation model, actions, and per attribute its width, access, requirement
+  and AVC, table and PM flags. It holds no wording of the Recommendation.
+  `tools/g988-extract.py` produces it from the PDF on a developer machine;
+  the PDF is not stored here. Nothing reads the table yet.
+
 - Docs: `QUALIFICATION.md` adds a second HSGQ v08 report at 2.5G against a
   MikroTik RB5009 (`HOST_SERDES=2500basex`, v1.15.0 and v1.16.0, warm and cold
   boot, a live try and confirm). Refs #369.

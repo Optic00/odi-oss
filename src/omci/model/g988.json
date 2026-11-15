@@ -1,0 +1,1363 @@
+{
+ "source": {
+  "edition": "g988-amd2-202505",
+  "date": "20250514",
+  "url": "https://www.itu.int/rec/dologin_pub.asp?lang=e&id=T-REC-G.988-202505-I!Amd2!PDF-E&type=items",
+  "sha256": "9866716704d746fd4a28de185cc1d7217ccf9b1cc091baa09f2ddf5dc14c1356",
+  "components": [
+   {"edition": "g988-202211", "date": "20221113", "url": "https://www.itu.int/rec/dologin_pub.asp?lang=e&id=T-REC-G.988-202211-I!!PDF-E&type=items", "sha256": "f9ffaa1c081fd9cfe78da0fcd8d758dd939a216d19368c3e5626448704cd0f85"},
+   {"edition": "g988-amd1-202403", "date": "20240322", "url": "https://www.itu.int/rec/dologin_pub.asp?lang=e&id=T-REC-G.988-202403-I!Amd1!PDF-E&type=items", "sha256": "5b48aa24f8da79a148a5dc8447a9cfd670d514232c1c1d102b7b335b96a99b65"},
+   {"edition": "g988-amd2-202505", "date": "20250514", "url": "https://www.itu.int/rec/dologin_pub.asp?lang=e&id=T-REC-G.988-202505-I!Amd2!PDF-E&type=items", "sha256": "9866716704d746fd4a28de185cc1d7217ccf9b1cc091baa09f2ddf5dc14c1356"}
+  ],
+  "excludedAmendments": ["3 (08/2026)"],
+  "obsoleteClassIds": [267]
+ },
+ "classes": [
+  {
+   "classId": 2,
+   "clause": "9.1.3",
+   "createdBy": "onu",
+   "actions": ["get", "get-all-alarms", "get-all-alarms-next", "mib-reset", "mib-upload", "mib-upload-next", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 5,
+   "clause": "9.1.5",
+   "createdBy": "onu",
+   "actions": ["get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 20, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 5, "size": 20, "access": ["R"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "octets"},
+    {"index": 6, "size": 1, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 7, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 8, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 9, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 6,
+   "clause": "9.1.6",
+   "createdBy": "onu",
+   "actions": ["create", "delete", "get", "reboot", "set", "test"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 1, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 8, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 4, "size": 14, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 5, "size": 4, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 1, "access": ["R"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 8, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 9, "size": 20, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 10, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "enum"},
+    {"index": 11, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 12, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 13, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 14, "size": 4, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "bitfield"}
+   ]
+  },
+  {
+   "classId": 7,
+   "clause": "9.1.4",
+   "createdBy": "onu",
+   "actions": ["activate-sw", "commit-sw", "download-section", "end-sw-download", "get", "start-sw-download"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 14, "access": ["R"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "string"},
+    {"index": 2, "size": 1, "access": ["R"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 1, "access": ["R"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 1, "access": ["R"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 25, "access": ["R"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "string"},
+    {"index": 6, "size": 16, "access": ["R"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "octets"}
+   ]
+  },
+  {
+   "classId": 11,
+   "clause": "9.5.1",
+   "createdBy": "onu",
+   "actions": ["get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 1, "access": ["R"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 1, "access": ["R"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 8, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 9, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 10, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 11, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 12, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 13, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 14, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 15, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 16, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 24,
+   "clause": "9.5.2",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "get-current-data", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 4, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 5, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 6, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 7, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 8, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 9, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 10, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 11, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 12, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 13, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 14, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 15, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 16, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 45,
+   "clause": "9.3.1",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 8, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 9, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 10, "size": 4, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 46,
+   "clause": "9.3.2",
+   "createdBy": "onu",
+   "actions": ["get"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 6, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 2, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 8, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 2, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 8, "size": 2, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 47,
+   "clause": "9.3.4",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 2, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 5, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 8, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 9, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 10, "size": 6, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 11, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 12, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 13, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 14, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "pointer"}
+   ]
+  },
+  {
+   "classId": 49,
+   "clause": "9.3.6",
+   "createdBy": "onu",
+   "actions": ["get", "get-next", "set", "set-table"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 8, "access": ["R", "W"], "requirement": "M", "avc": false, "table": true, "pm": false, "kind": "table", "variable": true}
+   ]
+  },
+  {
+   "classId": 50,
+   "clause": "9.3.8",
+   "createdBy": "onu",
+   "actions": ["get", "get-next"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 8, "access": ["R"], "requirement": "M", "avc": false, "table": true, "pm": false, "kind": "table", "variable": true}
+   ]
+  },
+  {
+   "classId": 52,
+   "clause": "9.3.9",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "get-current-data", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 4, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 5, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 6, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 7, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 53,
+   "clause": "9.9.1",
+   "createdBy": "onu",
+   "actions": ["get", "set", "test"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "sint"},
+    {"index": 8, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "sint"},
+    {"index": 9, "size": 1, "access": ["R"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 10, "size": 1, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 11, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 12, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 13, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 58,
+   "clause": "9.9.6",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set", "set-table"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "sint"},
+    {"index": 7, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 8, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 9, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 10, "size": 20, "access": ["R", "W"], "requirement": "O", "avc": false, "table": true, "pm": false, "kind": "table", "variable": true},
+    {"index": 11, "size": 7, "access": ["R", "W"], "requirement": "O", "avc": false, "table": true, "pm": false, "kind": "table", "variable": true},
+    {"index": 12, "size": 5, "access": ["R", "W"], "requirement": "O", "avc": false, "table": true, "pm": false, "kind": "table", "variable": true},
+    {"index": 13, "size": 7, "access": ["R", "W"], "requirement": "O", "avc": false, "table": true, "pm": false, "kind": "table", "variable": true},
+    {"index": 14, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "pointer"}
+   ]
+  },
+  {
+   "classId": 78,
+   "clause": "9.3.12",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "pointer"}
+   ]
+  },
+  {
+   "classId": 79,
+   "clause": "9.3.7",
+   "createdBy": "onu",
+   "actions": ["get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 8, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 9, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 10, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 83,
+   "clause": "9.13.3",
+   "createdBy": "onu",
+   "actions": ["get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 84,
+   "clause": "9.3.11",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 24, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 2, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 89,
+   "clause": "9.5.3",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "get-current-data", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 130,
+   "clause": "9.3.10",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 4, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 5, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 6, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 7, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 8, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 9, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 10, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 11, "size": 24, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 12, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 13, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 131,
+   "clause": "9.12.2",
+   "createdBy": "onu",
+   "actions": ["get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 4, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 20, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 3, "size": 14, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 4, "size": 14, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "octets"}
+   ]
+  },
+  {
+   "classId": 133,
+   "clause": "9.1.7",
+   "createdBy": "onu",
+   "actions": ["get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 8, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 9, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 10, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 11, "size": 2, "access": ["R"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 134,
+   "clause": "9.4.1",
+   "createdBy": "onu",
+   "actions": ["get", "set", "test"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 6, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 3, "size": 25, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 4, "size": 4, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 4, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 4, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 4, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 8, "size": 4, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 9, "size": 4, "access": ["R"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 10, "size": 4, "access": ["R"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 11, "size": 4, "access": ["R"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 12, "size": 4, "access": ["R"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 13, "size": 4, "access": ["R"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 14, "size": 25, "access": ["R"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "string"},
+    {"index": 15, "size": 25, "access": ["R"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "string"},
+    {"index": 16, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "pointer"}
+   ]
+  },
+  {
+   "classId": 136,
+   "clause": "9.4.3",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"}
+   ]
+  },
+  {
+   "classId": 137,
+   "clause": "9.12.3",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"}
+   ]
+  },
+  {
+   "classId": 138,
+   "clause": "9.9.18",
+   "createdBy": "onu",
+   "actions": ["get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 6, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 1, "access": ["W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 8, "size": 25, "access": ["R"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "string"}
+   ]
+  },
+  {
+   "classId": 139,
+   "clause": "9.9.4",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 4, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 140,
+   "clause": "9.9.12",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "get-current-data", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 4, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 5, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 6, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 7, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 141,
+   "clause": "9.9.11",
+   "createdBy": "onu",
+   "actions": ["get"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 25, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 7, "size": 25, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 8, "size": 1, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 9, "size": 1, "access": ["R"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 142,
+   "clause": "9.9.5",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 8, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 9, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 10, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 11, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 12, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 13, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 14, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 15, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 16, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"}
+   ]
+  },
+  {
+   "classId": 143,
+   "clause": "9.9.7",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 8, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "pointer"}
+   ]
+  },
+  {
+   "classId": 144,
+   "clause": "9.9.13",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "get-current-data", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 4, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 5, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 6, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 7, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 8, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 145,
+   "clause": "9.9.10",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "get-next", "set", "set-table"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 30, "access": ["R", "W"], "requirement": "M", "avc": false, "table": true, "pm": false, "kind": "table", "variable": true}
+   ]
+  },
+  {
+   "classId": 146,
+   "clause": "9.9.8",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 7, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 8, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 9, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 10, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "pointer"}
+   ]
+  },
+  {
+   "classId": 147,
+   "clause": "9.9.9",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 5, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 2, "size": 5, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 3, "size": 5, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 4, "size": 5, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 5, "size": 5, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 6, "size": 5, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 7, "size": 5, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 8, "size": 5, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 9, "size": 5, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 10, "size": 5, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 11, "size": 5, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 12, "size": 5, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "string"}
+   ]
+  },
+  {
+   "classId": 148,
+   "clause": "9.12.4",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 25, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 3, "size": 25, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 4, "size": 25, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 5, "size": 25, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 6, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 7, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 8, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "pointer"}
+   ]
+  },
+  {
+   "classId": 150,
+   "clause": "9.9.3",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set", "set-table"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 4, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 4, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 6, "size": 4, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 4, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 8, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 9, "size": 1, "access": ["R"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 10, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 11, "size": 4, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 12, "size": 5, "access": ["R", "W"], "requirement": "O", "avc": false, "table": true, "pm": false, "kind": "table", "variable": true},
+    {"index": 13, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 14, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 15, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "pointer"}
+   ]
+  },
+  {
+   "classId": 151,
+   "clause": "9.9.14",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "get-current-data", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 4, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 4, "size": 4, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 5, "size": 4, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 6, "size": 4, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 7, "size": 4, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 8, "size": 4, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 9, "size": 4, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 10, "size": 4, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 11, "size": 4, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 12, "size": 4, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 13, "size": 4, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 14, "size": 4, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 15, "size": 4, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": true, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 152,
+   "clause": "9.9.15",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "get-current-data", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 4, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 5, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 6, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 7, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 153,
+   "clause": "9.9.2",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 25, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 4, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 5, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 6, "size": 4, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 8, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 9, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 10, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 11, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 12, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 13, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 157,
+   "clause": "9.12.5",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 25, "access": ["R", "W"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "string"},
+    {"index": 3, "size": 25, "access": ["R", "W"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "string"},
+    {"index": 4, "size": 25, "access": ["R", "W"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "string"},
+    {"index": 5, "size": 25, "access": ["R", "W"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "string"},
+    {"index": 6, "size": 25, "access": ["R", "W"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "string"},
+    {"index": 7, "size": 25, "access": ["R", "W"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "string"},
+    {"index": 8, "size": 25, "access": ["R", "W"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "string"},
+    {"index": 9, "size": 25, "access": ["R", "W"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "string"},
+    {"index": 10, "size": 25, "access": ["R", "W"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "string"},
+    {"index": 11, "size": 25, "access": ["R", "W"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "string"},
+    {"index": 12, "size": 25, "access": ["R", "W"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "string"},
+    {"index": 13, "size": 25, "access": ["R", "W"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "string"},
+    {"index": 14, "size": 25, "access": ["R", "W"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "string"},
+    {"index": 15, "size": 25, "access": ["R", "W"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "string"},
+    {"index": 16, "size": 25, "access": ["R", "W"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "string"}
+   ]
+  },
+  {
+   "classId": 158,
+   "clause": "9.1.12",
+   "createdBy": "onu",
+   "actions": ["get", "get-next", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 25, "access": ["W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 3, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": true, "pm": false, "kind": "table", "variable": true}
+   ]
+  },
+  {
+   "classId": 171,
+   "clause": "9.3.13",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "get-next", "set", "set-table"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 16, "access": ["R", "W"], "requirement": "M", "avc": false, "table": true, "pm": false, "kind": "table", "variable": true},
+    {"index": 7, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 8, "size": 24, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 9, "size": 1, "access": ["R", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 10, "size": 28, "access": ["R", "W"], "requirement": "O", "avc": false, "table": true, "pm": false, "kind": "table", "variable": true}
+   ]
+  },
+  {
+   "classId": 256,
+   "clause": "9.1.1",
+   "createdBy": "onu",
+   "actions": ["get", "reboot", "set", "sync-time", "test"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 14, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 3, "size": 8, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 4, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 1, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 8, "size": 1, "access": ["R"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 9, "size": 1, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 10, "size": 24, "access": ["R"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "string"},
+    {"index": 11, "size": 12, "access": ["R"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "string"},
+    {"index": 12, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 13, "size": 2, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 257,
+   "clause": "9.1.2",
+   "createdBy": "onu",
+   "actions": ["get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 20, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 2, "size": 1, "access": ["R"], "requirement": "M", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 2, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 8, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 9, "size": 2, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 10, "size": 4, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 11, "size": 2, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 12, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 13, "size": 2, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 14, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 262,
+   "clause": "9.2.2",
+   "createdBy": "onu",
+   "actions": ["get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 263,
+   "clause": "9.2.1",
+   "createdBy": "onu",
+   "actions": ["get", "set", "test"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 8, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 9, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 10, "size": 2, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "sint"},
+    {"index": 11, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 12, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 13, "size": 2, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 14, "size": 2, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "sint"},
+    {"index": 15, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "sint"},
+    {"index": 16, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "sint"}
+   ]
+  },
+  {
+   "classId": 264,
+   "clause": "9.12.1",
+   "createdBy": "onu",
+   "actions": ["get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 1, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 5, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "pointer"}
+   ]
+  },
+  {
+   "classId": 266,
+   "clause": "9.2.4",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 2, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 4, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 5, "size": 1, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 1, "access": ["R"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 8, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 268,
+   "clause": "9.2.3",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 5, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 6, "size": 1, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 8, "size": 1, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 9, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 10, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 272,
+   "clause": "9.2.7",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 273,
+   "clause": "9.12.6",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 4, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 4, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 4, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 4, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 4, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 4, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 4, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 274,
+   "clause": "9.12.7",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 4, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 4, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 4, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 4, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 4, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 4, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 4, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 277,
+   "clause": "9.2.10",
+   "createdBy": "onu",
+   "actions": ["get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 4, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 8, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 9, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 10, "size": 4, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 11, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 12, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 13, "size": 8, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 14, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 15, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 16, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 278,
+   "clause": "9.2.11",
+   "createdBy": "onu",
+   "actions": ["get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 2, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 280,
+   "clause": "9.2.12",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 4, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 4, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 4, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 4, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 8, "size": 1, "access": ["R", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 9, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 281,
+   "clause": "9.2.5",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "get-next", "set", "set-table"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 2, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 4, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 1, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 1, "access": ["R"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 8, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 9, "size": 12, "access": ["R", "W"], "requirement": "M", "avc": false, "table": true, "pm": false, "kind": "table", "variable": true},
+    {"index": 10, "size": 24, "access": ["R", "W"], "requirement": "O", "avc": false, "table": true, "pm": false, "kind": "table", "variable": true}
+   ]
+  },
+  {
+   "classId": 284,
+   "clause": "9.8.7",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 8, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 9, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 10, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 11, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 12, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 13, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 14, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 15, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 16, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 287,
+   "clause": "9.12.8",
+   "createdBy": "onu",
+   "actions": ["get", "get-next"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": true, "pm": false, "kind": "table", "variable": true},
+    {"index": 2, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": true, "pm": false, "kind": "table", "variable": true}
+   ]
+  },
+  {
+   "classId": 290,
+   "clause": "9.3.14",
+   "createdBy": "onu",
+   "actions": ["get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 1, "access": ["W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 1, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 1, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 1, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 1, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 8, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 9, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 10, "size": 2, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 11, "size": 1, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 12, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 296,
+   "clause": "9.5.4",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "get-current-data", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 4, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 5, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 6, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 7, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 8, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 9, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 10, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 11, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 12, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 13, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 14, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 15, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 16, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 298,
+   "clause": "9.3.18",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 2, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 4, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 5, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "pointer"}
+   ]
+  },
+  {
+   "classId": 307,
+   "clause": "9.12.11",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 25, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 3, "size": 25, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 4, "size": 25, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 5, "size": 25, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 6, "size": 25, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 7, "size": 25, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 8, "size": 25, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 9, "size": 25, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 10, "size": 25, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 11, "size": 25, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 12, "size": 25, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 13, "size": 25, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 14, "size": 25, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 15, "size": 25, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "octets"},
+    {"index": 16, "size": 25, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "octets"}
+   ]
+  },
+  {
+   "classId": 308,
+   "clause": "9.12.12",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "get-next"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 4, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 1, "access": ["R"], "requirement": "M", "avc": true, "table": true, "pm": false, "kind": "table", "variable": true}
+   ]
+  },
+  {
+   "classId": 309,
+   "clause": "9.3.27",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "get-next", "set", "set-table"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 4, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 7, "size": 24, "access": ["R", "W"], "requirement": "M", "avc": false, "table": true, "pm": false, "kind": "table"},
+    {"index": 8, "size": 24, "access": ["R", "W"], "requirement": "M", "avc": false, "table": true, "pm": false, "kind": "table"},
+    {"index": 9, "size": 10, "access": ["R"], "requirement": "O", "avc": false, "table": true, "pm": false, "kind": "table"},
+    {"index": 10, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 11, "size": 4, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 12, "size": 4, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 13, "size": 4, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 14, "size": 4, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 15, "size": 1, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 16, "size": 3, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "octets"}
+   ]
+  },
+  {
+   "classId": 310,
+   "clause": "9.3.28",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "get-next", "set", "set-table"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 2, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 4, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 6, "size": 20, "access": ["R", "W"], "requirement": "O", "avc": false, "table": true, "pm": false, "kind": "table", "variable": true},
+    {"index": 7, "size": 22, "access": ["R", "W"], "requirement": "O", "avc": false, "table": true, "pm": false, "kind": "table"}
+   ]
+  },
+  {
+   "classId": 311,
+   "clause": "9.3.29",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "get-next", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 4, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 4, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 4, "size": 4, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 5, "size": 24, "access": ["R"], "requirement": "M", "avc": false, "table": true, "pm": false, "kind": "table"},
+    {"index": 6, "size": 58, "access": ["R"], "requirement": "O", "avc": false, "table": true, "pm": false, "kind": "table"}
+   ]
+  },
+  {
+   "classId": 312,
+   "clause": "9.2.9",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "get-current-data", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 4, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 5, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 6, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 7, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 321,
+   "clause": "9.3.31",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "get-current-data", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 4, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 5, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 6, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 7, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 8, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 9, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 10, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 11, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 12, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 13, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 14, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 15, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 16, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 322,
+   "clause": "9.3.30",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "get-current-data", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 4, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 5, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 6, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 7, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 8, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 9, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 10, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 11, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 12, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 13, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 14, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 15, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 16, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 329,
+   "clause": "9.5.5",
+   "createdBy": "onu",
+   "actions": ["get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 1, "access": ["R"], "requirement": "O", "avc": true, "table": false, "pm": false, "kind": "uint"},
+    {"index": 3, "size": 25, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "string"},
+    {"index": 4, "size": 2, "access": ["R", "W"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 5, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 330,
+   "clause": "9.12.14",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "get-next"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R"], "requirement": "M", "avc": true, "table": true, "pm": false, "kind": "table", "variable": true},
+    {"index": 2, "size": 1, "access": ["R"], "requirement": "M", "avc": true, "table": true, "pm": false, "kind": "table", "variable": true},
+    {"index": 3, "size": 1, "access": ["R", "W", "SBC"], "requirement": "O", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 334,
+   "clause": "9.3.32",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "get-current-data", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 2, "size": 16, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 4, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 5, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 6, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 7, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 8, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 9, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 10, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 11, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 12, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 13, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 14, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 15, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 16, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 340,
+   "clause": "9.12.16",
+   "createdBy": "onu",
+   "actions": ["get", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 2, "access": ["R", "W"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "uint"}
+   ]
+  },
+  {
+   "classId": 341,
+   "clause": "9.2.13",
+   "createdBy": "olt",
+   "actions": ["create", "delete", "get", "get-current-data", "set"],
+   "attrs": [
+    {"index": 0, "size": 2, "access": ["R", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 1, "size": 1, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 2, "size": 2, "access": ["R", "W", "SBC"], "requirement": "M", "avc": false, "table": false, "pm": false, "kind": "pointer"},
+    {"index": 3, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 4, "size": 4, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 5, "size": 8, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 6, "size": 8, "access": ["R"], "requirement": "M", "avc": false, "table": false, "pm": true, "kind": "uint"},
+    {"index": 7, "size": 4, "access": ["R"], "requirement": "O", "avc": false, "table": false, "pm": true, "kind": "uint"}
+   ]
+  }
+ ]
+}
