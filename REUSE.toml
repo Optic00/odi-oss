@@ -74,3 +74,13 @@ path = ["CHANGELOG.md", "docs/kb/rtl9601-omci-tptype3-bridge-port-points-at-mapp
 precedence = "closest"
 SPDX-FileCopyrightText = ["2026 Andre Ziviani", "2026 Tomás Correia"]
 SPDX-License-Identifier = "GPL-2.0-or-later"
+
+# The specification fact table, the device profile and their provenance
+# note. "The odi-oss contributors" means the respective authors of these
+# files, as recorded in the git history. Listed last so it takes precedence
+# over the markdown entry above.
+[[annotations]]
+path = ["src/omci/model/*.json", "docs/kb/g988-mib-model.md"]
+precedence = "closest"
+SPDX-FileCopyrightText = "2026 The odi-oss contributors"
+SPDX-License-Identifier = "GPL-2.0-or-later"

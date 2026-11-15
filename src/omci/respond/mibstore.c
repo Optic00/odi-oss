@@ -259,7 +259,7 @@ uint16_t canon_inst(uint16_t cls, uint16_t inst)
 }
 
 /* The VoIP classes of G.988 9.9 the model carries for SIP over OMCI
- * (tools/mib-tables.py, G988_VOICE), which handle() answers only while
+ * (model/profile.json, not stock-backed), which handle() answers only while
  * OMCI_POTS_PORTS is on. The large string, network address, authentication
  * method, TCP/UDP config data and IP host they point at are not among them:
  * the stock plugins carry those, and the OLT has always been answered for

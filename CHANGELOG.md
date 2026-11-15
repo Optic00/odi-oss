@@ -5,6 +5,18 @@ listed here.
 
 ## Unreleased
 
+- OMCI tooling: `tools/mib-gen.py` generates `omci_mib.{c,h,json}` from the
+  G.988 fact table and a device profile (`src/omci/model/profile.json`),
+  without a stock root filesystem. The profile holds what G.988 does not
+  define (names, row sizes, the private classes) and every deviation from the
+  derived value as an override with a classification and a reason;
+  `tools/mib-compare.py` lists them. The C tables, declarations and macros
+  are byte-identical; the header comments no longer name vendor symbols, and
+  the JSON drops the `oper` and `extra` keys, which nothing read. omcid
+  behaviour is unchanged. `test/omci_mib_gen_test.sh` runs in
+  `make test-host` and fails when the generated files differ from what the
+  sources produce.
+
 - OMCI tooling: `src/omci/model/g988.json` is a fact table of ITU-T G.988
   (11/2022) with Amendments 1 and 2 for 75 managed-entity classes: clause,
   creation model, actions, and per attribute its width, access, requirement

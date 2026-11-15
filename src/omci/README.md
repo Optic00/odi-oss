@@ -43,27 +43,47 @@ behind it.
 
 ## The MIB model is data
 
-The device's `/lib/omci/mib_<Name>.so` plugins each export five fixed
-symbols (`gMib<Name>TableInfo`, `gMib<Name>AttrInfo`, `gMib<Name>DefRow`,
-`gMib<Name>Oper`, `mibTable_init()`); `tools/mib-tables.py` reads those
-exports straight out of the shipped `.so` files and emits
-`generated/omci_mib.[ch]` and `omci_mib.json` -- 99 managed entities,
-~930 attributes, each with name, type, width, OLT access and index. That is
-what makes a from-scratch responder tractable: the information model does
-not need to be reverse-engineered by hand, and `generated/` regenerates from
-the shipped plugins rather than being hand-maintained. The exceptions are
-the classes G.988 defines and the stock image has no plugin for: ME 46, ME 290
-(Dot1X port extension package: an OLT that runs 802.1X on a UNI Sets it, and
-omcid keeps what the OLT writes without acting on it),
-and the sixteen VoIP classes of G.988 clause 9.9 (SIP over OMCI, answered only
-while `OMCI_POTS_PORTS` is on, docs/SETTINGS.md). They are declared beside
-the generator (`G988_ONLY` and `G988_VOICE` in `tools/mib-tables.py`) and
-emitted with the rest, so regenerating keeps them. `tools/me-drv-map.py`
-shows only 21 of the 81 managed entities reach the driver at all (T-CONT,
-GEM port, bridge port and friends); the other 60 are pure MIB and need no
-driver call.
+`tools/mib-gen.py` emits `generated/omci_mib.[ch]` and `omci_mib.json`
+-- 99 managed entities, 941 attributes, each with name, type, width, OLT
+access and index -- from two checked-in sources, without a stock root
+filesystem:
 
-The tools read the stock rootfs from `$STOCK_ROOTFS` (default
+- `model/g988.json`, the factual table of ITU-T G.988 (11/2022) with
+  Amendments 1 and 2: per class the clause, creation model and actions,
+  per attribute its width, access, requirement, AVC, table and PM flags.
+  It holds numbers and flags with clause references, no specification
+  text. `tools/g988-extract.py` produces it from the PDF on a developer
+  machine; it never runs in CI and the PDF is not stored here.
+- `model/profile.json`, the device profile: which classes the device
+  implements and in which order, the names the CLI, `confd` and the
+  exporter depend on, local row layout and class flags, the 23 private
+  classes, obsolete class 267 and the private attributes inside standard
+  classes. Where the device deviates from the derived value, an override
+  names the field, a classification (`REPRESENTATION`, `SUPPORT`,
+  `SPEC_NEWER`, `VENDOR_DEVIATION` or `SUSPECT`) and a reason. An override
+  that changes nothing, lacks a reason or names an unknown attribute is an
+  error.
+
+`tools/mib-compare.py` compares the pure derivation with a reference model
+and reports every difference with its classification. About 95% of the
+attribute fields of the standard classes come from G.988 without an
+override. The names come from the earlier model, not from G.988. ME 46,
+ME 290 (Dot1X port extension package: an OLT that runs 802.1X on a UNI
+Sets it, and omcid keeps what the OLT writes without acting on it) and the
+sixteen VoIP classes of G.988 clause 9.9 (SIP over OMCI, answered only
+while `OMCI_POTS_PORTS` is on, docs/SETTINGS.md) have no stock counterpart;
+their profile entries are not marked `stockBacked`.
+
+Edit the sources, never `generated/`: `test/omci_mib_gen_test.sh` (part of
+`make test-host`) fails when the generated files differ from what the
+sources produce, and rejects invalid profiles. `tools/mib-tables.py`, which
+recovered the original model from a stock root filesystem, stays as an
+optional cross-check. `tools/me-drv-map.py` shows only 21 of the 81
+stock-backed managed entities reach the driver at all (T-CONT, GEM port,
+bridge port and friends); the other 60 are pure MIB and need no driver
+call.
+
+The rootfs tools read the stock rootfs from `$STOCK_ROOTFS` (default
 `stock-rootfs` in the current directory); most also take the path as
 their first argument.
 

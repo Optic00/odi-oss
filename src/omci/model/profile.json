@@ -1,0 +1,2771 @@
+{
+ "source": {"revision": "f19959c513dad16f9cf41c134245f780c35fa433", "sha256": "c7111608e37095e2010a32f6fd216440f710e05784984e1e87edbe1d73d073d3"},
+ "classOrder": [263, 148, 5, 6, 298, 334, 89, 296, 321, 322, 24, 11, 171, 250, 65531, 65408, 312, 272, 266, 268, 341, 267, 280, 308, 330, 134, 157, 83, 65530, 253, 50, 47, 45, 79, 49, 52, 130, 309, 310, 311, 242, 243, 350, 370, 373, 65282, 65294, 281, 137, 307, 131, 65527, 287, 257, 2, 244, 240, 256, 65529, 65528, 133, 158, 277, 255, 65534, 65535, 284, 7, 278, 340, 262, 136, 273, 274, 264, 329, 84, 78, 245, 248, 249, 46, 290, 53, 58, 138, 139, 140, 141, 142, 143, 144, 145, 146, 147, 150, 151, 152, 153],
+ "classes": [
+  {
+   "classId": 2,
+   "ident": "OntData",
+   "stockBacked": true,
+   "name": "OntData",
+   "shortName": "ONTDATA",
+   "desc": "ONU data",
+   "entrySize": 8,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "MIBDataSync", "mibSave": 1, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 5,
+   "ident": "Cardholder",
+   "stockBacked": true,
+   "name": "Cardholder",
+   "shortName": "CH",
+   "desc": "Cardholder",
+   "entrySize": 56,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "ActualType", "mibSave": 0, "outStyle": 1},
+    {"index": 2, "name": "ExpectedType", "mibSave": 1, "outStyle": 1},
+    {"index": 3, "name": "ExpectedPortCount", "mibSave": 1, "outStyle": 1},
+    {
+     "index": 4,
+     "name": "ExpectedEqtID",
+     "mibSave": 1,
+     "outStyle": 0,
+     "overrides": [
+      {"field": "size", "value": 21, "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."},
+      {"field": "type", "value": "string", "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."}
+     ]
+    },
+    {
+     "index": 5,
+     "name": "ActualEqtID",
+     "mibSave": 0,
+     "outStyle": 0,
+     "overrides": [
+      {"field": "size", "value": 21, "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."},
+      {"field": "type", "value": "string", "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."}
+     ]
+    },
+    {
+     "index": 6,
+     "name": "ProtPrfPtr",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "oltAcc", "value": 3, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."},
+      {"field": "optionType", "value": 8, "class": "SUPPORT", "reason": "The existing model marks this attribute unsupported; preserve its support flags."}
+     ]
+    },
+    {
+     "index": 7,
+     "name": "InvokeProtSwitch",
+     "mibSave": 1,
+     "outStyle": 1,
+     "overrides": [
+      {"field": "optionType", "value": 8, "class": "SUPPORT", "reason": "The existing model marks this attribute unsupported; preserve its support flags."}
+     ]
+    },
+    {"index": 8, "name": "ARC", "mibSave": 1, "outStyle": 1},
+    {"index": 9, "name": "ArcInterval", "mibSave": 1, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 6,
+   "ident": "CircuitPack",
+   "stockBacked": true,
+   "name": "CircuitPack",
+   "shortName": "CP",
+   "desc": "Circuit pack",
+   "entrySize": 72,
+   "stdType": 1,
+   "overrides": [
+    {"field": "actionType", "value": 768, "class": "SUPPORT", "reason": "The cited clause permits optional actions that the existing model does not implement."}
+   ],
+   "attrs": [
+    {
+     "index": 0,
+     "name": "EntityID",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "oltAcc", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {"index": 1, "name": "Type", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "NumOfPorts", "mibSave": 1, "outStyle": 1},
+    {
+     "index": 3,
+     "name": "SerialNum",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "size", "value": 9, "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."},
+      {"field": "type", "value": "string", "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."}
+     ]
+    },
+    {"index": 4, "name": "Version", "mibSave": 1, "outStyle": 0},
+    {
+     "index": 5,
+     "name": "VID",
+     "mibSave": 1,
+     "outStyle": 0,
+     "overrides": [
+      {"field": "size", "value": 5, "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."},
+      {"field": "type", "value": "string", "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."}
+     ]
+    },
+    {
+     "index": 6,
+     "name": "AdminState",
+     "mibSave": 1,
+     "outStyle": 1,
+     "overrides": [
+      {"field": "oltAcc", "value": 7, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {"index": 7, "name": "OpState", "mibSave": 1, "outStyle": 1},
+    {"index": 8, "name": "BridgedorIPInd", "mibSave": 1, "outStyle": 1},
+    {
+     "index": 9,
+     "name": "EqtID",
+     "mibSave": 1,
+     "outStyle": 0,
+     "overrides": [
+      {"field": "size", "value": 21, "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."},
+      {"field": "type", "value": "string", "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."}
+     ]
+    },
+    {"index": 10, "name": "CardCfg", "mibSave": 1, "outStyle": 1},
+    {"index": 11, "name": "NumOfTContBuff", "mibSave": 1, "outStyle": 1},
+    {"index": 12, "name": "NumOfPriQ", "mibSave": 1, "outStyle": 1},
+    {"index": 13, "name": "NumOfScheduler", "mibSave": 1, "outStyle": 1},
+    {"index": 14, "name": "PowerShed", "mibSave": 1, "outStyle": 2}
+   ]
+  },
+  {
+   "classId": 7,
+   "ident": "SWImage",
+   "stockBacked": true,
+   "name": "SWImage",
+   "shortName": "SWIMG",
+   "desc": "Software image",
+   "entrySize": 64,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "Version", "mibSave": 1, "outStyle": 0},
+    {"index": 2, "name": "Committed", "mibSave": 1, "outStyle": 1},
+    {"index": 3, "name": "Active", "mibSave": 1, "outStyle": 1},
+    {"index": 4, "name": "Valid", "mibSave": 1, "outStyle": 1},
+    {
+     "index": 5,
+     "name": "ProductCode",
+     "mibSave": 1,
+     "outStyle": 0,
+     "overrides": [
+      {"field": "optionType", "value": 8, "class": "SUPPORT", "reason": "The existing model marks this attribute unsupported; preserve its support flags."}
+     ]
+    },
+    {
+     "index": 6,
+     "name": "ImageHash",
+     "len": 16,
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "size", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."},
+      {"field": "type", "value": "u8", "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."},
+      {"field": "optionType", "value": 8, "class": "SUPPORT", "reason": "The existing model marks this attribute unsupported; preserve its support flags."}
+     ]
+    }
+   ]
+  },
+  {
+   "classId": 11,
+   "ident": "EthUni",
+   "stockBacked": true,
+   "name": "EthUni",
+   "shortName": "PPTP",
+   "desc": "Physical path termination point Ethernet UNI",
+   "entrySize": 32,
+   "stdType": 1,
+   "overrides": [
+    {"field": "standardAttributes", "value": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], "class": "SPEC_NEWER", "reason": "Additional standard attributes occur in G.988 (11/2022); preserve the existing model selection and private extensions."}
+   ],
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "ExpectedType", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "SensedType", "mibSave": 1, "outStyle": 1},
+    {"index": 3, "name": "AutoDectectCfg", "mibSave": 1, "outStyle": 1},
+    {"index": 4, "name": "EthLoopbackCfg", "mibSave": 1, "outStyle": 1},
+    {"index": 5, "name": "AdminState", "mibSave": 1, "outStyle": 1},
+    {"index": 6, "name": "OpState", "mibSave": 1, "outStyle": 1},
+    {"index": 7, "name": "DuplexInd", "mibSave": 1, "outStyle": 1},
+    {"index": 8, "name": "MaxFrameSize", "mibSave": 1, "outStyle": 1},
+    {"index": 9, "name": "DTEorDCEInd", "mibSave": 1, "outStyle": 1},
+    {"index": 10, "name": "PauseTime", "mibSave": 1, "outStyle": 1},
+    {"index": 11, "name": "BridgedorIPInd", "mibSave": 1, "outStyle": 1},
+    {"index": 12, "name": "ARC", "mibSave": 1, "outStyle": 1},
+    {"index": 13, "name": "ARCInterval", "mibSave": 1, "outStyle": 1},
+    {"index": 14, "name": "PppoeFilter", "mibSave": 1, "outStyle": 1},
+    {"index": 15, "name": "PowerControl", "mibSave": 1, "outStyle": 1}
+   ],
+   "privateAttrs": [
+    {
+     "attribute": {"index": 16, "name": "PhysicalPortId", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 16, "type": "u32", "size": 4},
+     "reason": "Private local attribute retained from the existing model; no G.988 provenance claimed."
+    }
+   ]
+  },
+  {
+   "classId": 24,
+   "ident": "EthPmHistoryData",
+   "stockBacked": true,
+   "name": "EthPmHistoryData",
+   "shortName": "ETHPMHD",
+   "desc": "Ethernet performance monitoring history data",
+   "entrySize": 64,
+   "stdType": 2,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "IntEndTime", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "ThresholdID", "mibSave": 1, "outStyle": 2},
+    {"index": 3, "name": "FCSErrors", "mibSave": 0, "outStyle": 1},
+    {"index": 4, "name": "ExcCollision", "mibSave": 0, "outStyle": 1},
+    {"index": 5, "name": "LateCollision", "mibSave": 0, "outStyle": 1},
+    {"index": 6, "name": "FrameTooLongs", "mibSave": 0, "outStyle": 1},
+    {"index": 7, "name": "RxBufOverflow", "mibSave": 0, "outStyle": 1},
+    {"index": 8, "name": "TxBufOverflow", "mibSave": 0, "outStyle": 1},
+    {"index": 9, "name": "SingleCollision", "mibSave": 0, "outStyle": 1},
+    {"index": 10, "name": "MultiCollision", "mibSave": 0, "outStyle": 1},
+    {"index": 11, "name": "SQECounter", "mibSave": 0, "outStyle": 1},
+    {"index": 12, "name": "TxDeferred", "mibSave": 0, "outStyle": 1},
+    {"index": 13, "name": "TxInterMacErr", "mibSave": 0, "outStyle": 1},
+    {"index": 14, "name": "CarrierSenseErr", "mibSave": 0, "outStyle": 1},
+    {"index": 15, "name": "AlignmentErr", "mibSave": 0, "outStyle": 1},
+    {"index": 16, "name": "RxInterMacErr", "mibSave": 0, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 45,
+   "ident": "MacBriServProf",
+   "stockBacked": true,
+   "name": "MacBriServProf",
+   "shortName": "MBSP",
+   "desc": "MAC bridge service profile",
+   "entrySize": 24,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "SpanTreeInd", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "LearningInd", "mibSave": 1, "outStyle": 1},
+    {"index": 3, "name": "AtmBriInd", "mibSave": 1, "outStyle": 1},
+    {"index": 4, "name": "Priority", "mibSave": 1, "outStyle": 1},
+    {"index": 5, "name": "MaxAge", "mibSave": 1, "outStyle": 1},
+    {"index": 6, "name": "HelloTime", "mibSave": 1, "outStyle": 1},
+    {"index": 7, "name": "ForwardDelay", "mibSave": 1, "outStyle": 1},
+    {"index": 8, "name": "DiscardUnknow", "mibSave": 1, "outStyle": 1},
+    {"index": 9, "name": "MacLearningDepth", "mibSave": 1, "outStyle": 1},
+    {"index": 10, "name": "DynamicFilteringAgeingTime", "mibSave": 1, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 46,
+   "ident": "MacBriCfgData",
+   "stockBacked": false,
+   "name": "MacBriCfgData",
+   "shortName": "MBCD",
+   "desc": "MAC bridge configuration data",
+   "entrySize": 40,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 0, "outStyle": null},
+    {
+     "index": 1,
+     "name": "BridgeMacAddr",
+     "mibSave": 0,
+     "outStyle": null,
+     "overrides": [
+      {"field": "type", "value": "u8", "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."}
+     ]
+    },
+    {"index": 2, "name": "BridgePriority", "mibSave": 0, "outStyle": null},
+    {"index": 3, "name": "DesignatedRoot", "mibSave": 0, "outStyle": null},
+    {"index": 4, "name": "RootPathCost", "mibSave": 0, "outStyle": null},
+    {"index": 5, "name": "BridgePortCount", "mibSave": 0, "outStyle": null},
+    {"index": 6, "name": "RootPortNum", "mibSave": 0, "outStyle": null},
+    {
+     "index": 7,
+     "name": "HelloTime",
+     "mibSave": 0,
+     "outStyle": null,
+     "overrides": [
+      {"field": "optionType", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 8,
+     "name": "ForwardDelay",
+     "mibSave": 0,
+     "outStyle": null,
+     "overrides": [
+      {"field": "optionType", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    }
+   ]
+  },
+  {
+   "classId": 47,
+   "ident": "MacBriPortCfgData",
+   "stockBacked": true,
+   "name": "MacBriPortCfgData",
+   "shortName": "MBPCD",
+   "desc": "MAC bridge port configuration data",
+   "entrySize": 32,
+   "stdType": 1,
+   "overrides": [
+    {"field": "standardAttributes", "value": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], "class": "SUPPORT", "reason": "Preserve the existing model selection and explicit private extensions; additional optional standard attributes are not implemented."}
+   ],
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "BridgeIdPtr", "mibSave": 1, "outStyle": 2},
+    {"index": 2, "name": "PortNum", "mibSave": 1, "outStyle": 1},
+    {"index": 3, "name": "TPType", "mibSave": 1, "outStyle": 1},
+    {"index": 4, "name": "TPPointer", "mibSave": 1, "outStyle": 2},
+    {"index": 5, "name": "PortPriority", "mibSave": 1, "outStyle": 1},
+    {"index": 6, "name": "PortPathCost", "mibSave": 1, "outStyle": 1},
+    {"index": 7, "name": "PortSpanTreeInd", "mibSave": 1, "outStyle": 1},
+    {"index": 8, "name": "EncapMethod", "mibSave": 1, "outStyle": 1},
+    {"index": 9, "name": "LanFCSInd", "mibSave": 1, "outStyle": 1},
+    {
+     "index": 10,
+     "name": "PortMacAddr",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "size", "value": 7, "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."},
+      {"field": "type", "value": "string", "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."}
+     ]
+    },
+    {"index": 11, "name": "OutboundTD", "mibSave": 1, "outStyle": 2},
+    {"index": 12, "name": "InboundTD", "mibSave": 1, "outStyle": 2},
+    {"index": 13, "name": "NumOfAllowedMac", "mibSave": 1, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 49,
+   "ident": "MacBridgePortFilterTable",
+   "stockBacked": true,
+   "name": "MacBridgePortFilterTable",
+   "shortName": "MBPFTBL",
+   "desc": "MAC bridge port filter table data",
+   "entrySize": 16,
+   "stdType": 1,
+   "overrides": [
+    {"field": "actionType", "value": 67109632, "class": "SUPPORT", "reason": "The cited clause permits optional actions that the existing model does not implement."}
+   ],
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "MACFilterTable", "mibSave": 1, "outStyle": 2}
+   ]
+  },
+  {
+   "classId": 50,
+   "ident": "MacBriPortBriTblData",
+   "stockBacked": true,
+   "name": "MacBriPortBriTblData",
+   "shortName": "MBPBTD",
+   "desc": "MAC bridge port bridge table data",
+   "entrySize": 16,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {
+     "index": 1,
+     "name": "BriTbl",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "optionType", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    }
+   ]
+  },
+  {
+   "classId": 52,
+   "ident": "MacBridgePortPmMonitorHistoryData",
+   "stockBacked": true,
+   "name": "MacBridgePortPmMonitorHistoryData",
+   "shortName": "MBPPMHD",
+   "desc": "MAC bridge port performance monitoring history data",
+   "entrySize": 32,
+   "stdType": 2,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "IntervalEndTime", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "ThresholdData12Id", "mibSave": 1, "outStyle": 2},
+    {"index": 3, "name": "ForwardedFrameCounter", "mibSave": 1, "outStyle": 2},
+    {"index": 4, "name": "DelayExceededDiscard", "mibSave": 1, "outStyle": 2},
+    {"index": 5, "name": "MtuExceededDiscard", "mibSave": 1, "outStyle": 2},
+    {"index": 6, "name": "ReceivedFrameCounter", "mibSave": 1, "outStyle": 2},
+    {"index": 7, "name": "ReceivedAndDiscardedCounter", "mibSave": 1, "outStyle": 2}
+   ]
+  },
+  {
+   "classId": 53,
+   "ident": "PptpPotsUni",
+   "stockBacked": false,
+   "name": "PptpPotsUni",
+   "shortName": "POTS",
+   "desc": "PPTP POTS UNI",
+   "entrySize": 17,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 0, "outStyle": null},
+    {"index": 1, "name": "AdminState", "mibSave": 0, "outStyle": null},
+    {"index": 2, "name": "Deprecated", "mibSave": 0, "outStyle": null},
+    {"index": 3, "name": "Arc", "mibSave": 0, "outStyle": null},
+    {"index": 4, "name": "ArcInterval", "mibSave": 0, "outStyle": null},
+    {"index": 5, "name": "Impedance", "mibSave": 0, "outStyle": null},
+    {"index": 6, "name": "TransmissionPath", "mibSave": 0, "outStyle": null},
+    {"index": 7, "name": "RxGain", "mibSave": 0, "outStyle": null},
+    {"index": 8, "name": "TxGain", "mibSave": 0, "outStyle": null},
+    {"index": 9, "name": "OpState", "mibSave": 0, "outStyle": null},
+    {"index": 10, "name": "HookState", "mibSave": 0, "outStyle": null},
+    {"index": 11, "name": "PotsHoldoverTime", "mibSave": 0, "outStyle": null},
+    {"index": 12, "name": "NominalFeedVoltage", "mibSave": 0, "outStyle": null},
+    {"index": 13, "name": "LossOfSoftswitch", "mibSave": 0, "outStyle": null}
+   ]
+  },
+  {
+   "classId": 58,
+   "ident": "VoiceServiceProfile",
+   "stockBacked": false,
+   "name": "VoiceServiceProfile",
+   "shortName": "VSP",
+   "desc": "Voice service profile",
+   "entrySize": 59,
+   "stdType": 1,
+   "overrides": [
+    {"field": "actionType", "value": 603980624, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+   ],
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 0, "outStyle": null},
+    {"index": 1, "name": "AnnouncementType", "mibSave": 0, "outStyle": null},
+    {"index": 2, "name": "JitterTarget", "mibSave": 0, "outStyle": null},
+    {"index": 3, "name": "JitterBufferMax", "mibSave": 0, "outStyle": null},
+    {"index": 4, "name": "EchoCancelInd", "mibSave": 0, "outStyle": null},
+    {"index": 5, "name": "PstnProtocolVariant", "mibSave": 0, "outStyle": null},
+    {"index": 6, "name": "DtmfDigitLevels", "mibSave": 0, "outStyle": null},
+    {"index": 7, "name": "DtmfDigitDuration", "mibSave": 0, "outStyle": null},
+    {"index": 8, "name": "HookFlashMinTime", "mibSave": 0, "outStyle": null},
+    {"index": 9, "name": "HookFlashMaxTime", "mibSave": 0, "outStyle": null},
+    {"index": 10, "name": "TonePatternTable", "mibSave": 0, "outStyle": null},
+    {"index": 11, "name": "ToneEventTable", "mibSave": 0, "outStyle": null},
+    {"index": 12, "name": "RingingPatternTable", "mibSave": 0, "outStyle": null},
+    {"index": 13, "name": "RingingEventTable", "mibSave": 0, "outStyle": null},
+    {"index": 14, "name": "NetworkSpecificExtPtr", "mibSave": 0, "outStyle": null}
+   ]
+  },
+  {
+   "classId": 78,
+   "ident": "VlanTagOpCfgData",
+   "stockBacked": true,
+   "name": "VlanTagOpCfgData",
+   "shortName": "VTOCD",
+   "desc": "VLAN tagging operation configuration data",
+   "entrySize": 16,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "UsTagOpMode", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "UsTagTci", "mibSave": 1, "outStyle": 2},
+    {"index": 3, "name": "DsTagOpMode", "mibSave": 1, "outStyle": 1},
+    {"index": 4, "name": "Type", "mibSave": 1, "outStyle": 1},
+    {"index": 5, "name": "Pointer", "mibSave": 1, "outStyle": 2}
+   ]
+  },
+  {
+   "classId": 79,
+   "ident": "MacBridgePortFilterPreassign",
+   "stockBacked": true,
+   "name": "MacBridgePortFilterPreassign",
+   "shortName": "MBPFP",
+   "desc": "MAC bridge port filter preassign table",
+   "entrySize": 12,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "IPv4McastFilter", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "IPv6McastFilter", "mibSave": 1, "outStyle": 1},
+    {"index": 3, "name": "IPv4BcastFilter", "mibSave": 1, "outStyle": 1},
+    {"index": 4, "name": "RARPFilter", "mibSave": 1, "outStyle": 1},
+    {"index": 5, "name": "IPXFilter", "mibSave": 1, "outStyle": 1},
+    {"index": 6, "name": "NetBEUIFilter", "mibSave": 1, "outStyle": 1},
+    {"index": 7, "name": "AppleTalkFilter", "mibSave": 1, "outStyle": 1},
+    {"index": 8, "name": "BridgeManaInfofilter", "mibSave": 1, "outStyle": 1},
+    {"index": 9, "name": "ARPFilter", "mibSave": 1, "outStyle": 1},
+    {"index": 10, "name": "PPPoeBcastFilter", "mibSave": 1, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 83,
+   "ident": "LctUni",
+   "stockBacked": true,
+   "name": "LctUni",
+   "shortName": "LCT",
+   "desc": "Physical path termination point LCT UNI",
+   "entrySize": 8,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "AdminState", "mibSave": 1, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 84,
+   "ident": "VlanTagFilterData",
+   "stockBacked": true,
+   "name": "VlanTagFilterData",
+   "shortName": "VTFD",
+   "desc": "VLAN tagging filter data",
+   "entrySize": 32,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "FilterTbl", "mibSave": 1, "outStyle": 2},
+    {"index": 2, "name": "FwdOp", "mibSave": 1, "outStyle": 1},
+    {"index": 3, "name": "NumOfEntries", "mibSave": 1, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 89,
+   "ident": "EthPmData2",
+   "stockBacked": true,
+   "name": "EthPmData2",
+   "shortName": "ETHPMHD2",
+   "desc": "Ethernet performance monitoring history data 2",
+   "entrySize": 16,
+   "stdType": 2,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "IntEndTime", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "ThresholdID", "mibSave": 1, "outStyle": 2},
+    {"index": 3, "name": "PppoeFilFrm", "mibSave": 0, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 130,
+   "ident": "Map8021pServProf",
+   "stockBacked": true,
+   "name": "Map8021pServProf",
+   "shortName": "MAP1P",
+   "desc": "IEEE 802.1p mapper service profile",
+   "entrySize": 48,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "TPPtr", "mibSave": 1, "outStyle": 2},
+    {"index": 2, "name": "IwTpPtrPbit0", "mibSave": 1, "outStyle": 2},
+    {"index": 3, "name": "IwTpPtrPbit1", "mibSave": 1, "outStyle": 2},
+    {"index": 4, "name": "IwTpPtrPbit2", "mibSave": 1, "outStyle": 2},
+    {"index": 5, "name": "IwTpPtrPbit3", "mibSave": 1, "outStyle": 2},
+    {"index": 6, "name": "IwTpPtrPbit4", "mibSave": 1, "outStyle": 2},
+    {"index": 7, "name": "IwTpPtrPbit5", "mibSave": 1, "outStyle": 2},
+    {"index": 8, "name": "IwTpPtrPbit6", "mibSave": 1, "outStyle": 2},
+    {"index": 9, "name": "IwTpPtrPbit7", "mibSave": 1, "outStyle": 2},
+    {"index": 10, "name": "UnmarkFrmOpt", "mibSave": 1, "outStyle": 1},
+    {"index": 11, "name": "DscpMap2Pbit", "mibSave": 1, "outStyle": 2},
+    {"index": 12, "name": "DefPbitMark", "mibSave": 1, "outStyle": 1},
+    {"index": 13, "name": "TPType", "mibSave": 1, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 131,
+   "ident": "OltG",
+   "stockBacked": true,
+   "name": "OltG",
+   "shortName": "OLTG",
+   "desc": "OLT-G",
+   "entrySize": 64,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "OltVendorId", "mibSave": 1, "outStyle": 2},
+    {
+     "index": 2,
+     "name": "EquipId",
+     "mibSave": 1,
+     "outStyle": 0,
+     "overrides": [
+      {"field": "size", "value": 21, "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."},
+      {"field": "type", "value": "string", "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."}
+     ]
+    },
+    {"index": 3, "name": "Version", "mibSave": 1, "outStyle": 0},
+    {
+     "index": 4,
+     "name": "ToDInfo",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "size", "value": 15, "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."},
+      {"field": "type", "value": "string", "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."}
+     ]
+    }
+   ]
+  },
+  {
+   "classId": 133,
+   "ident": "OnuPwrShedding",
+   "stockBacked": true,
+   "name": "OnuPwrShedding",
+   "shortName": "OPS",
+   "desc": "ONU power shedding",
+   "entrySize": 32,
+   "stdType": 1,
+   "attrs": [
+    {
+     "index": 0,
+     "name": "EntityId",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "oltAcc", "value": 5, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {"index": 1, "name": "RestorePwrIntvl", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "DataShedIntvl", "mibSave": 1, "outStyle": 1},
+    {"index": 3, "name": "VoiceShedIntvl", "mibSave": 1, "outStyle": 1},
+    {"index": 4, "name": "VideoOverlayShedIntvl", "mibSave": 1, "outStyle": 1},
+    {"index": 5, "name": "VideoReturnShedIntvl", "mibSave": 1, "outStyle": 1},
+    {"index": 6, "name": "DslShedIntvl", "mibSave": 1, "outStyle": 1},
+    {"index": 7, "name": "AtmShedIntvl", "mibSave": 1, "outStyle": 1},
+    {"index": 8, "name": "CesShedIntvl", "mibSave": 1, "outStyle": 1},
+    {"index": 9, "name": "FrameShedIntvl", "mibSave": 1, "outStyle": 1},
+    {"index": 10, "name": "SdhSonetShedIntvl", "mibSave": 1, "outStyle": 1},
+    {"index": 11, "name": "SheddingStatus", "mibSave": 1, "outStyle": 2}
+   ],
+   "privateAttrs": [
+    {
+     "attribute": {"index": 12, "name": "DataShedIntvlRemained", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 16, "type": "u16", "size": 2},
+     "reason": "Private local attribute retained from the existing model; no G.988 provenance claimed."
+    },
+    {
+     "attribute": {"index": 13, "name": "DataResetIntvlRemained", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 16, "type": "u16", "size": 2},
+     "reason": "Private local attribute retained from the existing model; no G.988 provenance claimed."
+    },
+    {
+     "attribute": {"index": 14, "name": "VoiceShedIntvlRemained", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 16, "type": "u16", "size": 2},
+     "reason": "Private local attribute retained from the existing model; no G.988 provenance claimed."
+    },
+    {
+     "attribute": {"index": 15, "name": "VoiceResetIntvlRemained", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 16, "type": "u16", "size": 2},
+     "reason": "Private local attribute retained from the existing model; no G.988 provenance claimed."
+    }
+   ]
+  },
+  {
+   "classId": 134,
+   "ident": "IpHostConfigData",
+   "stockBacked": true,
+   "name": "IpHostCfgData",
+   "shortName": "IPHCD",
+   "desc": "IP host config data",
+   "entrySize": 136,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "IpOptions", "mibSave": 1, "outStyle": 2},
+    {
+     "index": 2,
+     "name": "MacAddress",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "size", "value": 7, "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."},
+      {"field": "type", "value": "string", "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."}
+     ]
+    },
+    {"index": 3, "name": "OnuIdentifier", "mibSave": 1, "outStyle": 0},
+    {"index": 4, "name": "IpAddress", "mibSave": 1, "outStyle": 2},
+    {"index": 5, "name": "Mask", "mibSave": 1, "outStyle": 2},
+    {"index": 6, "name": "Gateway", "mibSave": 1, "outStyle": 2},
+    {"index": 7, "name": "PrimaryDns", "mibSave": 1, "outStyle": 2},
+    {"index": 8, "name": "SecondaryDns", "mibSave": 1, "outStyle": 2},
+    {"index": 9, "name": "CurrentAddress", "mibSave": 1, "outStyle": 2},
+    {"index": 10, "name": "CurrentMask", "mibSave": 1, "outStyle": 2},
+    {"index": 11, "name": "CurrentGateway", "mibSave": 1, "outStyle": 2},
+    {"index": 12, "name": "CurrentPrimaryDns", "mibSave": 1, "outStyle": 2},
+    {"index": 13, "name": "CurrentSecondaryDns", "mibSave": 1, "outStyle": 2},
+    {"index": 14, "name": "DomainName", "mibSave": 1, "outStyle": 0},
+    {"index": 15, "name": "HostName", "mibSave": 1, "outStyle": 0},
+    {
+     "index": 16,
+     "name": "RelayAgentOptions",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "optionType", "value": 8, "class": "SUPPORT", "reason": "The existing model marks this attribute unsupported; preserve its support flags."}
+     ]
+    }
+   ]
+  },
+  {
+   "classId": 136,
+   "ident": "TcpUdpCfgData",
+   "stockBacked": true,
+   "name": "TcpUdpCfgData",
+   "shortName": "TCPUDP",
+   "desc": "TCP/UDP config data",
+   "entrySize": 8,
+   "stdType": 1,
+   "attrs": [
+    {
+     "index": 0,
+     "name": "EntityId",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "oltAcc", "value": 7, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {"index": 1, "name": "PortId", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "Protocol", "mibSave": 1, "outStyle": 1},
+    {"index": 3, "name": "TosDiffserv", "mibSave": 1, "outStyle": 1},
+    {"index": 4, "name": "IpHostPointer", "mibSave": 1, "outStyle": 2}
+   ]
+  },
+  {
+   "classId": 137,
+   "ident": "Network_addr",
+   "stockBacked": true,
+   "name": "NetworkAddress",
+   "shortName": "NWADDR",
+   "desc": "Network address",
+   "entrySize": 8,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "SecurityPtr", "mibSave": 1, "outStyle": 2},
+    {"index": 2, "name": "AddrPtr", "mibSave": 1, "outStyle": 2}
+   ]
+  },
+  {
+   "classId": 138,
+   "ident": "VoipConfigData",
+   "stockBacked": false,
+   "name": "VoipConfigData",
+   "shortName": "VCD",
+   "desc": "VoIP config data",
+   "entrySize": 39,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 0, "outStyle": null},
+    {"index": 1, "name": "AvailSignallingProtocols", "mibSave": 0, "outStyle": null},
+    {"index": 2, "name": "SignallingProtocolUsed", "mibSave": 0, "outStyle": null},
+    {"index": 3, "name": "AvailConfigMethods", "mibSave": 0, "outStyle": null},
+    {"index": 4, "name": "ConfigMethodUsed", "mibSave": 0, "outStyle": null},
+    {"index": 5, "name": "ConfigAddressPtr", "mibSave": 0, "outStyle": null},
+    {"index": 6, "name": "ConfigState", "mibSave": 0, "outStyle": null},
+    {"index": 7, "name": "RetrieveProfile", "mibSave": 0, "outStyle": null},
+    {"index": 8, "name": "ProfileVersion", "len": 26, "mibSave": 0, "outStyle": null}
+   ]
+  },
+  {
+   "classId": 139,
+   "ident": "VoipVoiceCtp",
+   "stockBacked": false,
+   "name": "VoipVoiceCtp",
+   "shortName": "VCTP",
+   "desc": "VoIP voice CTP",
+   "entrySize": 9,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 0, "outStyle": null},
+    {"index": 1, "name": "UserProtocolPtr", "mibSave": 0, "outStyle": null},
+    {"index": 2, "name": "PptpPtr", "mibSave": 0, "outStyle": null},
+    {"index": 3, "name": "VoipMediaProfilePtr", "mibSave": 0, "outStyle": null},
+    {"index": 4, "name": "SignallingCode", "mibSave": 0, "outStyle": null}
+   ]
+  },
+  {
+   "classId": 140,
+   "ident": "CallControlPmHistoryData",
+   "stockBacked": false,
+   "name": "CallControlPmHistoryData",
+   "shortName": "CCPM",
+   "desc": "Call control performance monitoring history data",
+   "entrySize": 25,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 0, "outStyle": null},
+    {"index": 1, "name": "IntEndTime", "mibSave": 0, "outStyle": null},
+    {"index": 2, "name": "ThresholdDataId", "mibSave": 0, "outStyle": null},
+    {"index": 3, "name": "CallSetupFailures", "mibSave": 0, "outStyle": null},
+    {"index": 4, "name": "CallSetupTimer", "mibSave": 0, "outStyle": null},
+    {"index": 5, "name": "CallTerminateFailures", "mibSave": 0, "outStyle": null},
+    {"index": 6, "name": "AnalogPortReleases", "mibSave": 0, "outStyle": null},
+    {"index": 7, "name": "AnalogPortOffHookTimer", "mibSave": 0, "outStyle": null}
+   ]
+  },
+  {
+   "classId": 141,
+   "ident": "VoipLineStatus",
+   "stockBacked": false,
+   "name": "VoipLineStatus",
+   "shortName": "VLS",
+   "desc": "VoIP line status",
+   "entrySize": 64,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 0, "outStyle": null},
+    {"index": 1, "name": "VoipCodecUsed", "mibSave": 0, "outStyle": null},
+    {"index": 2, "name": "VoipVoiceServerStatus", "mibSave": 0, "outStyle": null},
+    {"index": 3, "name": "VoipPortSessionType", "mibSave": 0, "outStyle": null},
+    {"index": 4, "name": "VoipCall1PacketPeriod", "mibSave": 0, "outStyle": null},
+    {"index": 5, "name": "VoipCall2PacketPeriod", "mibSave": 0, "outStyle": null},
+    {"index": 6, "name": "VoipCall1DestAddr", "len": 26, "mibSave": 0, "outStyle": null},
+    {"index": 7, "name": "VoipCall2DestAddr", "len": 26, "mibSave": 0, "outStyle": null},
+    {"index": 8, "name": "VoipLineState", "mibSave": 0, "outStyle": null},
+    {"index": 9, "name": "EmergencyCallStatus", "mibSave": 0, "outStyle": null}
+   ]
+  },
+  {
+   "classId": 142,
+   "ident": "VoipMediaProfile",
+   "stockBacked": false,
+   "name": "VoipMediaProfile",
+   "shortName": "VMP",
+   "desc": "VoIP media profile",
+   "entrySize": 20,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 0, "outStyle": null},
+    {"index": 1, "name": "FaxMode", "mibSave": 0, "outStyle": null},
+    {"index": 2, "name": "VoiceServiceProfilePtr", "mibSave": 0, "outStyle": null},
+    {"index": 3, "name": "CodecSelection1", "mibSave": 0, "outStyle": null},
+    {"index": 4, "name": "PacketPeriodSelection1", "mibSave": 0, "outStyle": null},
+    {"index": 5, "name": "SilenceSuppression1", "mibSave": 0, "outStyle": null},
+    {"index": 6, "name": "CodecSelection2", "mibSave": 0, "outStyle": null},
+    {"index": 7, "name": "PacketPeriodSelection2", "mibSave": 0, "outStyle": null},
+    {"index": 8, "name": "SilenceSuppression2", "mibSave": 0, "outStyle": null},
+    {"index": 9, "name": "CodecSelection3", "mibSave": 0, "outStyle": null},
+    {"index": 10, "name": "PacketPeriodSelection3", "mibSave": 0, "outStyle": null},
+    {"index": 11, "name": "SilenceSuppression3", "mibSave": 0, "outStyle": null},
+    {"index": 12, "name": "CodecSelection4", "mibSave": 0, "outStyle": null},
+    {"index": 13, "name": "PacketPeriodSelection4", "mibSave": 0, "outStyle": null},
+    {"index": 14, "name": "SilenceSuppression4", "mibSave": 0, "outStyle": null},
+    {"index": 15, "name": "OobDtmf", "mibSave": 0, "outStyle": null},
+    {"index": 16, "name": "RtpProfilePtr", "mibSave": 0, "outStyle": null}
+   ]
+  },
+  {
+   "classId": 143,
+   "ident": "RtpProfileData",
+   "stockBacked": false,
+   "name": "RtpProfileData",
+   "shortName": "RTPP",
+   "desc": "RTP profile data",
+   "entrySize": 13,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 0, "outStyle": null},
+    {"index": 1, "name": "LocalPortMin", "mibSave": 0, "outStyle": null},
+    {"index": 2, "name": "LocalPortMax", "mibSave": 0, "outStyle": null},
+    {"index": 3, "name": "DscpMark", "mibSave": 0, "outStyle": null},
+    {"index": 4, "name": "PiggybackEvents", "mibSave": 0, "outStyle": null},
+    {"index": 5, "name": "ToneEvents", "mibSave": 0, "outStyle": null},
+    {"index": 6, "name": "DtmfEvents", "mibSave": 0, "outStyle": null},
+    {"index": 7, "name": "CasEvents", "mibSave": 0, "outStyle": null},
+    {"index": 8, "name": "IpHostConfigPtr", "mibSave": 0, "outStyle": null}
+   ]
+  },
+  {
+   "classId": 144,
+   "ident": "RtpPmHistoryData",
+   "stockBacked": false,
+   "name": "RtpPmHistoryData",
+   "shortName": "RTPPM",
+   "desc": "RTP performance monitoring history data",
+   "entrySize": 29,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 0, "outStyle": null},
+    {"index": 1, "name": "IntEndTime", "mibSave": 0, "outStyle": null},
+    {"index": 2, "name": "ThresholdDataId", "mibSave": 0, "outStyle": null},
+    {"index": 3, "name": "RtpErrors", "mibSave": 0, "outStyle": null},
+    {"index": 4, "name": "PacketLoss", "mibSave": 0, "outStyle": null},
+    {"index": 5, "name": "MaximumJitter", "mibSave": 0, "outStyle": null},
+    {"index": 6, "name": "MaxTimeBetweenRtcp", "mibSave": 0, "outStyle": null},
+    {"index": 7, "name": "BufferUnderflows", "mibSave": 0, "outStyle": null},
+    {"index": 8, "name": "BufferOverflows", "mibSave": 0, "outStyle": null}
+   ]
+  },
+  {
+   "classId": 145,
+   "ident": "NetworkDialPlanTable",
+   "stockBacked": false,
+   "name": "NetworkDialPlanTable",
+   "shortName": "NDPT",
+   "desc": "Network dial plan table",
+   "entrySize": 41,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 0, "outStyle": null},
+    {"index": 1, "name": "DialPlanNumber", "mibSave": 0, "outStyle": null},
+    {"index": 2, "name": "DialPlanTableMaxSize", "mibSave": 0, "outStyle": null},
+    {"index": 3, "name": "CriticalDialTimeout", "mibSave": 0, "outStyle": null},
+    {"index": 4, "name": "PartialDialTimeout", "mibSave": 0, "outStyle": null},
+    {"index": 5, "name": "DialPlanFormat", "mibSave": 0, "outStyle": null},
+    {"index": 6, "name": "DialPlanTable", "mibSave": 0, "outStyle": null}
+   ]
+  },
+  {
+   "classId": 146,
+   "ident": "VoipAppServiceProfile",
+   "stockBacked": false,
+   "name": "VoipAppServiceProfile",
+   "shortName": "VASP",
+   "desc": "VoIP application service profile",
+   "entrySize": 19,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 0, "outStyle": null},
+    {"index": 1, "name": "CidFeatures", "mibSave": 0, "outStyle": null},
+    {"index": 2, "name": "CallWaitingFeatures", "mibSave": 0, "outStyle": null},
+    {"index": 3, "name": "CallProgressTransferFeatures", "mibSave": 0, "outStyle": null},
+    {"index": 4, "name": "CallPresentationFeatures", "mibSave": 0, "outStyle": null},
+    {"index": 5, "name": "DirectConnectFeature", "mibSave": 0, "outStyle": null},
+    {"index": 6, "name": "DirectConnectUriPtr", "mibSave": 0, "outStyle": null},
+    {"index": 7, "name": "BridgedLineAgentUriPtr", "mibSave": 0, "outStyle": null},
+    {"index": 8, "name": "ConferenceFactoryUriPtr", "mibSave": 0, "outStyle": null},
+    {"index": 9, "name": "DialToneFeatureDelayTimer", "mibSave": 0, "outStyle": null},
+    {"index": 10, "name": "IpHostPtr", "mibSave": 0, "outStyle": null}
+   ]
+  },
+  {
+   "classId": 147,
+   "ident": "VoipFeatureAccessCodes",
+   "stockBacked": false,
+   "name": "VoipFeatureAccessCodes",
+   "shortName": "VFAC",
+   "desc": "VoIP feature access codes",
+   "entrySize": 74,
+   "stdType": 1,
+   "attrs": [
+    {
+     "index": 0,
+     "name": "EntityId",
+     "mibSave": 0,
+     "outStyle": null,
+     "overrides": [
+      {"field": "oltAcc", "value": 5, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {"index": 1, "name": "CancelCallWaiting", "len": 6, "mibSave": 0, "outStyle": null},
+    {"index": 2, "name": "CallHold", "len": 6, "mibSave": 0, "outStyle": null},
+    {"index": 3, "name": "CallPark", "len": 6, "mibSave": 0, "outStyle": null},
+    {"index": 4, "name": "CallerIdActivate", "len": 6, "mibSave": 0, "outStyle": null},
+    {"index": 5, "name": "CallerIdDeactivate", "len": 6, "mibSave": 0, "outStyle": null},
+    {"index": 6, "name": "DndActivation", "len": 6, "mibSave": 0, "outStyle": null},
+    {"index": 7, "name": "DndDeactivation", "len": 6, "mibSave": 0, "outStyle": null},
+    {"index": 8, "name": "DndPinChange", "len": 6, "mibSave": 0, "outStyle": null},
+    {"index": 9, "name": "EmergencyServiceNumber", "len": 6, "mibSave": 0, "outStyle": null},
+    {"index": 10, "name": "IntercomService", "len": 6, "mibSave": 0, "outStyle": null},
+    {"index": 11, "name": "UnattendedCallTransfer", "len": 6, "mibSave": 0, "outStyle": null},
+    {"index": 12, "name": "AttendedCallTransfer", "len": 6, "mibSave": 0, "outStyle": null}
+   ]
+  },
+  {
+   "classId": 148,
+   "ident": "Authen_Sec_Method",
+   "stockBacked": true,
+   "name": "AuthSecMethod",
+   "shortName": "ASM",
+   "desc": "Authentication security method",
+   "entrySize": 112,
+   "stdType": 1,
+   "overrides": [
+    {"field": "standardAttributes", "value": [0, 1, 2, 3, 4, 5], "class": "SPEC_NEWER", "reason": "Additional standard attributes occur in Amendment 2 (05/2025); preserve the existing model selection and private extensions."}
+   ],
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "ValidSchem", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "Username1", "mibSave": 1, "outStyle": 0},
+    {"index": 3, "name": "Password", "mibSave": 1, "outStyle": 0},
+    {"index": 4, "name": "Realm", "mibSave": 1, "outStyle": 0},
+    {"index": 5, "name": "Username2", "mibSave": 1, "outStyle": 0}
+   ]
+  },
+  {
+   "classId": 150,
+   "ident": "SipAgentConfigData",
+   "stockBacked": false,
+   "name": "SipAgentConfigData",
+   "shortName": "SACD",
+   "desc": "SIP agent config data",
+   "entrySize": 43,
+   "stdType": 1,
+   "overrides": [
+    {"field": "actionType", "value": 603980624, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+   ],
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 0, "outStyle": null},
+    {"index": 1, "name": "ProxyServerAddrPtr", "mibSave": 0, "outStyle": null},
+    {"index": 2, "name": "OutboundProxyAddrPtr", "mibSave": 0, "outStyle": null},
+    {"index": 3, "name": "PrimarySipDns", "mibSave": 0, "outStyle": null},
+    {"index": 4, "name": "SecondarySipDns", "mibSave": 0, "outStyle": null},
+    {"index": 5, "name": "TcpUdpPtr", "mibSave": 0, "outStyle": null},
+    {"index": 6, "name": "SipRegExpTime", "mibSave": 0, "outStyle": null},
+    {"index": 7, "name": "SipReregHeadStartTime", "mibSave": 0, "outStyle": null},
+    {"index": 8, "name": "HostPartUri", "mibSave": 0, "outStyle": null},
+    {"index": 9, "name": "SipStatus", "mibSave": 0, "outStyle": null},
+    {"index": 10, "name": "SipRegistrar", "mibSave": 0, "outStyle": null},
+    {
+     "index": 11,
+     "name": "Softswitch",
+     "len": 5,
+     "mibSave": 0,
+     "outStyle": null,
+     "overrides": [
+      {"field": "size", "value": 5, "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."},
+      {"field": "type", "value": "string", "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."}
+     ]
+    },
+    {"index": 12, "name": "SipResponseTable", "mibSave": 0, "outStyle": null},
+    {"index": 13, "name": "SipOptionTransmitControl", "mibSave": 0, "outStyle": null},
+    {"index": 14, "name": "SipUriFormat", "mibSave": 0, "outStyle": null},
+    {"index": 15, "name": "RedundantSipAgentPtr", "mibSave": 0, "outStyle": null}
+   ]
+  },
+  {
+   "classId": 151,
+   "ident": "SipAgentPmHistoryData",
+   "stockBacked": false,
+   "name": "SipAgentPmHistoryData",
+   "shortName": "SAPM",
+   "desc": "SIP agent performance monitoring history data",
+   "entrySize": 57,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 0, "outStyle": null},
+    {"index": 1, "name": "IntEndTime", "mibSave": 0, "outStyle": null},
+    {"index": 2, "name": "ThresholdDataId", "mibSave": 0, "outStyle": null},
+    {"index": 3, "name": "Transactions", "mibSave": 0, "outStyle": null},
+    {"index": 4, "name": "RxInviteReqs", "mibSave": 0, "outStyle": null},
+    {"index": 5, "name": "RxInviteRetrans", "mibSave": 0, "outStyle": null},
+    {"index": 6, "name": "RxNoninviteReqs", "mibSave": 0, "outStyle": null},
+    {"index": 7, "name": "RxNoninviteRetrans", "mibSave": 0, "outStyle": null},
+    {"index": 8, "name": "RxResponse", "mibSave": 0, "outStyle": null},
+    {"index": 9, "name": "RxResponseRetrans", "mibSave": 0, "outStyle": null},
+    {"index": 10, "name": "TxInviteReqs", "mibSave": 0, "outStyle": null},
+    {"index": 11, "name": "TxInviteRetrans", "mibSave": 0, "outStyle": null},
+    {"index": 12, "name": "TxNoninviteReqs", "mibSave": 0, "outStyle": null},
+    {"index": 13, "name": "TxNoninviteRetrans", "mibSave": 0, "outStyle": null},
+    {"index": 14, "name": "TxResponse", "mibSave": 0, "outStyle": null},
+    {"index": 15, "name": "TxResponseRetrans", "mibSave": 0, "outStyle": null}
+   ]
+  },
+  {
+   "classId": 152,
+   "ident": "SipCallInitPmHistoryData",
+   "stockBacked": false,
+   "name": "SipCallInitPmHistoryData",
+   "shortName": "SCIPM",
+   "desc": "SIP call initiation performance monitoring history data",
+   "entrySize": 25,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 0, "outStyle": null},
+    {"index": 1, "name": "IntEndTime", "mibSave": 0, "outStyle": null},
+    {"index": 2, "name": "ThresholdDataId", "mibSave": 0, "outStyle": null},
+    {"index": 3, "name": "FailedToConnect", "mibSave": 0, "outStyle": null},
+    {"index": 4, "name": "FailedToValidate", "mibSave": 0, "outStyle": null},
+    {"index": 5, "name": "Timeout", "mibSave": 0, "outStyle": null},
+    {"index": 6, "name": "FailureReceived", "mibSave": 0, "outStyle": null},
+    {"index": 7, "name": "FailedToAuthenticate", "mibSave": 0, "outStyle": null}
+   ]
+  },
+  {
+   "classId": 153,
+   "ident": "SipUserData",
+   "stockBacked": false,
+   "name": "SipUserData",
+   "shortName": "SUD",
+   "desc": "SIP user data",
+   "entrySize": 50,
+   "stdType": 1,
+   "overrides": [
+    {"field": "standardAttributes", "value": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], "class": "SPEC_NEWER", "reason": "Additional standard attributes occur in Amendment 2 (05/2025); preserve the existing model selection and private extensions."}
+   ],
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 0, "outStyle": null},
+    {"index": 1, "name": "SipAgentPtr", "mibSave": 0, "outStyle": null},
+    {"index": 2, "name": "UserPartAor", "mibSave": 0, "outStyle": null},
+    {"index": 3, "name": "SipDisplayName", "len": 26, "mibSave": 0, "outStyle": null},
+    {"index": 4, "name": "UsernamePassword", "mibSave": 0, "outStyle": null},
+    {"index": 5, "name": "VoicemailServerSipUri", "mibSave": 0, "outStyle": null},
+    {"index": 6, "name": "VoicemailSubscriptionExpTime", "mibSave": 0, "outStyle": null},
+    {"index": 7, "name": "NetworkDialPlanPtr", "mibSave": 0, "outStyle": null},
+    {"index": 8, "name": "AppServicesProfilePtr", "mibSave": 0, "outStyle": null},
+    {"index": 9, "name": "FeatureCodePtr", "mibSave": 0, "outStyle": null},
+    {"index": 10, "name": "PptpPtr", "mibSave": 0, "outStyle": null},
+    {"index": 11, "name": "ReleaseTimer", "mibSave": 0, "outStyle": null},
+    {"index": 12, "name": "RohTimer", "mibSave": 0, "outStyle": null}
+   ]
+  },
+  {
+   "classId": 157,
+   "ident": "LargeString",
+   "stockBacked": true,
+   "name": "LargeString",
+   "shortName": "LS",
+   "desc": "Large string",
+   "entrySize": 400,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "NumOfParts", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "Part1", "mibSave": 1, "outStyle": 0},
+    {"index": 3, "name": "Part2", "mibSave": 1, "outStyle": 0},
+    {"index": 4, "name": "Part3", "mibSave": 1, "outStyle": 0},
+    {"index": 5, "name": "Part4", "mibSave": 1, "outStyle": 0},
+    {"index": 6, "name": "Part5", "mibSave": 1, "outStyle": 0},
+    {"index": 7, "name": "Part6", "mibSave": 1, "outStyle": 0},
+    {"index": 8, "name": "Part7", "mibSave": 1, "outStyle": 0},
+    {"index": 9, "name": "Part8", "mibSave": 1, "outStyle": 0},
+    {"index": 10, "name": "Part9", "mibSave": 1, "outStyle": 0},
+    {"index": 11, "name": "Part10", "mibSave": 1, "outStyle": 0},
+    {"index": 12, "name": "Part11", "mibSave": 1, "outStyle": 0},
+    {"index": 13, "name": "Part12", "mibSave": 1, "outStyle": 0},
+    {"index": 14, "name": "Part13", "mibSave": 1, "outStyle": 0},
+    {"index": 15, "name": "Part14", "mibSave": 1, "outStyle": 0},
+    {"index": 16, "name": "Part15", "mibSave": 1, "outStyle": 0}
+   ]
+  },
+  {
+   "classId": 158,
+   "ident": "OnuRemoteDbg",
+   "stockBacked": true,
+   "name": "OnuRemoteDebug",
+   "shortName": "ORD",
+   "desc": "ONU remote debug",
+   "entrySize": 64,
+   "stdType": 257,
+   "attrs": [
+    {
+     "index": 0,
+     "name": "EntityId",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "oltAcc", "value": 5, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {"index": 1, "name": "CmdFmt", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "Cmd", "mibSave": 1, "outStyle": 0},
+    {
+     "index": 3,
+     "name": "ReplyTbl",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "size", "value": 25, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."},
+      {"field": "optionType", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    }
+   ]
+  },
+  {
+   "classId": 171,
+   "ident": "ExtVlanTagOperCfgData",
+   "stockBacked": true,
+   "name": "ExtVlanTagOperCfgData",
+   "shortName": "ETVTOCD",
+   "desc": "Extended VLAN tagging operation configuration data",
+   "entrySize": 64,
+   "stdType": 1,
+   "overrides": [
+    {"field": "standardAttributes", "value": [0, 1, 2, 3, 4, 5, 6, 7, 8], "class": "SPEC_NEWER", "reason": "Additional standard attributes occur in G.988 (11/2022); preserve the existing model selection and private extensions."},
+    {"field": "actionType", "value": 67109712, "class": "SUPPORT", "reason": "The cited clause permits optional actions that the existing model does not implement."}
+   ],
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "AssociationType", "mibSave": 1, "outStyle": 1},
+    {
+     "index": 2,
+     "name": "ReceivedFrameVlanTagOperTableMaxSize",
+     "mibSave": 1,
+     "outStyle": 1,
+     "overrides": [
+      {"field": "oltAcc", "value": 3, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {"index": 3, "name": "InputTPID", "mibSave": 1, "outStyle": 2},
+    {"index": 4, "name": "OutputTPID", "mibSave": 1, "outStyle": 2},
+    {"index": 5, "name": "DsMode", "mibSave": 1, "outStyle": 1},
+    {"index": 6, "name": "ReceivedFrameVlanTaggingOperTable", "mibSave": 1, "outStyle": 2},
+    {"index": 7, "name": "AssociatedMePoint", "mibSave": 1, "outStyle": 2},
+    {
+     "index": 8,
+     "name": "DscpToPbitMapping",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "size", "value": 25, "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."},
+      {"field": "type", "value": "string", "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."}
+     ]
+    }
+   ]
+  },
+  {
+   "classId": 256,
+   "ident": "Ontg",
+   "stockBacked": true,
+   "name": "Ontg",
+   "shortName": "ONTG",
+   "desc": "ONU-G",
+   "entrySize": 80,
+   "stdType": 1,
+   "overrides": [
+    {"field": "actionType", "value": 50332416, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+   ],
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {
+     "index": 1,
+     "name": "VID",
+     "mibSave": 1,
+     "outStyle": 0,
+     "overrides": [
+      {"field": "size", "value": 5, "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."},
+      {"field": "type", "value": "string", "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."}
+     ]
+    },
+    {"index": 2, "name": "Version", "mibSave": 1, "outStyle": 0},
+    {
+     "index": 3,
+     "name": "SerialNum",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "size", "value": 9, "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."},
+      {"field": "type", "value": "string", "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."}
+     ]
+    },
+    {"index": 4, "name": "TraffMgtOpt", "mibSave": 1, "outStyle": 1},
+    {"index": 5, "name": "AtmCCOpt", "mibSave": 1, "outStyle": 1},
+    {"index": 6, "name": "BatteryBack", "mibSave": 1, "outStyle": 1},
+    {"index": 7, "name": "AdminState", "mibSave": 1, "outStyle": 1},
+    {"index": 8, "name": "OpState", "mibSave": 1, "outStyle": 1},
+    {
+     "index": 9,
+     "name": "OnuSurvivalTime",
+     "mibSave": 1,
+     "outStyle": 1,
+     "overrides": [
+      {"field": "optionType", "value": 8, "class": "SUPPORT", "reason": "The existing model marks this attribute unsupported; preserve its support flags."}
+     ]
+    },
+    {"index": 10, "name": "LogicalOnuID", "mibSave": 1, "outStyle": 0},
+    {"index": 11, "name": "LogicalPassword", "mibSave": 1, "outStyle": 0},
+    {"index": 12, "name": "CredentialsStatus", "mibSave": 1, "outStyle": 1},
+    {
+     "index": 13,
+     "name": "ExtendedTcLayerOptions",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "optionType", "value": 8, "class": "SUPPORT", "reason": "The existing model marks this attribute unsupported; preserve its support flags."}
+     ]
+    }
+   ],
+   "privateAttrs": [
+    {
+     "attribute": {"index": 14, "name": "OntState", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 16, "type": "u8", "size": 1},
+     "reason": "Private local attribute retained from the existing model; no G.988 provenance claimed."
+    }
+   ]
+  },
+  {
+   "classId": 257,
+   "ident": "Ont2g",
+   "stockBacked": true,
+   "name": "Ont2g",
+   "shortName": "ONT2G",
+   "desc": "ONU2-G",
+   "entrySize": 48,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {
+     "index": 1,
+     "name": "EqtID",
+     "mibSave": 1,
+     "outStyle": 0,
+     "overrides": [
+      {"field": "size", "value": 21, "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."},
+      {"field": "type", "value": "string", "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."}
+     ]
+    },
+    {"index": 2, "name": "OMCCVer", "mibSave": 1, "outStyle": 2},
+    {"index": 3, "name": "VPCode", "mibSave": 1, "outStyle": 1},
+    {"index": 4, "name": "SecCapability", "mibSave": 1, "outStyle": 1},
+    {"index": 5, "name": "SecMode", "mibSave": 1, "outStyle": 1},
+    {"index": 6, "name": "NumOfPriQ", "mibSave": 1, "outStyle": 1},
+    {"index": 7, "name": "NumOfScheduler", "mibSave": 1, "outStyle": 1},
+    {"index": 8, "name": "Mode", "mibSave": 1, "outStyle": 1},
+    {"index": 9, "name": "NumOfGemPort", "mibSave": 1, "outStyle": 1},
+    {"index": 10, "name": "SysUpTime", "mibSave": 1, "outStyle": 1},
+    {"index": 11, "name": "ConnectivityCapability", "mibSave": 1, "outStyle": 2},
+    {"index": 12, "name": "CurrentConnectivityMode", "mibSave": 1, "outStyle": 1},
+    {"index": 13, "name": "QosConfigurationFlexibility", "mibSave": 1, "outStyle": 2},
+    {"index": 14, "name": "PriorityQueueScaleFactor", "mibSave": 1, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 262,
+   "ident": "Tcont",
+   "stockBacked": true,
+   "name": "Tcont",
+   "shortName": "TCONT",
+   "desc": "T-CONT",
+   "entrySize": 8,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "AllocID", "mibSave": 1, "outStyle": 2},
+    {"index": 2, "name": "ModeInd", "mibSave": 1, "outStyle": 1},
+    {"index": 3, "name": "Policy", "mibSave": 1, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 263,
+   "ident": "Anig",
+   "stockBacked": true,
+   "name": "Anig",
+   "shortName": "ANIG",
+   "desc": "ANI-G",
+   "entrySize": 32,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "SRInd", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "NumOfTcont", "mibSave": 1, "outStyle": 1},
+    {"index": 3, "name": "GemBlkLen", "mibSave": 1, "outStyle": 1},
+    {"index": 4, "name": "PbDbaRpt", "mibSave": 1, "outStyle": 1},
+    {"index": 5, "name": "OnuDbaRpt", "mibSave": 1, "outStyle": 1},
+    {"index": 6, "name": "SFThreshold", "mibSave": 1, "outStyle": 1},
+    {"index": 7, "name": "SDThreshold", "mibSave": 1, "outStyle": 1},
+    {"index": 8, "name": "ARC", "mibSave": 1, "outStyle": 1},
+    {"index": 9, "name": "ARCInterval", "mibSave": 1, "outStyle": 1},
+    {"index": 10, "name": "OpticalSignalLevel", "mibSave": 1, "outStyle": 2},
+    {"index": 11, "name": "LowOpThreshold", "mibSave": 1, "outStyle": 2},
+    {"index": 12, "name": "UppOpThreshold", "mibSave": 1, "outStyle": 2},
+    {
+     "index": 13,
+     "name": "OntRspTime",
+     "mibSave": 1,
+     "outStyle": 1,
+     "overrides": [
+      {"field": "optionType", "value": 8, "class": "SUPPORT", "reason": "The existing model marks this attribute unsupported; preserve its support flags."}
+     ]
+    },
+    {"index": 14, "name": "TranOpticLevel", "mibSave": 1, "outStyle": 2},
+    {"index": 15, "name": "LowTranPowThreshold", "mibSave": 1, "outStyle": 2},
+    {"index": 16, "name": "UppTranPowThreshold", "mibSave": 1, "outStyle": 2}
+   ],
+   "privateAttrs": [
+    {
+     "attribute": {"index": 17, "name": "LowDflRxThreshold", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 16, "type": "u8", "size": 1},
+     "reason": "Private local attribute retained from the existing model; no G.988 provenance claimed."
+    },
+    {
+     "attribute": {"index": 18, "name": "UppDflRxThreshold", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 16, "type": "u8", "size": 1},
+     "reason": "Private local attribute retained from the existing model; no G.988 provenance claimed."
+    },
+    {
+     "attribute": {"index": 19, "name": "LowDflTxThreshold", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 16, "type": "u8", "size": 1},
+     "reason": "Private local attribute retained from the existing model; no G.988 provenance claimed."
+    },
+    {
+     "attribute": {"index": 20, "name": "UppDflTxThreshold", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 16, "type": "u8", "size": 1},
+     "reason": "Private local attribute retained from the existing model; no G.988 provenance claimed."
+    }
+   ]
+  },
+  {
+   "classId": 264,
+   "ident": "Unig",
+   "stockBacked": true,
+   "name": "Unig",
+   "shortName": "UNIG",
+   "desc": "UNI-G",
+   "entrySize": 16,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "CfgOptionStatus", "mibSave": 1, "outStyle": 2},
+    {
+     "index": 2,
+     "name": "AdminState",
+     "mibSave": 1,
+     "outStyle": 1,
+     "overrides": [
+      {"field": "oltAcc", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {"index": 3, "name": "ManageCapability", "mibSave": 1, "outStyle": 1},
+    {"index": 4, "name": "NonOmciPointer", "mibSave": 1, "outStyle": 2},
+    {"index": 5, "name": "RelayAgentOptions", "mibSave": 1, "outStyle": 2}
+   ]
+  },
+  {
+   "classId": 266,
+   "ident": "GemIwTp",
+   "stockBacked": true,
+   "name": "GemIwTp",
+   "shortName": "GEMIWTP",
+   "desc": "GEM interworking termination point",
+   "entrySize": 16,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "GemCtpPtr", "mibSave": 1, "outStyle": 2},
+    {"index": 2, "name": "IwOpt", "mibSave": 1, "outStyle": 1},
+    {"index": 3, "name": "ServProPtr", "mibSave": 1, "outStyle": 2},
+    {"index": 4, "name": "IwTpPtr", "mibSave": 1, "outStyle": 2},
+    {"index": 5, "name": "PptpCounter", "mibSave": 1, "outStyle": 1},
+    {"index": 6, "name": "OpState", "mibSave": 1, "outStyle": 1},
+    {"index": 7, "name": "GalProfPtr", "mibSave": 1, "outStyle": 2},
+    {"index": 8, "name": "GalLoopbackCfg", "mibSave": 1, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 268,
+   "ident": "GemPortCtp",
+   "stockBacked": true,
+   "name": "GemPortCtp",
+   "shortName": "GEMPNCTP",
+   "desc": "GEM port network CTP",
+   "entrySize": 24,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "PortID", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "TcAdapterPtr", "mibSave": 1, "outStyle": 2},
+    {"index": 3, "name": "Direction", "mibSave": 1, "outStyle": 1},
+    {"index": 4, "name": "UsTraffMgmtPtr", "mibSave": 1, "outStyle": 2},
+    {"index": 5, "name": "UsTraffDescPtr", "mibSave": 1, "outStyle": 2},
+    {"index": 6, "name": "UniCounter", "mibSave": 1, "outStyle": 1},
+    {"index": 7, "name": "DsPriQPtr", "mibSave": 1, "outStyle": 2},
+    {"index": 8, "name": "EncryptionState", "mibSave": 1, "outStyle": 1},
+    {
+     "index": 9,
+     "name": "DsTraffDescPtr",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "oltAcc", "value": 3, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 10,
+     "name": "EncryptionKeyRing",
+     "mibSave": 1,
+     "outStyle": 1,
+     "overrides": [
+      {"field": "oltAcc", "value": 3, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    }
+   ]
+  },
+  {
+   "classId": 272,
+   "ident": "GalEthProf",
+   "stockBacked": true,
+   "name": "GalEthProf",
+   "shortName": "GALETHP",
+   "desc": "GAL Ethernet profile",
+   "entrySize": 8,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "MaxGemPayloadSize", "mibSave": 1, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 273,
+   "ident": "ThresholdData1",
+   "stockBacked": true,
+   "name": "ThresholdData1",
+   "shortName": "TH1",
+   "desc": "Threshold data 1",
+   "entrySize": 32,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "ThresholdValue1", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "ThresholdValue2", "mibSave": 1, "outStyle": 1},
+    {"index": 3, "name": "ThresholdValue3", "mibSave": 1, "outStyle": 1},
+    {"index": 4, "name": "ThresholdValue4", "mibSave": 1, "outStyle": 1},
+    {"index": 5, "name": "ThresholdValue5", "mibSave": 1, "outStyle": 1},
+    {"index": 6, "name": "ThresholdValue6", "mibSave": 1, "outStyle": 1},
+    {"index": 7, "name": "ThresholdValue7", "mibSave": 1, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 274,
+   "ident": "ThresholdData2",
+   "stockBacked": true,
+   "name": "ThresholdData2",
+   "shortName": "TH2",
+   "desc": "Threshold data 2",
+   "entrySize": 32,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "ThresholdValue8", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "ThresholdValue9", "mibSave": 1, "outStyle": 1},
+    {"index": 3, "name": "ThresholdValue10", "mibSave": 1, "outStyle": 1},
+    {"index": 4, "name": "ThresholdValue11", "mibSave": 1, "outStyle": 1},
+    {"index": 5, "name": "ThresholdValue12", "mibSave": 1, "outStyle": 1},
+    {"index": 6, "name": "ThresholdValue13", "mibSave": 1, "outStyle": 1},
+    {"index": 7, "name": "ThresholdValue14", "mibSave": 1, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 277,
+   "ident": "PriQ",
+   "stockBacked": true,
+   "name": "PriQ",
+   "shortName": "PQ",
+   "desc": "Priority queue",
+   "entrySize": 48,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "QCfgOpt", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "MaxQSize", "mibSave": 1, "outStyle": 1},
+    {"index": 3, "name": "AllocQSize", "mibSave": 1, "outStyle": 1},
+    {"index": 4, "name": "ResetInterval", "mibSave": 1, "outStyle": 1},
+    {"index": 5, "name": "Threshold", "mibSave": 1, "outStyle": 1},
+    {"index": 6, "name": "RelatedPort", "mibSave": 1, "outStyle": 2},
+    {"index": 7, "name": "SchedulerPtr", "mibSave": 1, "outStyle": 2},
+    {"index": 8, "name": "Weight", "mibSave": 1, "outStyle": 1},
+    {"index": 9, "name": "BPOperation", "mibSave": 1, "outStyle": 1},
+    {"index": 10, "name": "BPTime", "mibSave": 1, "outStyle": 1},
+    {"index": 11, "name": "BPOccThreshold", "mibSave": 1, "outStyle": 1},
+    {"index": 12, "name": "BPClrThreshold", "mibSave": 1, "outStyle": 1},
+    {"index": 13, "name": "PktDropQThold", "mibSave": 1, "outStyle": 2},
+    {"index": 14, "name": "PktDropMaxP", "mibSave": 1, "outStyle": 2},
+    {"index": 15, "name": "QueueDropWQ", "mibSave": 1, "outStyle": 1},
+    {"index": 16, "name": "DropPColorMarking", "mibSave": 1, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 278,
+   "ident": "Scheduler",
+   "stockBacked": true,
+   "name": "Scheduler",
+   "shortName": "TSG",
+   "desc": "Traffic scheduler",
+   "entrySize": 8,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {
+     "index": 1,
+     "name": "TcontPtr",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "oltAcc", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {"index": 2, "name": "SchedulerPtr", "mibSave": 1, "outStyle": 2},
+    {"index": 3, "name": "Policy", "mibSave": 1, "outStyle": 1},
+    {"index": 4, "name": "PriWeight", "mibSave": 1, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 280,
+   "ident": "GemTrafficDescriptor",
+   "stockBacked": true,
+   "name": "TrafficDescriptor",
+   "shortName": "TD",
+   "desc": "Traffic descriptor",
+   "entrySize": 24,
+   "stdType": 1,
+   "overrides": [
+    {"field": "standardAttributes", "value": [0, 1, 2, 3, 4, 5, 6, 7, 8], "class": "SPEC_NEWER", "reason": "Additional standard attributes occur in Amendment 2 (05/2025); preserve the existing model selection and private extensions."}
+   ],
+   "attrs": [
+    {
+     "index": 0,
+     "name": "EntityId",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "oltAcc", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {"index": 1, "name": "CIR", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "PIR", "mibSave": 1, "outStyle": 1},
+    {"index": 3, "name": "CBS", "mibSave": 1, "outStyle": 1},
+    {"index": 4, "name": "PBS", "mibSave": 1, "outStyle": 1},
+    {"index": 5, "name": "ColourMode", "mibSave": 1, "outStyle": 1},
+    {"index": 6, "name": "IngressColourMarking", "mibSave": 1, "outStyle": 1},
+    {"index": 7, "name": "EgressColourMarking", "mibSave": 1, "outStyle": 1},
+    {
+     "index": 8,
+     "name": "MeterType",
+     "mibSave": 1,
+     "outStyle": 1,
+     "overrides": [
+      {"field": "oltAcc", "value": 7, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    }
+   ]
+  },
+  {
+   "classId": 281,
+   "ident": "MultiGemIwTp",
+   "stockBacked": true,
+   "name": "MultiGemIwTp",
+   "shortName": "MCGEMIWTP",
+   "desc": "Multicast GEM interworking termination point",
+   "entrySize": 72,
+   "stdType": 1,
+   "overrides": [
+    {"field": "actionType", "value": 848, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+   ],
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "GemCtpPtr", "mibSave": 1, "outStyle": 2},
+    {"index": 2, "name": "IwOpt", "mibSave": 1, "outStyle": 1},
+    {"index": 3, "name": "ServProPtr", "mibSave": 1, "outStyle": 2},
+    {"index": 4, "name": "IwTpPtr", "mibSave": 1, "outStyle": 2},
+    {
+     "index": 5,
+     "name": "PptpCounter",
+     "mibSave": 1,
+     "outStyle": 1,
+     "overrides": [
+      {"field": "optionType", "value": 8, "class": "SUPPORT", "reason": "The existing model marks this attribute unsupported; preserve its support flags."}
+     ]
+    },
+    {"index": 6, "name": "OpState", "mibSave": 1, "outStyle": 1},
+    {"index": 7, "name": "GalProfPtr", "mibSave": 1, "outStyle": 2},
+    {"index": 8, "name": "GalLoopbackCfg", "mibSave": 1, "outStyle": 1},
+    {"index": 9, "name": "IPv4MCastAddrTable", "mibSave": 0, "outStyle": 2},
+    {"index": 10, "name": "IPv6MCastAddrTable", "mibSave": 0, "outStyle": 2}
+   ]
+  },
+  {
+   "classId": 284,
+   "ident": "PseudowireMaintenanceProfile",
+   "stockBacked": true,
+   "name": "PseudowireMaintenanceProfile",
+   "shortName": "PMP",
+   "desc": "Pseudowire maintenance profile",
+   "entrySize": 24,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "JitterBufferMaximumDepth", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "JitterBufferDesiredDepth", "mibSave": 1, "outStyle": 1},
+    {"index": 3, "name": "FillPolicy", "mibSave": 1, "outStyle": 1},
+    {"index": 4, "name": "MisconnectedDacketsDeclarationPolicy", "mibSave": 1, "outStyle": 1},
+    {"index": 5, "name": "MisconnectedPacketsClearPolicy", "mibSave": 1, "outStyle": 1},
+    {"index": 6, "name": "LossOfPacketsDeclarationPolicy", "mibSave": 1, "outStyle": 1},
+    {"index": 7, "name": "LossOfPacketsClearPolicy", "mibSave": 1, "outStyle": 1},
+    {"index": 8, "name": "BufferOverrunUnderrunDeclarationPolicy", "mibSave": 1, "outStyle": 1},
+    {"index": 9, "name": "BufferOverrunUnderrunClearPolicy", "mibSave": 1, "outStyle": 1},
+    {"index": 10, "name": "MalformedPacketsDeclarationPolicy", "mibSave": 1, "outStyle": 1},
+    {"index": 11, "name": "MalformedPacketsClearPolicy", "mibSave": 1, "outStyle": 1},
+    {"index": 12, "name": "RbitTransmitSetPolicy", "mibSave": 1, "outStyle": 1},
+    {"index": 13, "name": "RbitTransmitClearPolicy", "mibSave": 1, "outStyle": 1},
+    {"index": 14, "name": "RbitReceivePolicy", "mibSave": 1, "outStyle": 1},
+    {"index": 15, "name": "LbitReceivePolicy", "mibSave": 1, "outStyle": 1},
+    {"index": 16, "name": "SESThreshold", "mibSave": 1, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 287,
+   "ident": "Omci",
+   "stockBacked": true,
+   "name": "Omci",
+   "shortName": "OMCI",
+   "desc": "OMCI",
+   "entrySize": 24,
+   "stdType": 257,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {
+     "index": 1,
+     "name": "MeTypeTbl",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "optionType", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 2,
+     "name": "MsgTypeTbl",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "optionType", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    }
+   ]
+  },
+  {
+   "classId": 290,
+   "ident": "Dot1xPortExt",
+   "stockBacked": false,
+   "name": "Dot1xPortExt",
+   "shortName": "DOT1X",
+   "desc": "Dot1X port extension package",
+   "entrySize": 17,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 0, "outStyle": null},
+    {"index": 1, "name": "Dot1xEnable", "mibSave": 0, "outStyle": null},
+    {"index": 2, "name": "ActionRegister", "mibSave": 0, "outStyle": null},
+    {"index": 3, "name": "AuthenticatorPaeState", "mibSave": 0, "outStyle": null},
+    {"index": 4, "name": "BackendAuthenticationState", "mibSave": 0, "outStyle": null},
+    {"index": 5, "name": "AdminControlledDirections", "mibSave": 0, "outStyle": null},
+    {"index": 6, "name": "OperationalControlledDirections", "mibSave": 0, "outStyle": null},
+    {"index": 7, "name": "AuthenticatorControlledPortStatus", "mibSave": 0, "outStyle": null},
+    {"index": 8, "name": "QuietPeriod", "mibSave": 0, "outStyle": null},
+    {"index": 9, "name": "ServerTimeoutPeriod", "mibSave": 0, "outStyle": null},
+    {"index": 10, "name": "ReAuthenticationPeriod", "mibSave": 0, "outStyle": null},
+    {"index": 11, "name": "ReAuthenticationEnabled", "mibSave": 0, "outStyle": null},
+    {"index": 12, "name": "KeyTransmissionEnabled", "mibSave": 0, "outStyle": null}
+   ]
+  },
+  {
+   "classId": 296,
+   "ident": "EthPmData3",
+   "stockBacked": true,
+   "name": "EthPmData3",
+   "shortName": "ETHPMHD3",
+   "desc": "Ethernet performance monitoring history data 3",
+   "entrySize": 64,
+   "stdType": 2,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "IntEndTime", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "ThresholdID", "mibSave": 1, "outStyle": 2},
+    {"index": 3, "name": "DropEvents", "mibSave": 0, "outStyle": 1},
+    {"index": 4, "name": "Octets", "mibSave": 0, "outStyle": 1},
+    {"index": 5, "name": "Packets", "mibSave": 0, "outStyle": 1},
+    {"index": 6, "name": "BroadcastPackets", "mibSave": 0, "outStyle": 1},
+    {"index": 7, "name": "MulticastPackets", "mibSave": 0, "outStyle": 1},
+    {"index": 8, "name": "UndersizePackets", "mibSave": 0, "outStyle": 1},
+    {"index": 9, "name": "FragmentsPackets", "mibSave": 0, "outStyle": 1},
+    {"index": 10, "name": "JabbersPackets", "mibSave": 0, "outStyle": 1},
+    {"index": 11, "name": "Octets64", "mibSave": 0, "outStyle": 1},
+    {"index": 12, "name": "Octets65to127", "mibSave": 0, "outStyle": 1},
+    {"index": 13, "name": "Octets128to255", "mibSave": 0, "outStyle": 1},
+    {"index": 14, "name": "Octets256to511", "mibSave": 0, "outStyle": 1},
+    {"index": 15, "name": "Octets512to1023", "mibSave": 0, "outStyle": 1},
+    {"index": 16, "name": "Octets1024to1518", "mibSave": 0, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 298,
+   "ident": "Dot1RateLimiter",
+   "stockBacked": true,
+   "name": "Dot1RateLimiter",
+   "shortName": "DRL",
+   "desc": "Dot1 rate limiter",
+   "entrySize": 16,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "ParentMePtr", "mibSave": 1, "outStyle": 2},
+    {"index": 2, "name": "TpType", "mibSave": 1, "outStyle": 1},
+    {
+     "index": 3,
+     "name": "UsUcFloodRatePtr",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "avcFlag", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 4,
+     "name": "UsBcRatePtr",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "avcFlag", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 5,
+     "name": "UsMcPayloadRatePtr",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "avcFlag", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    }
+   ]
+  },
+  {
+   "classId": 307,
+   "ident": "OctetString",
+   "stockBacked": true,
+   "name": "LargeString",
+   "shortName": "LS",
+   "desc": "Octet string",
+   "entrySize": 384,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {
+     "index": 1,
+     "name": "Length",
+     "mibSave": 1,
+     "outStyle": 1,
+     "overrides": [
+      {"field": "avcFlag", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 2,
+     "name": "Part1",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "avcFlag", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 3,
+     "name": "Part2",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "avcFlag", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 4,
+     "name": "Part3",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "avcFlag", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 5,
+     "name": "Part4",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "avcFlag", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 6,
+     "name": "Part5",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "avcFlag", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 7,
+     "name": "Part6",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "avcFlag", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 8,
+     "name": "Part7",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "avcFlag", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 9,
+     "name": "Part8",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "avcFlag", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 10,
+     "name": "Part9",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "avcFlag", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 11,
+     "name": "Part10",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "avcFlag", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 12,
+     "name": "Part11",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "avcFlag", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 13,
+     "name": "Part12",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "avcFlag", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 14,
+     "name": "Part13",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "avcFlag", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 15,
+     "name": "Part14",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "avcFlag", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 16,
+     "name": "Part15",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "avcFlag", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    }
+   ]
+  },
+  {
+   "classId": 308,
+   "ident": "GeneralPurposeBuffer",
+   "stockBacked": true,
+   "name": "GeneralPurposeBuffer",
+   "shortName": "GPB",
+   "desc": "General purpose buffer",
+   "entrySize": 48,
+   "stdType": 257,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "MaxSize", "mibSave": 1, "outStyle": 1},
+    {
+     "index": 2,
+     "name": "BufferTbl",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "size", "value": 25, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."},
+      {"field": "optionType", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    }
+   ]
+  },
+  {
+   "classId": 309,
+   "ident": "McastOperProf",
+   "stockBacked": true,
+   "name": "McastOperProf",
+   "shortName": "MOP",
+   "desc": "Multicast operations profile",
+   "entrySize": 120,
+   "stdType": 1,
+   "overrides": [
+    {"field": "actionType", "value": 67109712, "class": "SUPPORT", "reason": "The cited clause permits optional actions that the existing model does not implement."}
+   ],
+   "attrs": [
+    {
+     "index": 0,
+     "name": "EntityId",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "oltAcc", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {"index": 1, "name": "IGMPVersion", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "IGMPFun", "mibSave": 1, "outStyle": 1},
+    {"index": 3, "name": "ImmediateLeave", "mibSave": 1, "outStyle": 1},
+    {"index": 4, "name": "UsIGMPTci", "mibSave": 1, "outStyle": 2},
+    {"index": 5, "name": "UsIGMPTagControl", "mibSave": 1, "outStyle": 1},
+    {"index": 6, "name": "UsIGMPRate", "mibSave": 1, "outStyle": 1},
+    {"index": 7, "name": "DyACLTable", "mibSave": 1, "outStyle": 2},
+    {"index": 8, "name": "StaticACLTable", "mibSave": 1, "outStyle": 2},
+    {
+     "index": 9,
+     "name": "LostGroupListTable",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "optionType", "value": 520, "class": "SUPPORT", "reason": "The existing model marks this attribute unsupported; preserve its support flags."}
+     ]
+    },
+    {"index": 10, "name": "Robustness", "mibSave": 1, "outStyle": 1},
+    {"index": 11, "name": "QuerierIpAddress", "mibSave": 1, "outStyle": 2},
+    {"index": 12, "name": "QueryInterval", "mibSave": 1, "outStyle": 1},
+    {"index": 13, "name": "QueryMaxResponseTime", "mibSave": 1, "outStyle": 1},
+    {"index": 14, "name": "LastMemberQueryInterval", "mibSave": 1, "outStyle": 1},
+    {"index": 15, "name": "UnauthorizedJoinRequestBehaviour", "mibSave": 1, "outStyle": 1},
+    {
+     "index": 16,
+     "name": "DownstreamIgmpMulticastTci",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "size", "value": 4, "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."},
+      {"field": "type", "value": "string", "class": "REPRESENTATION", "reason": "The wire width is equal; preserve the existing model storage representation."}
+     ]
+    }
+   ]
+  },
+  {
+   "classId": 310,
+   "ident": "McastSubConfInfo",
+   "stockBacked": true,
+   "name": "McastSubConfInfo",
+   "shortName": "MCSCI",
+   "desc": "Multicast subscriber config info",
+   "entrySize": 72,
+   "stdType": 1,
+   "overrides": [
+    {"field": "actionType", "value": 848, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+   ],
+   "attrs": [
+    {
+     "index": 0,
+     "name": "EntityId",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "oltAcc", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {"index": 1, "name": "MeType", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "McastOperProfPtr", "mibSave": 1, "outStyle": 2},
+    {"index": 3, "name": "MaxSimGroups", "mibSave": 1, "outStyle": 1},
+    {"index": 4, "name": "MaxMcastBandwidth", "mibSave": 1, "outStyle": 1},
+    {"index": 5, "name": "BandwidthEnforcement", "mibSave": 1, "outStyle": 1},
+    {"index": 6, "name": "McastSvcPkgTbl", "mibSave": 1, "outStyle": 2},
+    {"index": 7, "name": "AllowPreviewGroupsTbl", "mibSave": 1, "outStyle": 2}
+   ]
+  },
+  {
+   "classId": 311,
+   "ident": "McastSubMonitor",
+   "stockBacked": true,
+   "name": "McastSubMonitor",
+   "shortName": "MSM",
+   "desc": "Multicast subscriber monitor",
+   "entrySize": 112,
+   "stdType": 1,
+   "attrs": [
+    {
+     "index": 0,
+     "name": "EntityId",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "oltAcc", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 1,
+     "name": "MeType",
+     "mibSave": 1,
+     "outStyle": 1,
+     "overrides": [
+      {"field": "oltAcc", "value": 3, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 2,
+     "name": "CurrMcastBandwidth",
+     "mibSave": 1,
+     "outStyle": 1,
+     "overrides": [
+      {"field": "oltAcc", "value": 3, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 3,
+     "name": "JoinMsgCounter",
+     "mibSave": 1,
+     "outStyle": 1,
+     "overrides": [
+      {"field": "oltAcc", "value": 3, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 4,
+     "name": "BandwidthExcCounter",
+     "mibSave": 1,
+     "outStyle": 1,
+     "overrides": [
+      {"field": "oltAcc", "value": 3, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {"index": 5, "name": "IPv4ActiveGroupListTable", "mibSave": 1, "outStyle": 2},
+    {"index": 6, "name": "IPv6ActiveGroupListTable", "mibSave": 1, "outStyle": 2}
+   ]
+  },
+  {
+   "classId": 312,
+   "ident": "FecPMHD",
+   "stockBacked": true,
+   "name": "FecPmhd",
+   "shortName": "FECPMHD",
+   "desc": "FEC performance monitoring history data",
+   "entrySize": 32,
+   "stdType": 2,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "IntervalEndTime", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "ThresholdData12Id", "mibSave": 1, "outStyle": 2},
+    {"index": 3, "name": "CorBytes", "mibSave": 1, "outStyle": 2},
+    {"index": 4, "name": "CorCodeWords", "mibSave": 1, "outStyle": 2},
+    {"index": 5, "name": "UncorCodeWords", "mibSave": 1, "outStyle": 2},
+    {"index": 6, "name": "TotalCodeWords", "mibSave": 1, "outStyle": 2},
+    {"index": 7, "name": "FecSeconds", "mibSave": 1, "outStyle": 2}
+   ]
+  },
+  {
+   "classId": 321,
+   "ident": "EthPmDataDs",
+   "stockBacked": true,
+   "name": "EthPmDataDs",
+   "shortName": "ETHFRAMEPMHDDS",
+   "desc": "Ethernet frame performance monitoring history data downstream",
+   "entrySize": 64,
+   "stdType": 2,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "IntEndTime", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "ThresholdID", "mibSave": 1, "outStyle": 2},
+    {"index": 3, "name": "DropEvents", "mibSave": 0, "outStyle": 1},
+    {"index": 4, "name": "Octets", "mibSave": 0, "outStyle": 1},
+    {"index": 5, "name": "Packets", "mibSave": 0, "outStyle": 1},
+    {"index": 6, "name": "BroadcastPackets", "mibSave": 0, "outStyle": 1},
+    {"index": 7, "name": "MulticastPackets", "mibSave": 0, "outStyle": 1},
+    {"index": 8, "name": "CrcErrPackets", "mibSave": 0, "outStyle": 1},
+    {"index": 9, "name": "UndersizePackets", "mibSave": 0, "outStyle": 1},
+    {"index": 10, "name": "OversizePackets", "mibSave": 0, "outStyle": 1},
+    {"index": 11, "name": "Octets64", "mibSave": 0, "outStyle": 1},
+    {"index": 12, "name": "Octets65to127", "mibSave": 0, "outStyle": 1},
+    {"index": 13, "name": "Octets128to255", "mibSave": 0, "outStyle": 1},
+    {"index": 14, "name": "Octets256to511", "mibSave": 0, "outStyle": 1},
+    {"index": 15, "name": "Octets512to1023", "mibSave": 0, "outStyle": 1},
+    {"index": 16, "name": "Octets1024to1518", "mibSave": 0, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 322,
+   "ident": "EthPmDataUs",
+   "stockBacked": true,
+   "name": "EthPmDataUs",
+   "shortName": "ETHFRAMEPMHDUS",
+   "desc": "Ethernet frame performance monitoring history data upstream",
+   "entrySize": 64,
+   "stdType": 2,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "IntEndTime", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "ThresholdID", "mibSave": 1, "outStyle": 2},
+    {"index": 3, "name": "DropEvents", "mibSave": 0, "outStyle": 1},
+    {"index": 4, "name": "Octets", "mibSave": 0, "outStyle": 1},
+    {"index": 5, "name": "Packets", "mibSave": 0, "outStyle": 1},
+    {"index": 6, "name": "BroadcastPackets", "mibSave": 0, "outStyle": 1},
+    {"index": 7, "name": "MulticastPackets", "mibSave": 0, "outStyle": 1},
+    {"index": 8, "name": "CrcErrPackets", "mibSave": 0, "outStyle": 1},
+    {"index": 9, "name": "UndersizePackets", "mibSave": 0, "outStyle": 1},
+    {"index": 10, "name": "OversizePackets", "mibSave": 0, "outStyle": 1},
+    {"index": 11, "name": "Octets64", "mibSave": 0, "outStyle": 1},
+    {"index": 12, "name": "Octets65to127", "mibSave": 0, "outStyle": 1},
+    {"index": 13, "name": "Octets128to255", "mibSave": 0, "outStyle": 1},
+    {"index": 14, "name": "Octets256to511", "mibSave": 0, "outStyle": 1},
+    {"index": 15, "name": "Octets512to1023", "mibSave": 0, "outStyle": 1},
+    {"index": 16, "name": "Octets1024to1518", "mibSave": 0, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 329,
+   "ident": "VEIP",
+   "stockBacked": true,
+   "name": "VEIP",
+   "shortName": "VEIP",
+   "desc": "Virtual Ethernet interface point",
+   "entrySize": 40,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "AdminState", "mibSave": 1, "outStyle": 1},
+    {
+     "index": 2,
+     "name": "OperState",
+     "mibSave": 1,
+     "outStyle": 1,
+     "overrides": [
+      {"field": "oltAcc", "value": 3, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {"index": 3, "name": "InterDomainName", "mibSave": 1, "outStyle": 0},
+    {"index": 4, "name": "TcpUdpPtr", "mibSave": 1, "outStyle": 2},
+    {"index": 5, "name": "IansAssignPort", "mibSave": 1, "outStyle": 1}
+   ],
+   "privateAttrs": [
+    {
+     "attribute": {"index": 6, "name": "CustomizedSlotId", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 16, "type": "u8", "size": 1},
+     "reason": "Private local attribute retained from the existing model; no G.988 provenance claimed."
+    }
+   ]
+  },
+  {
+   "classId": 330,
+   "ident": "GenericPortal",
+   "stockBacked": true,
+   "name": "GenericStatusPortal",
+   "shortName": "GSP",
+   "desc": "Generic status portal",
+   "entrySize": 72,
+   "stdType": 1,
+   "overrides": [
+    {"field": "actionType", "value": 67109712, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+   ],
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {
+     "index": 1,
+     "name": "StatusDocTbl",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "size", "value": 25, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."},
+      {"field": "oltAcc", "value": 3, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."},
+      {"field": "optionType", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {
+     "index": 2,
+     "name": "CfgDocTbl",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "size", "value": 25, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."},
+      {"field": "oltAcc", "value": 3, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."},
+      {"field": "optionType", "value": 1, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    },
+    {"index": 3, "name": "AvcReportRate", "mibSave": 1, "outStyle": 1}
+   ]
+  },
+  {
+   "classId": 334,
+   "ident": "EthExtPmData",
+   "stockBacked": true,
+   "name": "EthExtPmData",
+   "shortName": "ETHFRAMEEXTPM",
+   "desc": "Ethernet frame extended PM",
+   "entrySize": 80,
+   "stdType": 2,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "IntEndTime", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "ControlBlock", "mibSave": 1, "outStyle": 2},
+    {"index": 3, "name": "DropEvents", "mibSave": 0, "outStyle": 1},
+    {"index": 4, "name": "Octets", "mibSave": 0, "outStyle": 1},
+    {"index": 5, "name": "Frames", "mibSave": 0, "outStyle": 1},
+    {"index": 6, "name": "BroadcastPackets", "mibSave": 0, "outStyle": 1},
+    {"index": 7, "name": "MulticastPackets", "mibSave": 0, "outStyle": 1},
+    {"index": 8, "name": "CrcErrPackets", "mibSave": 0, "outStyle": 1},
+    {"index": 9, "name": "UndersizePackets", "mibSave": 0, "outStyle": 1},
+    {"index": 10, "name": "OversizePackets", "mibSave": 0, "outStyle": 1},
+    {"index": 11, "name": "Octets64", "mibSave": 0, "outStyle": 1},
+    {"index": 12, "name": "Octets65to127", "mibSave": 0, "outStyle": 1},
+    {"index": 13, "name": "Octets128to255", "mibSave": 0, "outStyle": 1},
+    {"index": 14, "name": "Octets256to511", "mibSave": 0, "outStyle": 1},
+    {"index": 15, "name": "Octets512to1023", "mibSave": 0, "outStyle": 1},
+    {"index": 16, "name": "Octets1024to1518", "mibSave": 0, "outStyle": 1}
+   ],
+   "privateAttrs": [
+    {
+     "attribute": {"index": 17, "name": "LastHistoryPointer", "dataType": 5, "len": 4, "isIndex": 0, "mibSave": 0, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 16, "type": "octets", "size": 4},
+     "reason": "Private local attribute retained from the existing model; no G.988 provenance claimed."
+    }
+   ]
+  },
+  {
+   "classId": 340,
+   "ident": "TR069ManageServer",
+   "stockBacked": true,
+   "name": "TR069ManageServer",
+   "shortName": "TR069MS",
+   "desc": "BBF TR-069 management server",
+   "entrySize": 8,
+   "stdType": 1,
+   "attrs": [
+    {"index": 0, "name": "EntityID", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "AdminState", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "AcsAddress", "mibSave": 1, "outStyle": 2},
+    {"index": 3, "name": "AssociateTag", "mibSave": 1, "outStyle": 2}
+   ]
+  },
+  {
+   "classId": 341,
+   "ident": "GemPortNetworkCtpPMHD",
+   "stockBacked": true,
+   "name": "GpncPmhd",
+   "shortName": "GEMPNCTPPMHD",
+   "desc": "GEM port network CTP performance monitoring history data",
+   "entrySize": 40,
+   "stdType": 2,
+   "attrs": [
+    {"index": 0, "name": "EntityId", "mibSave": 1, "outStyle": 2},
+    {"index": 1, "name": "IntervalEndTime", "mibSave": 1, "outStyle": 1},
+    {"index": 2, "name": "ThresholdData12Id", "mibSave": 1, "outStyle": 2},
+    {"index": 3, "name": "TxGemFrames", "mibSave": 1, "outStyle": 2},
+    {"index": 4, "name": "RxGemFrames", "mibSave": 1, "outStyle": 2},
+    {"index": 5, "name": "RxPayloadBytes", "mibSave": 1, "outStyle": 2},
+    {"index": 6, "name": "TxPayloadBytes", "mibSave": 1, "outStyle": 2},
+    {
+     "index": 7,
+     "name": "EncryptKeyErrors",
+     "mibSave": 1,
+     "outStyle": 2,
+     "overrides": [
+      {"field": "optionType", "value": 257, "class": "SUSPECT", "reason": "The existing model differs from the cited clause without a documented operational justification; preserve it."}
+     ]
+    }
+   ]
+  }
+ ],
+ "privateClasses": [
+  {
+   "ident": "OntSystemMgmt",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "OntSystemMgmt", "shortName": "OntSysMgmt", "desc": "ONU system management", "classId": 240, "initType": 0, "stdType": 260, "actionType": 768, "attrNum": 7, "entrySize": 16, "actions": ["set", "get"]},
+   "attrs": [
+    {"index": 0, "name": "EntityID", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "DisOpticalTransceiver", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 2, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 2, "name": "PollingIntv", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 4, "type": "u16", "size": 2},
+    {"index": 3, "name": "PollingCntRogueOnt", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 4, "type": "u8", "size": 1},
+    {"index": 4, "name": "EnableAlarm", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 4, "type": "u8", "size": 1},
+    {"index": 5, "name": "AlarmingCount", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 4, "type": "u8", "size": 1},
+    {"index": 6, "name": "WaitingTimeForNoResp", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 4, "type": "u16", "size": 2}
+   ]
+  },
+  {
+   "ident": "Me242",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "Me242", "shortName": "ME242", "desc": "ME 242", "classId": 242, "initType": 0, "stdType": 4, "actionType": 768, "attrNum": 3, "entrySize": 8, "actions": ["set", "get"]},
+   "attrs": [
+    {"index": 0, "name": "EntityID", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "Policy", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 2, "name": "Me243ptr", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2}
+   ]
+  },
+  {
+   "ident": "Me243",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "PrivateQueueMap", "shortName": "PRIVQUEUEMAP", "desc": "Private queue map", "classId": 243, "initType": 1, "stdType": 4, "actionType": 848, "attrNum": 4, "entrySize": 24, "actions": ["create", "delete", "set", "get"]},
+   "attrs": [
+    {"index": 0, "name": "EntityID", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "NumOfQueue", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 2, "name": "queueMap", "dataType": 3, "len": 8, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u64", "size": 8},
+    {"index": 3, "name": "queueWeight", "dataType": 3, "len": 8, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u64", "size": 8}
+   ]
+  },
+  {
+   "ident": "OntSelfLoopDetect",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "OntSelfLoopDetect", "shortName": "SLD", "desc": "ONU self loop detect", "classId": 244, "initType": 0, "stdType": 260, "actionType": 768, "attrNum": 9, "entrySize": 16, "actions": ["set", "get"]},
+   "attrs": [
+    {"index": 0, "name": "EntityID", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "EnableLoopDetect", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 2, "name": "DetectAction", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 3, "name": "SendingPeriod", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 4, "name": "BlockTimer", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 5, "name": "OnuUniDetectState", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 1, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 6, "name": "OnuUniBlockState", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 1, "optionType": 4, "type": "u8", "size": 1},
+    {"index": 7, "name": "UnBlockReason", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 1, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 8, "name": "UnBlockOnuUni", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 2, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1}
+   ]
+  },
+  {
+   "ident": "hsq_default",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "HSQDefault", "shortName": "HSQDef", "desc": "Default to factory", "classId": 245, "initType": 1, "stdType": 4, "actionType": 848, "attrNum": 9, "entrySize": 5, "actions": ["create", "delete", "set", "get"]},
+   "attrs": [
+    {"index": 0, "name": "EntityId", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 5, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "ONUMode", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 2, "name": "CSDefault", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 3, "name": "HSDefault", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1}
+   ]
+  },
+  {
+   "ident": "hsq_wan",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "WANConfigCata", "shortName": "WANCon", "desc": "WAN interface config", "classId": 248, "initType": 1, "stdType": 4, "actionType": 848, "attrNum": 9, "entrySize": 16, "actions": ["create", "delete", "set", "get"]},
+   "attrs": [
+    {"index": 0, "name": "EntityId", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 5, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "ChnelMode", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 2, "name": "ConnType", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 3, "name": "VlanMode", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 4, "name": "Vlan", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 5, "name": "Priority", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 6, "name": "Mtu", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 7, "name": "IgmpProxy", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 8, "name": "PortBind", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2}
+   ]
+  },
+  {
+   "ident": "hsq_wan_deti",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "WANConfigCataDeti", "shortName": "WANConDeti", "desc": "WAN interface config Deti", "classId": 249, "initType": 1, "stdType": 4, "actionType": 848, "attrNum": 14, "entrySize": 88, "actions": ["create", "delete", "set", "get"]},
+   "attrs": [
+    {"index": 0, "name": "EntityId", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 5, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "ip_pMode", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 2, "name": "PROTVer", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 3, "name": "WANStatus", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 4, "name": "StaticIP", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 5, "name": "NetMask", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 6, "name": "GateWay", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 7, "name": "DNSReauest", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 8, "name": "DNS", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 9, "name": "DNS1", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 10, "name": "PPPChapMode", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 11, "name": "PPPName", "dataType": 4, "len": 24, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "string", "size": 25},
+    {"index": 12, "name": "PPPPass", "dataType": 4, "len": 24, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "string", "size": 25},
+    {"index": 13, "name": "commit", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1}
+   ]
+  },
+  {
+   "ident": "ExtendedIpHostCfgData",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "ExtIpHostCfgData", "shortName": "EXTIPHCD", "desc": "PPPoE interface", "classId": 250, "initType": 1, "stdType": 4, "actionType": 784, "attrNum": 9, "entrySize": 68, "actions": ["create", "set", "get"]},
+   "attrs": [
+    {"index": 0, "name": "EntityId", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 5, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "NatStatus", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 2, "name": "Mode", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 3, "name": "Connect", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 4, "name": "ReleaseTime", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 5, "name": "User", "dataType": 4, "len": 25, "isIndex": 0, "mibSave": 1, "outStyle": 0, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "string", "size": 26},
+    {"index": 6, "name": "Password", "dataType": 4, "len": 25, "isIndex": 0, "mibSave": 1, "outStyle": 0, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "string", "size": 26},
+    {"index": 7, "name": "State", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 8, "name": "OnlineDuration", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4}
+   ]
+  },
+  {
+   "ident": "LoopDetect",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "LoopDetect", "shortName": "LD", "desc": "Loop detect", "classId": 253, "initType": 0, "stdType": 4, "actionType": 768, "attrNum": 5, "entrySize": 8, "actions": ["set", "get"]},
+   "attrs": [
+    {"index": 0, "name": "EntityID", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "AdminState", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 2, "name": "ARC", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 4, "type": "u8", "size": 1},
+    {"index": 3, "name": "ARCInterval", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 4, "type": "u8", "size": 1},
+    {"index": 4, "name": "EthLoopDetectCfg", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1}
+   ]
+  },
+  {
+   "ident": "PrivateTellionOntStatistics",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "PrivateTellionOntStatistics", "shortName": "ONTSTATISTICS", "desc": "Private ONU statistics", "classId": 255, "initType": 0, "stdType": 260, "actionType": 768, "attrNum": 16, "entrySize": 64, "actions": ["set", "get"]},
+   "attrs": [
+    {"index": 0, "name": "EntityId", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "Reset", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 2, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 2, "name": "UpTotalFrame", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 3, "name": "UpPauseFrame", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 4, "name": "UpErrorFrame", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 5, "name": "UpUcFrame", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 6, "name": "UpMcFrame", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 7, "name": "UpBcFrame", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 8, "name": "UpDropFrame", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 9, "name": "DownTotalFrame", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 10, "name": "DownPauseFrame", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 11, "name": "DownErrorFrame", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 12, "name": "DownUcFrame", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 13, "name": "DownMcFrame", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 14, "name": "DownBcFrame", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 15, "name": "DownDropFrame", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4}
+   ]
+  },
+  {
+   "ident": "Me350",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "Me350", "shortName": "ME350", "desc": "Private ME 350", "classId": 350, "initType": 0, "stdType": 4, "actionType": 768, "attrNum": 17, "entrySize": 48, "actions": ["set", "get"]},
+   "attrs": [
+    {"index": 0, "name": "EntityID", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "First", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 0, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 2, "name": "Second", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 0, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 3, "name": "Third", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 0, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 4, "name": "4", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 0, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 5, "name": "5", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 0, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 6, "name": "6", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 0, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 7, "name": "7", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 0, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 8, "name": "8", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 0, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 9, "name": "9", "dataType": 4, "len": 3, "isIndex": 0, "mibSave": 0, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "string", "size": 4},
+    {"index": 10, "name": "10", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 0, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 11, "name": "11", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 0, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 12, "name": "12", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 0, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 13, "name": "13", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 0, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 14, "name": "14", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 0, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 15, "name": "15", "dataType": 4, "len": 6, "isIndex": 0, "mibSave": 0, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "string", "size": 7},
+    {"index": 16, "name": "16", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 0, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2}
+   ]
+  },
+  {
+   "ident": "Me370",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "Me370", "shortName": "ME370", "desc": "Private ME 370", "classId": 370, "initType": 0, "stdType": 4, "actionType": 768, "attrNum": 4, "entrySize": 16, "actions": ["set", "get"]},
+   "attrs": [
+    {"index": 0, "name": "EntityID", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "First", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 0, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 2, "name": "Second", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 0, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 3, "name": "Third", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 0, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4}
+   ]
+  },
+  {
+   "ident": "Me373",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "Me373", "shortName": "ME373", "desc": "Private ME 373", "classId": 373, "initType": 0, "stdType": 4, "actionType": 768, "attrNum": 17, "entrySize": 400, "actions": ["set", "get"]},
+   "attrs": [
+    {"index": 0, "name": "EntityID", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "NumOfParts", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 2, "name": "Part1", "dataType": 4, "len": 25, "isIndex": 0, "mibSave": 1, "outStyle": 0, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "string", "size": 26},
+    {"index": 3, "name": "Part2", "dataType": 4, "len": 25, "isIndex": 0, "mibSave": 1, "outStyle": 0, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "string", "size": 26},
+    {"index": 4, "name": "Part3", "dataType": 4, "len": 25, "isIndex": 0, "mibSave": 1, "outStyle": 0, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "string", "size": 26},
+    {"index": 5, "name": "Part4", "dataType": 4, "len": 25, "isIndex": 0, "mibSave": 1, "outStyle": 0, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "string", "size": 26},
+    {"index": 6, "name": "Part5", "dataType": 4, "len": 25, "isIndex": 0, "mibSave": 1, "outStyle": 0, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "string", "size": 26},
+    {"index": 7, "name": "Part6", "dataType": 4, "len": 25, "isIndex": 0, "mibSave": 1, "outStyle": 0, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "string", "size": 26},
+    {"index": 8, "name": "Part7", "dataType": 4, "len": 25, "isIndex": 0, "mibSave": 1, "outStyle": 0, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "string", "size": 26},
+    {"index": 9, "name": "Part8", "dataType": 4, "len": 25, "isIndex": 0, "mibSave": 1, "outStyle": 0, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "string", "size": 26},
+    {"index": 10, "name": "Part9", "dataType": 4, "len": 25, "isIndex": 0, "mibSave": 1, "outStyle": 0, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "string", "size": 26},
+    {"index": 11, "name": "Part10", "dataType": 4, "len": 25, "isIndex": 0, "mibSave": 1, "outStyle": 0, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "string", "size": 26},
+    {"index": 12, "name": "Part11", "dataType": 4, "len": 25, "isIndex": 0, "mibSave": 1, "outStyle": 0, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "string", "size": 26},
+    {"index": 13, "name": "Part12", "dataType": 4, "len": 25, "isIndex": 0, "mibSave": 1, "outStyle": 0, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "string", "size": 26},
+    {"index": 14, "name": "Part13", "dataType": 4, "len": 25, "isIndex": 0, "mibSave": 1, "outStyle": 0, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "string", "size": 26},
+    {"index": 15, "name": "Part14", "dataType": 4, "len": 25, "isIndex": 0, "mibSave": 1, "outStyle": 0, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "string", "size": 26},
+    {"index": 16, "name": "Part15", "dataType": 4, "len": 25, "isIndex": 0, "mibSave": 1, "outStyle": 0, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "string", "size": 26}
+   ]
+  },
+  {
+   "ident": "PrivateMcastTag",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "PrivateMcastTag", "shortName": "PRIVMCASTTAG", "desc": "Private multicast tag", "classId": 65282, "initType": 1, "stdType": 4, "actionType": 848, "attrNum": 2, "entrySize": 8, "actions": ["create", "delete", "set", "get"]},
+   "attrs": [
+    {"index": 0, "name": "EntityID", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "TagStrip", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1}
+   ]
+  },
+  {
+   "ident": "PrivateSntp",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "PrivateSntp", "shortName": "PRIVSNTP", "desc": "Private SNTP", "classId": 65294, "initType": 0, "stdType": 4, "actionType": 768, "attrNum": 7, "entrySize": 24, "actions": ["set", "get"]},
+   "attrs": [
+    {"index": 0, "name": "EntityID", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "TZ", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 2, "name": "MasterServer", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 3, "name": "SlaveServer", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 4, "name": "InterVal", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 5, "name": "Unknown", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 6, "name": "Unknown", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1}
+   ]
+  },
+  {
+   "ident": "ExtendedOnuG",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "ExtendedOnuG", "shortName": "EXTONUG", "desc": "Extended ONU-G", "classId": 65408, "initType": 0, "stdType": 4, "actionType": 256, "attrNum": 2, "entrySize": 8, "actions": ["set"]},
+   "attrs": [
+    {"index": 0, "name": "EntityId", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 5, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "ResetDefault", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 2, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1}
+   ]
+  },
+  {
+   "ident": "OltLocationCfgData",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "OLTLocationConfigData", "shortName": "OLTLOCATION", "desc": "OLT location config data", "classId": 65527, "initType": 0, "stdType": 260, "actionType": 768, "attrNum": 9, "entrySize": 40, "actions": ["set", "get"]},
+   "attrs": [
+    {"index": 0, "name": "EntityId", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "Longitude", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 2, "name": "Latitude", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 3, "name": "Elevation", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 4, "type": "u16", "size": 2},
+    {"index": 4, "name": "Horizontalerror", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 4, "type": "u16", "size": 2},
+    {"index": 5, "name": "Altitudeerror", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 4, "type": "u16", "size": 2},
+    {"index": 6, "name": "Areacode", "dataType": 3, "len": 8, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u64", "size": 8},
+    {"index": 7, "name": "TimeStamp", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u32", "size": 4},
+    {"index": 8, "name": "GISDigest", "dataType": 3, "len": 8, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u64", "size": 8}
+   ]
+  },
+  {
+   "ident": "OnuLoopDetection",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "CTCOnuOnuLoopDetection", "shortName": "CTCLD", "desc": "CTC loop detection", "classId": 65528, "initType": 0, "stdType": 4, "actionType": 768, "attrNum": 7, "entrySize": 32, "actions": ["set", "get"]},
+   "attrs": [
+    {"index": 0, "name": "EntityID", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "OperatorID", "dataType": 4, "len": 4, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "string", "size": 5},
+    {"index": 2, "name": "LoopDetnMng", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 3, "name": "LoopedPortDown", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 4, "name": "LoopDetnMsgFreq", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 5, "name": "LoopRecovIntvl", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 6, "name": "PortAndVlanTbl", "dataType": 5, "len": 7, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "octets", "size": 7}
+   ]
+  },
+  {
+   "ident": "OnuCapability",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "OnuCapability", "shortName": "ONUCAP", "desc": "ONU capability", "classId": 65529, "initType": 0, "stdType": 4, "actionType": 512, "attrNum": 6, "entrySize": 12, "actions": ["get"]},
+   "attrs": [
+    {"index": 0, "name": "EntityId", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "OperationId", "dataType": 4, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 0, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "string", "size": 5},
+    {"index": 2, "name": "CtcSpecVer", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 3, "name": "OnuType", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 4, "name": "TxPwrSupplyCtrl", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 5, "name": "CustomizedOnuType", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 16, "type": "u8", "size": 1}
+   ]
+  },
+  {
+   "ident": "LoidAuth",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "LoIdAuth", "shortName": "LOIDAUTH", "desc": "LOID authentication", "classId": 65530, "initType": 0, "stdType": 260, "actionType": 768, "attrNum": 5, "entrySize": 46, "actions": ["set", "get"]},
+   "attrs": [
+    {"index": 0, "name": "EntityId", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "OperationId", "dataType": 4, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 0, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "string", "size": 5},
+    {"index": 2, "name": "LoID", "dataType": 4, "len": 24, "isIndex": 0, "mibSave": 1, "outStyle": 0, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "string", "size": 25},
+    {"index": 3, "name": "Password", "dataType": 4, "len": 12, "isIndex": 0, "mibSave": 1, "outStyle": 0, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "string", "size": 13},
+    {"index": 4, "name": "AuthStatus", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1}
+   ]
+  },
+  {
+   "ident": "ExtendedMcastOperProf",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "ExtendedMcastOperProf", "shortName": "EXTMOP", "desc": "Extended multicast operations profile", "classId": 65531, "initType": 1, "stdType": 4, "actionType": 67109712, "attrNum": 17, "entrySize": 144, "actions": ["create", "delete", "set", "get", "get-next"]},
+   "attrs": [
+    {"index": 0, "name": "EntityId", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "IGMPVersion", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 2, "name": "IGMPFun", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 3, "name": "ImmediateLeave", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u8", "size": 1},
+    {"index": 4, "name": "UsIGMPTci", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 7, "avcFlag": 0, "optionType": 4, "type": "u16", "size": 2},
+    {"index": 5, "name": "UsIGMPTagControl", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 4, "type": "u8", "size": 1},
+    {"index": 6, "name": "UsIGMPRate", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 4, "type": "u32", "size": 4},
+    {"index": 7, "name": "DyACLTable", "dataType": 5, "len": 30, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 513, "type": "octets", "size": 30},
+    {"index": 8, "name": "StaticACLTable", "dataType": 5, "len": 30, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 513, "type": "octets", "size": 30},
+    {"index": 9, "name": "LostGroupListTable", "dataType": 5, "len": 16, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 516, "type": "octets", "size": 16},
+    {"index": 10, "name": "Robustness", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 7, "avcFlag": 0, "optionType": 4, "type": "u8", "size": 1},
+    {"index": 11, "name": "QuerierIpAddress", "dataType": 4, "len": 16, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 3, "avcFlag": 0, "optionType": 4, "type": "string", "size": 17},
+    {"index": 12, "name": "QueryInterval", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 4, "type": "u32", "size": 4},
+    {"index": 13, "name": "QueryMaxResponseTime", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 7, "avcFlag": 0, "optionType": 4, "type": "u32", "size": 4},
+    {"index": 14, "name": "LastMemberQueryInterval", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 4, "type": "u32", "size": 4},
+    {"index": 15, "name": "UnauthorizedJoinRequestBehaviour", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 3, "avcFlag": 0, "optionType": 4, "type": "u8", "size": 1},
+    {"index": 16, "name": "DownstreamIgmpMulticastTci", "dataType": 4, "len": 3, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 7, "avcFlag": 0, "optionType": 4, "type": "string", "size": 4}
+   ]
+  },
+  {
+   "ident": "PrivateTqCfg",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "PrivateTqCfg", "shortName": "PTC", "desc": "Private T-CONT queue configuration", "classId": 65534, "initType": 0, "stdType": 16, "actionType": 272, "attrNum": 4, "entrySize": 264, "actions": ["create", "set"]},
+   "attrs": [
+    {"index": 0, "name": "EntityID", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "Type", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 5, "avcFlag": 0, "optionType": 16, "type": "u8", "size": 1},
+    {"index": 2, "name": "PonSlotId", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": null, "outStyle": 2, "oltAcc": 5, "avcFlag": 0, "optionType": 16, "type": "u8", "size": 1},
+    {"index": 3, "name": "QueueNumPerTcont", "dataType": 5, "len": 256, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 5, "avcFlag": 0, "optionType": 16, "type": "octets", "size": 256}
+   ]
+  },
+  {
+   "ident": "PrivateVlanCfg",
+   "stockBacked": true,
+   "reason": "Private compatibility class retained entirely from the existing model.",
+   "table": {"name": "PrivateVlanCfg", "shortName": "PVC", "desc": "Private VLAN configuration", "classId": 65535, "initType": 0, "stdType": 16, "actionType": 256, "attrNum": 5, "entrySize": 8, "actions": ["set"]},
+   "attrs": [
+    {"index": 0, "name": "EntityID", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "Type", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 5, "avcFlag": 0, "optionType": 16, "type": "u8", "size": 1},
+    {"index": 2, "name": "ManualMode", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 5, "avcFlag": 0, "optionType": 16, "type": "u8", "size": 1},
+    {"index": 3, "name": "ManualTagVid", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 5, "avcFlag": 0, "optionType": 16, "type": "u16", "size": 2},
+    {"index": 4, "name": "ManualTagPri", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 5, "avcFlag": 0, "optionType": 16, "type": "u8", "size": 1}
+   ]
+  }
+ ],
+ "legacyClasses": [
+  {
+   "ident": "GemPortPMHD",
+   "stockBacked": true,
+   "reason": "Obsolete assigned identifier retained entirely from the existing model.",
+   "table": {"name": "GemPortPmhd", "shortName": "GEMPPMHD", "desc": "GEM port performance monitoring history data", "classId": 267, "initType": 1, "stdType": 2, "actionType": 268436304, "attrNum": 10, "entrySize": 56, "actions": ["create", "delete", "set", "get", "get-current-data"]},
+   "attrs": [
+    {"index": 0, "name": "EntityId", "dataType": 1, "len": 2, "isIndex": 1, "mibSave": 1, "outStyle": 2, "oltAcc": 5, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 1, "name": "IntervalEndTime", "dataType": 0, "len": 1, "isIndex": 0, "mibSave": 1, "outStyle": 1, "oltAcc": 1, "avcFlag": 0, "optionType": 257, "type": "u8", "size": 1},
+    {"index": 2, "name": "ThresholdData12Id", "dataType": 1, "len": 2, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 7, "avcFlag": 0, "optionType": 1, "type": "u16", "size": 2},
+    {"index": 3, "name": "LostPkts", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 257, "type": "u32", "size": 4},
+    {"index": 4, "name": "MisinsertedPkts", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 257, "type": "u32", "size": 4},
+    {"index": 5, "name": "ReceivedPkts", "dataType": 3, "len": 5, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 257, "type": "u64", "size": 8},
+    {"index": 6, "name": "ReceivedBlocks", "dataType": 3, "len": 5, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 257, "type": "u64", "size": 8},
+    {"index": 7, "name": "TransmittedBlocks", "dataType": 3, "len": 5, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 257, "type": "u64", "size": 8},
+    {"index": 8, "name": "ImpairedBlocks", "dataType": 2, "len": 4, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 257, "type": "u32", "size": 4},
+    {"index": 9, "name": "TransmittedPkts", "dataType": 3, "len": 5, "isIndex": 0, "mibSave": 1, "outStyle": 2, "oltAcc": 1, "avcFlag": 0, "optionType": 257, "type": "u64", "size": 8}
+   ]
+  }
+ ]
+}

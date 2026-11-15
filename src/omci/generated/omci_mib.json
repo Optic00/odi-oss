@@ -15,22 +15,7 @@
     "set",
     "get",
     "test"
-   ],
-   "extra": {
-    "36": 84688,
-    "40": 82640
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "AnigDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0,
-   "28": 12756,
-   "32": 11612
+   ]
   },
   "attrs": [
    {
@@ -346,20 +331,7 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 75776,
-    "40": 76960
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "auth_sec_method_drv_cfg_handler"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -463,21 +435,7 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 79040,
-    "40": 78576
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "CardholderDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0,
-   "28": 10668
+   ]
   },
   "attrs": [
    {
@@ -637,24 +595,7 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 80096,
-    "40": 81200
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "CircuitPackDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": [
-    "fn",
-    "CircuitPackDumpMib"
-   ],
-   "28": 11896
+   ]
   },
   "attrs": [
    {
@@ -886,20 +827,7 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 79888,
-    "40": 79604
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "dot1_rate_limiter_drv_cfg_handler"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -1006,27 +934,6 @@
     "set",
     "get",
     "get-current-data"
-   ],
-   "extra": {
-    "36": 88608,
-    "40": 86736
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "EthExtPmData_CfgMe"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": [
-    "fn",
-    "EthExtPmData_DumpMe"
-   ],
-   "16": 0,
-   "24": [
-    "fn",
-    "ethernet_frame_extended_pm_handler"
    ]
   },
   "attrs": [
@@ -1302,24 +1209,6 @@
     "set",
     "get",
     "get-current-data"
-   ],
-   "extra": {
-    "36": 78840,
-    "40": 78856
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "EthPmData2_CfgMe"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0,
-   "16": 0,
-   "24": [
-    "fn",
-    "ethernet_pmhd2_pm_handler"
    ]
   },
   "attrs": [
@@ -1399,24 +1288,6 @@
     "set",
     "get",
     "get-current-data"
-   ],
-   "extra": {
-    "36": 82688,
-    "40": 82820
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "EthPmData3_CfgMe"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0,
-   "16": 0,
-   "24": [
-    "fn",
-    "ethernet_pmhd3_pm_handler"
    ]
   },
   "attrs": [
@@ -1678,24 +1549,6 @@
     "set",
     "get",
     "get-current-data"
-   ],
-   "extra": {
-    "36": 82768,
-    "40": 82832
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "EthPmDataDs_CfgMe"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0,
-   "16": 0,
-   "24": [
-    "fn",
-    "ethernet_frame_pmhd_ds_pm_handler"
    ]
   },
   "attrs": [
@@ -1957,24 +1810,6 @@
     "set",
     "get",
     "get-current-data"
-   ],
-   "extra": {
-    "36": 82688,
-    "40": 82820
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "EthPmDataUs_CfgMe"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0,
-   "16": 0,
-   "24": [
-    "fn",
-    "ethernet_frame_pmhd_us_pm_handler"
    ]
   },
   "attrs": [
@@ -2236,24 +2071,6 @@
     "set",
     "get",
     "get-current-data"
-   ],
-   "extra": {
-    "36": 82736,
-    "40": 82800
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "EthPmHistoryData_CfgMe"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0,
-   "16": 0,
-   "24": [
-    "fn",
-    "ethernet_pmhd_pm_handler"
    ]
   },
   "attrs": [
@@ -2512,32 +2329,7 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 88744,
-    "40": 86924
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "EthUniDrvCfg"
-   ],
-   "4": 0,
-   "8": [
-    "fn",
-    "EthUniConnCheck"
-   ],
-   "12": 0,
-   "16": [
-    "fn",
-    "EthUniAvlTreeAdd"
-   ],
-   "20": [
-    "fn",
-    "EthUniAvlTreeDel"
-   ],
-   "28": 12916
+   ]
   },
   "attrs": [
    {
@@ -2798,28 +2590,6 @@
     "set",
     "get",
     "get-next"
-   ],
-   "extra": {
-    "36": 83096,
-    "40": 82732
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "ExtVlanTagOperCfgDataDrvCfg"
-   ],
-   "4": [
-    "fn",
-    "ExtVlanTagOperCfgDataConnCfg"
-   ],
-   "8": [
-    "fn",
-    "ExtVlanTagOperCfgDataConnCheck"
-   ],
-   "12": [
-    "fn",
-    "ExtVlanTagOperCfgDataDumpMib"
    ]
   },
   "attrs": [
@@ -2967,20 +2737,7 @@
     "create",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 78964,
-    "40": 78604
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "ExtendedIpHostCfgDataDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -3129,22 +2886,6 @@
     "set",
     "get",
     "get-next"
-   ],
-   "extra": {
-    "36": 90960,
-    "40": 91148
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "ExtMcastOperProfDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": [
-    "fn",
-    "ExtMcastOperProfDumpMib"
    ]
   },
   "attrs": [
@@ -3402,20 +3143,7 @@
    "entrySize": 8,
    "actions": [
     "set"
-   ],
-   "extra": {
-    "36": 75168,
-    "40": 75500
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "extended_onu_g_drv_cfg_handler"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -3466,23 +3194,6 @@
     "set",
     "get",
     "get-current-data"
-   ],
-   "extra": {
-    "36": 80624,
-    "40": 79228
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "fec_pmhd_drv_cfg_handler"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0,
-   "24": [
-    "fn",
-    "fec_pmhd_pm_handler"
    ]
   },
   "attrs": [
@@ -3617,20 +3328,7 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 75336,
-    "40": 75672
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "GalEthProfDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -3680,33 +3378,6 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 83176,
-    "40": 82816
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "GemIwTpDrvCfg"
-   ],
-   "4": [
-    "fn",
-    "GemIwTpConnCfg"
-   ],
-   "8": [
-    "fn",
-    "GemIwTpConnCheck"
-   ],
-   "12": 0,
-   "16": [
-    "fn",
-    "GemIwTpAvlTreeAdd"
-   ],
-   "20": [
-    "fn",
-    "GemIwTpAvlTreeDel"
    ]
   },
   "attrs": [
@@ -3855,35 +3526,7 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 83360,
-    "40": 84416
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "GemPortCtpDrvCfg"
-   ],
-   "4": [
-    "fn",
-    "GemPortCtpConnCfg"
-   ],
-   "8": [
-    "fn",
-    "GemPortCtpConnCheck"
-   ],
-   "12": 0,
-   "16": [
-    "fn",
-    "GemPortCtpAvlTreeAdd"
-   ],
-   "20": [
-    "fn",
-    "GemPortCtpAvlTreeDel"
-   ],
-   "28": 10840
+   ]
   },
   "attrs": [
    {
@@ -4060,23 +3703,6 @@
     "set",
     "get",
     "get-current-data"
-   ],
-   "extra": {
-    "36": 80816,
-    "40": 79360
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "gpnc_pmhd_drv_cfg_handler"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0,
-   "24": [
-    "fn",
-    "gpnc_pmhd_pm_handler"
    ]
   },
   "attrs": [
@@ -4212,23 +3838,6 @@
     "set",
     "get",
     "get-current-data"
-   ],
-   "extra": {
-    "36": 81200,
-    "40": 79772
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "gem_port_pmhd_drv_cfg_handler"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0,
-   "24": [
-    "fn",
-    "gem_port_pmhd_pm_handler"
    ]
   },
   "attrs": [
@@ -4391,20 +4000,7 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 78928,
-    "40": 78568
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "TrafficDescriptorDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -4552,22 +4148,6 @@
     "delete",
     "get",
     "get-next"
-   ],
-   "extra": {
-    "36": 80032,
-    "40": 78880
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "general_purpose_buffer_drv_cfg_handler"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": [
-    "fn",
-    "general_purpose_buffer_dump_handler"
    ]
   },
   "attrs": [
@@ -4633,22 +4213,6 @@
     "set",
     "get",
     "get-next"
-   ],
-   "extra": {
-    "36": 80320,
-    "40": 80392
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "generic_status_portal_drv_cfg_handler"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": [
-    "fn",
-    "generic_status_portal_dump_handler"
    ]
   },
   "attrs": [
@@ -4726,32 +4290,7 @@
     "set",
     "get",
     "test"
-   ],
-   "extra": {
-    "36": 82688,
-    "40": 82824
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "ip_host_cfg_data_drv_cfg_handler"
-   ],
-   "4": 0,
-   "8": [
-    "fn",
-    "IpHostCfgDataConnCheck"
-   ],
-   "12": 0,
-   "16": [
-    "fn",
-    "IpHostCfgDataAvlTreeAdd"
-   ],
-   "20": [
-    "fn",
-    "IpHostCfgDataAvlTreeDel"
-   ],
-   "32": 11088
+   ]
   },
   "attrs": [
    {
@@ -5011,20 +4550,7 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 80288,
-    "40": 78508
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "large_string_drv_cfg_handler"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -5282,18 +4808,7 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 75336,
-    "40": 75624
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "LctUniDrvCfg"
-   ],
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -5341,20 +4856,7 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 78636,
-    "40": 78684
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "LoIdAuthDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -5444,21 +4946,7 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 78160,
-    "40": 78496
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "LoopDetectDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0,
-   "28": 9676
+   ]
   },
   "attrs": [
    {
@@ -5548,24 +5036,7 @@
    "actions": [
     "get",
     "get-next"
-   ],
-   "extra": {
-    "36": 78704,
-    "40": 78556
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "MacBriPortBriTblDataDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": [
-    "fn",
-    "MacBriPortBriTblDataDumpMib"
-   ],
-   "28": 0
+   ]
   },
   "attrs": [
    {
@@ -5615,27 +5086,7 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 90960,
-    "40": 91164
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "MacBriPortCfgDataDrvCfg"
-   ],
-   "4": [
-    "fn",
-    "MacBriPortCfgDataConnCfg"
-   ],
-   "8": [
-    "fn",
-    "MacBriPortCfgDataConnCheck"
-   ],
-   "12": 0,
-   "28": 11780
+   ]
   },
   "attrs": [
    {
@@ -5853,23 +5304,7 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 80864,
-    "40": 79356
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "MacBriServProfDrvCfg"
-   ],
-   "4": [
-    "fn",
-    "MacBriServProfConnCfg"
-   ],
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -6043,21 +5478,7 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 78508,
-    "40": 78520
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "MacBridgePortFilterPreassignDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0,
-   "16": 0
+   ]
   },
   "attrs": [
    {
@@ -6232,24 +5653,7 @@
     "set",
     "get",
     "get-next"
-   ],
-   "extra": {
-    "36": 80448,
-    "40": 80364
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "MacBridgePortFilterTableDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": [
-    "fn",
-    "MacBridgePortFilterTableDumpMib"
-   ],
-   "16": 0
+   ]
   },
   "attrs": [
    {
@@ -6300,23 +5704,6 @@
     "set",
     "get",
     "get-current-data"
-   ],
-   "extra": {
-    "36": 80064,
-    "40": 80140
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "MacBridgePortPmhdDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0,
-   "24": [
-    "fn",
-    "mac_bridge_port_pmhd_pm_handler"
    ]
   },
   "attrs": [
@@ -6451,36 +5838,6 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 86752,
-    "40": 88000
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "Map8021pServProfDrvCfg"
-   ],
-   "4": [
-    "fn",
-    "Map8021pServProfConnCfg"
-   ],
-   "8": [
-    "fn",
-    "Map8021pServProfConnCheck"
-   ],
-   "12": [
-    "fn",
-    "Map8021pServProfDumpMib"
-   ],
-   "16": [
-    "fn",
-    "Map8021pAvlTreeAdd"
-   ],
-   "20": [
-    "fn",
-    "Map8021pAvlTreeDel"
    ]
   },
   "attrs": [
@@ -6700,22 +6057,6 @@
     "set",
     "get",
     "get-next"
-   ],
-   "extra": {
-    "36": 95280,
-    "40": 95400
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "McastOperProfDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": [
-    "fn",
-    "McastOperProfDumpMib"
    ]
   },
   "attrs": [
@@ -6976,22 +6317,6 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 92208,
-    "40": 93360
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "McastSubConfInfoDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": [
-    "fn",
-    "McastSubConfInfoDumpMib"
    ]
   },
   "attrs": [
@@ -7127,22 +6452,6 @@
     "set",
     "get",
     "get-next"
-   ],
-   "extra": {
-    "36": 82680,
-    "40": 83892
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "McastSubMonitorDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": [
-    "fn",
-    "McastSubMonitorDumpMib"
    ]
   },
   "attrs": [
@@ -7261,21 +6570,6 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 78416,
-    "40": 78604
-   }
-  },
-  "oper": {
-   "12": 0,
-   "36": [
-    "fn",
-    "omci_mib_oper_reset"
-   ],
-   "40": [
-    "fn",
-    "omci_mib_oper_update"
    ]
   },
   "attrs": [
@@ -7340,14 +6634,7 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 75744,
-    "40": 75768
-   }
-  },
-  "oper": {
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -7423,21 +6710,6 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 79888,
-    "40": 80960
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "Me350DrvCfg"
-   ],
-   "12": 0,
-   "36": [
-    "fn",
-    "Me350OperReset"
    ]
   },
   "attrs": [
@@ -7696,21 +6968,6 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 79904,
-    "40": 79744
-   }
-  },
-  "oper": {
-   "12": 0,
-   "36": [
-    "fn",
-    "Me370OperReset"
-   ],
-   "40": [
-    "fn",
-    "Me370OperUpdate"
    ]
   },
   "attrs": [
@@ -7787,17 +7044,6 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 80368,
-    "40": 78540
-   }
-  },
-  "oper": {
-   "12": 0,
-   "36": [
-    "fn",
-    "Me373OperReset"
    ]
   },
   "attrs": [
@@ -8058,20 +7304,7 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 75928,
-    "40": 77264
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "PrivateMcastTagDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -8119,21 +7352,6 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 81776,
-    "40": 80460
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "PrivateSntpDrvCfg"
-   ],
-   "12": 0,
-   "36": [
-    "fn",
-    "PrivateSntpOperReset"
    ]
   },
   "attrs": [
@@ -8254,36 +7472,6 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 88344,
-    "40": 87788
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "MultiGemIwTpDrvCfg"
-   ],
-   "4": [
-    "fn",
-    "MultiGemIwTpConnCfg"
-   ],
-   "8": [
-    "fn",
-    "MultiGemIwTpConnCheck"
-   ],
-   "12": [
-    "fn",
-    "MultiGemIwTpDumpMib"
-   ],
-   "16": [
-    "fn",
-    "McastGemIwTpAvlTreeAdd"
-   ],
-   "20": [
-    "fn",
-    "McastGemIwTpAvlTreeDel"
    ]
   },
   "attrs": [
@@ -8460,20 +7648,7 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 75272,
-    "40": 75376
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "network_address_drv_cfg_handler"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -8537,22 +7712,6 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 79256,
-    "40": 78572
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "octet_string_drv_cfg_handler"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": [
-    "fn",
-    "octet_string_dump_handler"
    ]
   },
   "attrs": [
@@ -8811,22 +7970,6 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 79648,
-    "40": 79712
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "OltGDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": [
-    "fn",
-    "OltGDumpMib"
    ]
   },
   "attrs": [
@@ -8917,20 +8060,7 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 76676,
-    "40": 76204
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "OltLocationCfgDataDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -9076,26 +8206,7 @@
    "actions": [
     "get",
     "get-next"
-   ],
-   "extra": {
-    "36": 79776,
-    "40": 78448
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "OmciDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": [
-    "fn",
-    "OmciDumpMib"
-   ],
-   "16": 0,
-   "28": 0,
-   "32": 0
+   ]
   },
   "attrs": [
    {
@@ -9157,20 +8268,7 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 79112,
-    "40": 78508
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "Ont2gDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -9405,20 +8503,7 @@
     "mib-upload",
     "mib-upload-next",
     "mib-reset"
-   ],
-   "extra": {
-    "36": 75592,
-    "40": 75760
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "OntDataDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -9466,19 +8551,7 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 78544,
-    "40": 79632
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "OntSelfLoopDetectCfg"
-   ],
-   "12": 0,
-   "28": 10116
+   ]
   },
   "attrs": [
    {
@@ -9624,19 +8697,7 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 78640,
-    "40": 79680
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "OntSystemMgmtDrvCfg"
-   ],
-   "12": 0,
-   "28": 9584
+   ]
   },
   "attrs": [
    {
@@ -9756,24 +8817,7 @@
     "get",
     "sync-time",
     "reboot"
-   ],
-   "extra": {
-    "36": 83368,
-    "40": 82652
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "OntgDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": [
-    "fn",
-    "OntgDumpMib"
-   ],
-   "28": 11464
+   ]
   },
   "attrs": [
    {
@@ -10002,17 +9046,7 @@
    "entrySize": 12,
    "actions": [
     "get"
-   ],
-   "extra": {
-    "36": 75756,
-    "40": 76864
-   }
-  },
-  "oper": {
-   "0": 0,
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -10116,21 +9150,7 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 78896,
-    "40": 79056
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "OnuLoopDetectionDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0,
-   "28": 10132
+   ]
   },
   "attrs": [
    {
@@ -10248,20 +9268,7 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 78512,
-    "40": 79680
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "onu_pwr_shedding_drv_cfg_handler"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -10506,22 +9513,6 @@
     "set",
     "get",
     "get-next"
-   ],
-   "extra": {
-    "36": 78544,
-    "40": 79712
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "onu_remote_dbg_drv_cfg_handler"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": [
-    "fn",
-    "onu_remote_dbg_dump_handler"
    ]
   },
   "attrs": [
@@ -10598,21 +9589,7 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 79360,
-    "40": 79452
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "PriQDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0,
-   "28": 10372
+   ]
   },
   "attrs": [
    {
@@ -10870,18 +9847,7 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 79856,
-    "40": 79212
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "PrivateTellionOntStatistics_CfgMe"
-   ],
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -11125,24 +10091,7 @@
    "actions": [
     "create",
     "set"
-   ],
-   "extra": {
-    "36": 76208,
-    "40": 75980
-   }
-  },
-  "oper": {
-   "0": 0,
-   "4": 0,
-   "8": 0,
-   "12": [
-    "fn",
-    "PrivateTqCfgDumpMib"
-   ],
-   "16": 0,
-   "24": 0,
-   "28": 0,
-   "32": 0
+   ]
   },
   "attrs": [
    {
@@ -11217,24 +10166,7 @@
    "entrySize": 8,
    "actions": [
     "set"
-   ],
-   "extra": {
-    "36": 78360,
-    "40": 78540
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "PrivateVlanCfgDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0,
-   "16": 0,
-   "24": 0,
-   "28": 0,
-   "32": 0
+   ]
   },
   "attrs": [
    {
@@ -11326,23 +10258,7 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 78576,
-    "40": 78600
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "PseudowireMaintenanceProfileDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0,
-   "16": 0,
-   "28": 0,
-   "32": 0
+   ]
   },
   "attrs": [
    {
@@ -11604,22 +10520,6 @@
     "end-sw-download",
     "activate-sw",
     "commit-sw"
-   ],
-   "extra": {
-    "36": 78848,
-    "40": 78492
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "SWImageDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": [
-    "fn",
-    "SWImageDumpMib"
    ]
   },
   "attrs": [
@@ -11738,20 +10638,7 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 75376,
-    "40": 75836
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "SchedulerDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -11841,20 +10728,7 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 76064,
-    "40": 76524
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "TR069ManageServerDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -11930,20 +10804,7 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 75560,
-    "40": 77168
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "TcontDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -12021,21 +10882,7 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 75232,
-    "40": 76768
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "tcp_udp_cfg_data_drv_cfg_handler"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0,
-   "24": 0
+   ]
   },
   "attrs": [
    {
@@ -12127,20 +10974,7 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 77616,
-    "40": 76144
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "ThresholdData1DrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -12274,20 +11108,7 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 76256,
-    "40": 76288
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "ThresholdData2DrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -12419,20 +11240,7 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 77104,
-    "40": 75788
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "unig_drv_cfg_handler"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -12536,32 +11344,7 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 82840,
-    "40": 83904
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "VEIPDrvCfg"
-   ],
-   "4": 0,
-   "8": [
-    "fn",
-    "VEIPConnCheck"
-   ],
-   "12": 0,
-   "16": [
-    "fn",
-    "VEIPAvlTreeAdd"
-   ],
-   "20": [
-    "fn",
-    "VEIPAvlTreeDel"
-   ],
-   "28": 11328
+   ]
   },
   "attrs": [
    {
@@ -12681,28 +11464,6 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 78800,
-    "40": 78524
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "VlanTagFilterDataDrvCfg"
-   ],
-   "4": [
-    "fn",
-    "VlanTagFilterDataConnCfg"
-   ],
-   "8": [
-    "fn",
-    "VlanTagFilterConnCheck"
-   ],
-   "12": [
-    "fn",
-    "VlanTagFilterDataDumpMib"
    ]
   },
   "attrs": [
@@ -12781,26 +11542,7 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 78880,
-    "40": 78572
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "VlanTagOpCfgDataDrvCfg"
-   ],
-   "4": [
-    "fn",
-    "VlanTagOpCfgDataConnCfg"
-   ],
-   "8": [
-    "fn",
-    "VlanTagOpCfgDataConnCheck"
-   ],
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -12906,20 +11648,7 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 75980,
-    "40": 76188
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "HSQDefDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -12997,20 +11726,7 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 78576,
-    "40": 78636
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "HSQWanDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -13158,20 +11874,7 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {
-    "36": 78528,
-    "40": 78660
-   }
-  },
-  "oper": {
-   "0": [
-    "fn",
-    "HSQWanDetiDrvCfg"
-   ],
-   "4": 0,
-   "8": 0,
-   "12": 0
+   ]
   },
   "attrs": [
    {
@@ -13386,10 +12089,8 @@
    "entrySize": 40,
    "actions": [
     "get"
-   ],
-   "extra": {}
+   ]
   },
-  "oper": {},
   "attrs": [
    {
     "index": 0,
@@ -13534,10 +12235,8 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {}
+   ]
   },
-  "oper": {},
   "attrs": [
    {
     "index": 0,
@@ -13739,10 +12438,8 @@
     "set",
     "get",
     "test"
-   ],
-   "extra": {}
+   ]
   },
-  "oper": {},
   "attrs": [
    {
     "index": 0,
@@ -13961,10 +12658,8 @@
     "get",
     "get-next",
     "set-table"
-   ],
-   "extra": {}
+   ]
   },
-  "oper": {},
   "attrs": [
    {
     "index": 0,
@@ -14193,10 +12888,8 @@
    "actions": [
     "set",
     "get"
-   ],
-   "extra": {}
+   ]
   },
-  "oper": {},
   "attrs": [
    {
     "index": 0,
@@ -14343,10 +13036,8 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {}
+   ]
   },
-  "oper": {},
   "attrs": [
    {
     "index": 0,
@@ -14438,10 +13129,8 @@
     "set",
     "get",
     "get-current-data"
-   ],
-   "extra": {}
+   ]
   },
-  "oper": {},
   "attrs": [
    {
     "index": 0,
@@ -14571,10 +13260,8 @@
    "entrySize": 64,
    "actions": [
     "get"
-   ],
-   "extra": {}
+   ]
   },
-  "oper": {},
   "attrs": [
    {
     "index": 0,
@@ -14735,10 +13422,8 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {}
+   ]
   },
-  "oper": {},
   "attrs": [
    {
     "index": 0,
@@ -14997,10 +13682,8 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {}
+   ]
   },
-  "oper": {},
   "attrs": [
    {
     "index": 0,
@@ -15148,10 +13831,8 @@
     "set",
     "get",
     "get-current-data"
-   ],
-   "extra": {}
+   ]
   },
-  "oper": {},
   "attrs": [
    {
     "index": 0,
@@ -15300,10 +13981,8 @@
     "get",
     "get-next",
     "set-table"
-   ],
-   "extra": {}
+   ]
   },
-  "oper": {},
   "attrs": [
    {
     "index": 0,
@@ -15422,10 +14101,8 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {}
+   ]
   },
-  "oper": {},
   "attrs": [
    {
     "index": 0,
@@ -15600,10 +14277,8 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {}
+   ]
   },
-  "oper": {},
   "attrs": [
    {
     "index": 0,
@@ -15808,10 +14483,8 @@
     "get",
     "get-next",
     "set-table"
-   ],
-   "extra": {}
+   ]
   },
-  "oper": {},
   "attrs": [
    {
     "index": 0,
@@ -16057,10 +14730,8 @@
     "set",
     "get",
     "get-current-data"
-   ],
-   "extra": {}
+   ]
   },
-  "oper": {},
   "attrs": [
    {
     "index": 0,
@@ -16306,10 +14977,8 @@
     "set",
     "get",
     "get-current-data"
-   ],
-   "extra": {}
+   ]
   },
-  "oper": {},
   "attrs": [
    {
     "index": 0,
@@ -16442,10 +15111,8 @@
     "delete",
     "set",
     "get"
-   ],
-   "extra": {}
+   ]
   },
-  "oper": {},
   "attrs": [
    {
     "index": 0,
