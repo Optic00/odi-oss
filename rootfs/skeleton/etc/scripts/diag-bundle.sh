@@ -34,7 +34,9 @@
 # I2C_PAGES that could be selected (a2-p<N>.txt). Selecting a page is the
 # one write the bundle makes anywhere; the page found is put back and read
 # back, and chip.txt records both. MANIFEST.txt lists each step, its exit
-# status and its size.
+# status and its size. README.md, at the top, says what the bundle is, what
+# was hidden and which file answers which question; SUMMARY.txt is one
+# screen of facts that diag-summary.sh takes from the files above.
 #
 # What is redacted, in the config copies: the keys in SECRET_KEYS below,
 # and any key whose name contains one of the words in SECRET_WORDS. An empty
@@ -98,6 +100,11 @@ BUNDLE_MAX=${BUNDLE_MAX:-2097152}
 CONFIG_DIR=${CONFIG_DIR:-/var/config}
 LOG_DIR=${LOG_DIR:-/var/log}
 METRICS_URL=${METRICS_URL:-http://127.0.0.1:9100/metrics}
+# diag-summary.sh, next to this script.
+case $0 in
+*/*) DIAG_SUMMARY_SH=${DIAG_SUMMARY_SH:-${0%/*}/diag-summary.sh} ;;
+*) DIAG_SUMMARY_SH=${DIAG_SUMMARY_SH:-/etc/scripts/diag-summary.sh} ;;
+esac
 
 SECRET_KEYS="GPON_PLOAM_PASSWD LOID_PASSWD LOID_PASSWD_OLD USER_PASSWORD
 SUSER_PASSWORD E8BDUSER_PASSWORD SUPER_PASSWORD MAC_KEY HW_FON_KEYWORD
@@ -243,8 +250,13 @@ manifest - "$(size_of "$b/host-link.txt")" host-link.txt
 # pon/: the GPON and OMCI state. One diag run reads it all, batched on
 # stdin; omcli asks omcid one question per run.
 mkdir "$b/pon"
+# The transceiver reads are the ones the exporter makes on every scrape;
+# SUMMARY.txt takes the optics from them.
 printf '%s\n' "gpon get onu-state" "gpon get alarm-status" "gpon get flows" \
-	"mib dump counter port all" "register get $PONQ_BASE $PONQ_WORDS" |
+	"mib dump counter port all" "register get $PONQ_BASE $PONQ_WORDS" \
+	"pon get transceiver rx-power" "pon get transceiver tx-power" \
+	"pon get transceiver temperature" "pon get transceiver bias-current" \
+	"pon get transceiver voltage" |
 	timeout "$STEP_TIMEOUT_S" diag > "$b/pon/diag.txt" 2>&1
 manifest "$?" "$(size_of "$b/pon/diag.txt")" pon/diag.txt
 grab pon/odi_omci.txt /proc/odi_omci
@@ -644,6 +656,63 @@ if [ "$full" = 0 ]; then
 		fi
 	done
 fi
+
+# README.md and SUMMARY.txt: the way into the bundle for someone who did
+# not write it. Both are written here, before the scrub, so the scrub
+# covers them like any other file. The summary reads only the files above.
+readme() {
+	img=$(sed -n 's/^image=//p' "$b/odi-build.txt" 2>/dev/null | head -n 1)
+	if [ "$full" = 1 ]; then
+		idline="NOT masked: this bundle was taken with --full and holds the serial number, the MACs and the LOID. Share it privately only."
+	else
+		idline="masked: the serial number, the MACs, the LOID and the module serial show as MASKED- and their last four characters."
+	fi
+	cat <<-EOF
+	# odi-oss diagnostics bundle
+
+	Image: ${img:-unknown}. Taken: $(date -u '+%Y-%m-%d %H:%M:%S') UTC by the stick clock.
+
+	Start with SUMMARY.txt: one screen of facts taken from the files below.
+	MANIFEST.txt lists every step, its exit status and its size; a step
+	with a non-zero status did not get its data.
+
+	## What is hidden
+
+	- Secrets: every password and key in the config store reads REDACTED,
+	  and the same values are scrubbed from the other files, as text and hex.
+	- Identity: $idline
+
+	## Where to look
+
+	| question | file |
+	|---|---|
+	| ONU state, alarms, GEM flows, port counters | pon/diag.txt, pon/odi_gpon-status.txt |
+	| why the ONU left O5, LOS and LOF | dmesg.txt and syslog.txt, the event=onu_state, event=los and event=lof lines |
+	| PLOAM messages and counts | pon/odi_gpon-ploam.txt |
+	| OMCI: what the OLT provisioned, MIB resets | pon/omcli_*.txt, syslog.txt (event=mib_reset, event=unknown_me) |
+	| optics: power, temperature, laser driver | pon/diag.txt (transceiver lines), module/ |
+	| the previous boot, a watchdog reset | ramlog_prev.txt, odi_wdt_*.txt, nv.txt |
+	| the host link to the router | host-link.txt |
+	| settings | config/ (redacted) |
+	| services and their logs | log/, ps.txt |
+
+	The event lines are documented in docs/TOOLS.md of odi-oss, in the
+	section "Link and provisioning events".
+
+	## What the bundle cannot tell
+
+	A report needs these from the person who took it:
+
+	- the ISP, and the line type (GPON, the OLT vendor if known)
+	- the router behind the stick, and how it connects (VLAN, PPPoE or DHCP)
+	- what was changed, and when, and what was seen (no sync, drops, slow)
+	- whether the stock firmware works on the same line
+	EOF
+}
+readme > "$b/README.md"
+manifest - "$(size_of "$b/README.md")" README.md
+timeout "$STEP_TIMEOUT_S" sh "$DIAG_SUMMARY_SH" "$b" > "$b/SUMMARY.txt" 2>&1
+manifest "$?" "$(size_of "$b/SUMMARY.txt")" SUMMARY.txt
 
 # A token rule is plain POSIX BRE, no \b, \< or alternation: a bound is a
 # character outside the class, kept by \1 and \2, or the start or end of

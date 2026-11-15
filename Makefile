@@ -183,6 +183,7 @@ test-host:
 	bash test/omci_defaults_test.sh
 	bash test/rcs_cs_value_test.sh
 	bash test/log_trim_test.sh
+	bash test/diag_summary_test.sh
 	bash test/services_off_test.sh
 	bash test/respawn_budget_test.sh
 	bash test/regtrace_decode_test.sh

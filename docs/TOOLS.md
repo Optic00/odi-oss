@@ -37,6 +37,7 @@ source here; `/etc/odi-build` on the stick records which releases went in
 | `fwu_starter.sh` | CLI: write an uploaded tarball to the inactive slot | confd, you | runs `fwu.sh` from the tarball | `/tmp/fwu.log`, `/tmp/fwu.state` | -- |
 | `apply.sh` | CLI: apply saved settings without a reboot | confd, you | `network.sh addr`; SIGHUP to omcid | stdout | -- |
 | `diag-bundle.sh` | CLI: the diagnostics bundle, secrets redacted, identity masked | confd (`GET /api/diag`), you | reads logs, `/proc`, `nv`, the exporter, the optics module (`/dev/i2c-0`) | the tar.gz it writes | -- |
+| `diag-summary.sh` | CLI: one screen of facts from a bundle directory | `diag-bundle.sh`, you (also on a PC) | the files of an unpacked bundle, never the device | stdout (`SUMMARY.txt` in the bundle) | -- |
 
 Every daemon -- `omcid`, `confd`, `metricsd`, `dropbear`, `syslogd`, `klogd`
 and `ntpd` -- and the serial `login` are all `respawn` entries in
@@ -1508,11 +1509,33 @@ was masked. The web UI serves the same file as "Download a diagnostics
 bundle" on the Admin tab (odi-ui `GET /api/diag`, which only runs this and
 streams the result).
 
+Two files at the top are the way in for someone who did not take the
+bundle. `README.md` names the image, says what is redacted and whether the
+identity is masked (with `--full`: that it is not, and to share the bundle
+privately), has a table of which file answers which question, and lists
+what a report needs that the bundle cannot hold (ISP and line type, the
+router and how it connects, what was changed and seen, whether the stock
+firmware works on the line). `SUMMARY.txt` is the output of
+`diag-summary.sh` on the bundle: image, uptime, slot, identity masked or
+not, the ONU state and its last change with how long ago, how often the
+ONU left O5 this boot and why (the `cause` of each `event=onu_state
+from=O5`), LOS and LOF events, the alarms set now, the `mib resets`, `rx
+dropped` and `mib sync` lines of `omcli state`, the `event=unknown_me`
+count, the optics (from `pon get transceiver` in `pon/diag.txt`, the reads
+the exporter makes on every scrape), why the previous boot ended
+(`reason=` of the ramlog), the safe-mode boot count, and every step that
+failed. It reads only the files of the bundle, so a fact missing there
+reads `not in bundle`, and it runs as well on a PC against an unpacked
+bundle (`sh diag-summary.sh odi-diag`), also an older one. Both are
+written before the scrub and scrubbed like every other file. The counts
+from dmesg are those of the kernel ring as collected: early lines can be
+gone, and odi_gpon rate-limits its event lines.
+
 Under `pon/`, the GPON and OMCI state a PON problem needs:
 
 | file | from |
 |---|---|
-| `diag.txt` | one `diag` run: `gpon get onu-state`, `gpon get alarm-status`, `gpon get flows`, `mib dump counter port all`, and `register get 0xf020a8 240`, the PON queue window that cmd 23 and 25 write (`docs/SWITCH.md`) |
+| `diag.txt` | one `diag` run: `gpon get onu-state`, `gpon get alarm-status`, `gpon get flows`, `mib dump counter port all`, `register get 0xf020a8 240`, the PON queue window that cmd 23 and 25 write (`docs/SWITCH.md`), and `pon get transceiver` rx-power, tx-power, temperature, bias-current and voltage |
 | `odi_gpon-status.txt`, `odi_gpon-counters.txt`, `odi_gpon-flows.txt`, `odi_gpon-ploam.txt` | `/proc/odi_gpon/status`: ONU state, Alloc-IDs, alarm and state times; `counters`: the link counters; `flows`: the per-flow GEM counters; `ploam`: PLOAM totals and the ring (bodies withheld, below) |
 | `odi_omci.txt` | `/proc/odi_omci`: the OMCI channel counters |
 | `omcli_{state,provision,flows,tcont,conn,vlan}.txt` | `omcli`: what omcid holds and programmed; `vlan` is the VLAN handling (stick tags or transparent) and any `FwdOp` override of class 84 from `RTK_DEVINFO_SPECVER`, numbers only, so the bundle alone shows whether the override is in force |

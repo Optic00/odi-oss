@@ -5,6 +5,16 @@ listed here.
 
 ## Unreleased
 
+- Diagnostics bundle: two files at the top for whoever reads it. `README.md`
+  names the image, says what is redacted and whether the identity is masked,
+  maps questions to files and lists what a report has to add (ISP, router,
+  what changed). `SUMMARY.txt` is one screen of facts from the bundle files:
+  ONU state and its last change, O5 drops this boot by `cause`, LOS and LOF,
+  alarms set now, the `omcli state` reset and drop counts, optics, why the
+  previous boot ended, the safe-mode boot count and the failed steps. The new
+  `diag-summary.sh` writes it and reads only the bundle, so it also runs on a
+  PC against an unpacked bundle. The diag batch adds the five `pon get
+  transceiver` reads the exporter makes on every scrape.
 - omcid: a MIB reset loop is named instead of left to be counted in the log.
   Three or more MIB resets from the OLT within 600 s log one
   `event=mib_reset_loop state=start` (warning), and `state=end` after 600 s
