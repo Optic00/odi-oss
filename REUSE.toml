@@ -22,6 +22,7 @@ path = [
     "**/*.txt",
     "**/*.xml",
     "**/*.golden",
+    "tools/omci-libcheck/go.sum",
     "**/*.expected",
     "src/igmp/test/replay/**",
     "LICENSE",

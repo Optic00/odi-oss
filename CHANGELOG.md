@@ -5,6 +5,15 @@ listed here.
 
 ## Unreleased
 
+- OMCI tooling: `tools/omci-libcheck` holds `src/omci/model/g988.json`
+  against the G.988 definitions of omci-lib-go, a second reading of the
+  Recommendation by an unrelated parser. With omci-lib-go v2.2.4 the two
+  agree on 733 of the 736 attributes both define; three fields are left to
+  check against the clause. The library lacks class 330 and six attributes
+  G.988 added later. Developer tool only:
+  it needs Go and the network, nothing of it ships, and it is not part of
+  `make test`.
+
 - OMCI tooling: `tools/mib-gen.py` generates `omci_mib.{c,h,json}` from the
   G.988 fact table and a device profile (`src/omci/model/profile.json`),
   without a stock root filesystem. The profile holds what G.988 does not
