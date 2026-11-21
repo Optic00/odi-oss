@@ -641,7 +641,7 @@ check "failed activation, then: no retry any more" "" "$(st retry)"
 stop_omcid
 
 # A VLAN change after a failed activation re-registers too: the line is
-# down, and a rebuild in place would say the ONU stayed in O5.
+# down, and a rebuild in place would leave it down with nothing said.
 clean_state
 store 1 11 0
 gpon /tmp/rl-gpon-isp1 5 "5 282 794 1050 1306 538"

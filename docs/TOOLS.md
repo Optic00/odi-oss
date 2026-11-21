@@ -1398,7 +1398,7 @@ omcid decides what the change needs (the table under `omcid`): nothing, a
 VLAN rebuild in place, or a re-registration. The report says which:
 
     apply: omcid 412 told to reload its configuration
-    apply: VLAN handling changed (VLAN_MANU_TAG_VID): connections rebuilt in place in 0.4 s, the ONU stayed in O5
+    apply: VLAN handling changed (VLAN_MANU_TAG_VID): connections rebuilt in place in 0.4 s, the ONU was not re-registered
 
     apply: identity changed (GPON_SN): the ONU re-registered and is back in O5 with 6 service(s) after 41.3 s (omcid 44700 ms in all)
 

@@ -313,8 +313,10 @@ it goes on:
 
    The `gponact` verb fails with what the clean returned (`-EIO` for
    rows that survived, `-ETIMEDOUT` for a request that never finished),
-   so the boot crumb reads `pon step gponact: ret -5`, the ONU stays in
-   O1 and `/proc/odi_gpon/status` shows it there. A row left in the
+   so the boot crumb reads `pon step gponact: ret -5` for `-EIO` and
+   `ret -110` for `-ETIMEDOUT`. `/proc/odi_gpon/status` shows state O1,
+   which is the driver's own state machine and says nothing of why: the
+   reason is the two lines above, in the kernel log. A row left in the
    Alloc-ID CAM is another ONU's upstream timeslot answered by this one,
    so a stick that stays off the line is the smaller harm: it costs this
    subscriber the service, the other costs the neighbours theirs. Up to
@@ -323,10 +325,18 @@ it goes on:
    `PON_SERDES_MODE`, the frame length and other switch-core registers),
    so the MAC is left as the reset left it: nothing has written an ONU
    state, enabled its interrupts or put a serial number in its PLOAM
-   slot. Nothing retries on its own. The next `gponact` (by hand with
-   `echo gponact > /proc/odi_init`, or the one of the next boot) runs
-   the whole replay again from its first record, reset and clean
-   included.
+   slot. One of those records opens the frame length check of the PON
+   port (`MAX_FRAME_LEN_1` 0x7ef, record 351; the rest of the table
+   closes it again at record 386, until O5): the failed replay writes it
+   back to 0, so the port drops every frame, as on a deactivated ONU.
+   The driver does not retry. The next `gponact` runs the whole replay
+   again from its first record, reset and clean included: by hand
+   (`echo gponact > /proc/odi_init`), at the next boot, after an omcid
+   respawn (`omci-respawn-reprovision.sh`) or in a re-registration omcid
+   makes for a changed identity (`apply.sh omci`). A `gpondeact` before
+   that one (both of the last two write it first) does nothing while no
+   boot replay has completed: there is nothing to tear down, and it
+   writes nothing into the GPON MAC.
 
 Then, on clean tables only, the rest of the table runs: it programs this
 ONU and activates it (`DSF_ONU_STATE` leaves O1 in its last records, after

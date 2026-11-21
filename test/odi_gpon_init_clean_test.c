@@ -63,7 +63,19 @@ static struct {
 	unsigned int reset_released_at;	/* seq of the RESET_REQ 1 -> 0 write, 0 none */
 	unsigned int first_clear_at;	/* seq of the first clear request, 0 none */
 	int reset_req;
+	/* Writes to the registers that make an ONU of the block: its ONU
+	 * state, its interrupt enable, the PLOAM transmit slot. The boot
+	 * table has none before the clean.
+	 */
+	unsigned int onu_state_writes, irq_enable_writes, slot_writes;
+	unsigned int slot_armed;	/* USF_PLOAM_TX_CTL writes that arm the serial-number slot */
+	uint32_t slot_word1;		/* USF_PLOAM_TX_WORD(1) as that write found it */
 } m;
+
+/* USF_PLOAM_TX_CTL with the serial-number message type and PUSH: the write
+ * that arms the slot the ONU answers a serial-number request from.
+ */
+#define SN_SLOT_ARMED	0x601U
 
 static uint32_t *reg(uint32_t off)
 {
@@ -121,6 +133,17 @@ static void model_read(uint32_t off)
 static void model_write(uint32_t off, uint32_t val)
 {
 	m.seq++;
+	if (off == ODI_GPON_DSF_ONU_STATE_OFF)
+		m.onu_state_writes++;
+	else if (off == ODI_GPON_PONMAC_IRQ_ENABLE_OFF)
+		m.irq_enable_writes++;
+	else if (off == ODI_GPON_USF_PLOAM_TX_CTL_OFF ||
+		 (off >= ODI_GPON_USF_PLOAM_TX_WORD(0) && off <= ODI_GPON_USF_PLOAM_TX_WORD(7)))
+		m.slot_writes++;
+	if (off == ODI_GPON_USF_PLOAM_TX_CTL_OFF && val == SN_SLOT_ARMED) {
+		m.slot_armed++;
+		m.slot_word1 = *reg(ODI_GPON_USF_PLOAM_TX_WORD(1));
+	}
 	if (off >= ODI_SW_DSF_GEM_FLOW_TYPE(0) &&
 	    off <= ODI_SW_DSF_GEM_FLOW_TYPE(ODI_GPON_INIT_GEM_ROWS - 1U)) {
 		unsigned int row = (off - ODI_SW_DSF_GEM_FLOW_TYPE(0)) / 4U;
@@ -400,17 +423,24 @@ static void test_boot_table_without_wait(void)
 	odi_replay_fw_release(&fw);
 }
 
-/* Whether the part of the boot table after the clean was replayed. Two
- * registers only that part writes: DSF_ONU_STATE, which its last records
- * move out of O1 (the activation), and the serial-number word of the PLOAM
- * slot it arms, which holds the first two bytes of the serial number
- * passed in ("OD"). The mock register file keeps what was written whether
- * or not the model let it reach the block.
+/* No record after the clean was replayed: not one write reached the ONU
+ * state, the interrupt enable or the PLOAM slot, and the frame length
+ * the records before the clean opened for the PON port is closed again.
+ */
+static int rest_not_replayed(void)
+{
+	return m.onu_state_writes == 0U && m.irq_enable_writes == 0U && m.slot_writes == 0U &&
+	       *reg(ODI_SW_MAX_FRAME_LEN_1_OFF) == 0U;
+}
+
+/* The part after the clean was replayed to its end: the serial-number
+ * slot was armed holding the first two bytes of the serial number passed
+ * in ("OD"), and the last ONU state written is the one the table ends on.
  */
 static int rest_replayed(void)
 {
-	return ODI_GPON_DSF_ONU_STATE_ACTIVATION_STATE_GET(*reg(ODI_GPON_DSF_ONU_STATE_OFF)) == 3U &&
-	       *reg(ODI_GPON_USF_PLOAM_TX_WORD(1)) == 0x4f44U;
+	return m.slot_armed > 0U && m.slot_word1 == 0x4f44U && m.irq_enable_writes > 0U &&
+	       ODI_GPON_DSF_ONU_STATE_ACTIVATION_STATE_GET(*reg(ODI_GPON_DSF_ONU_STATE_OFF)) == 3U;
 }
 
 /* odi_gpon_init_apply() on the same cold stick: it waits the reset out,
@@ -478,7 +508,7 @@ static void test_boot_table_reset_stuck(void)
 	CHECK(odi_gpon_init_last_clean()->rc != 0 && odi_gpon_init_last_clean()->passes == 2U,
 	      "stuck reset: the clean failed, after its retry");
 	CHECK(gem_rows_valid() > 100U, "stuck reset: nothing reaches a block that stays in reset");
-	CHECK(!rest_replayed(), "stuck reset: the rest of the table was not replayed");
+	CHECK(rest_not_replayed(), "stuck reset: no write of the rest of the table, the PON port closed");
 	CHECK(odi_mock_locks_idle(), "stuck reset: no lock left held");
 	odi_replay_fw_release(&fw);
 }
@@ -500,7 +530,7 @@ static void test_boot_table_retry(void)
 	power_up();
 	m.reset_never_completes = 1;
 	CHECK(odi_gpon_init_apply(&fw.blob, sn, pw) == -EIO, "retry: the first apply fails");
-	CHECK(!rest_replayed(), "retry: and stops before the rest of the table");
+	CHECK(rest_not_replayed(), "retry: and stops before the rest of the table");
 	released = m.reset_released_at;
 
 	m.reset_never_completes = 0;

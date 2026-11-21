@@ -1241,7 +1241,16 @@ int odi_gpon_verb(const char *verb, const char *arg)
 	} else if (!strcmp(verb, "gponhold")) {
 		rc = odi_gpon_verb_hold(arg);
 	} else if (!strcmp(verb, "gpondeact")) {
-		odi_gpon_verb_deactivate(&odi_gpon_fsm_inst);
+		/* Before the boot gponact has run its replay (none yet, or one
+		 * that failed) there is nothing to tear down, and the teardown
+		 * would write an ONU state and an interrupt enable into a GPON
+		 * MAC nothing has set up. The verb still succeeds, so a caller
+		 * that deactivates before it activates (the omcid respawn
+		 * re-provisioning, an omcid re-registration) goes on to its
+		 * gponact, which runs the whole boot replay.
+		 */
+		if (odi_gpon_booted)
+			odi_gpon_verb_deactivate(&odi_gpon_fsm_inst);
 	} else if (!strcmp(verb, "gponstat")) {
 		/* A trigger only -- odi_gpon owns its own return convention
 		 * now (odi_gpon.h's own header comment), not the stock

@@ -46,7 +46,9 @@ struct odi_replay_blob;	/* odi_replay_blob.h */
  * in the Alloc-ID CAM makes it answer grants meant for other ONUs on the
  * same PON. The records up to the reset release have run by then; none of
  * them is in the GPON MAC window but the reset pulse itself, and a later
- * call replays them again from the first.
+ * call replays them again from the first. One of them sets MAX_FRAME_LEN_1,
+ * the frame length the PON port accepts; it is written back to 0 (every
+ * frame dropped, as on a deactivated ONU) before the return.
  *
  * No allocation, no sleeping: odi_gpon.c calls this with its spinlock
  * held, on a table it loaded before taking the lock.

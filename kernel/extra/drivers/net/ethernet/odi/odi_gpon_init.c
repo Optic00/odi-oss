@@ -449,10 +449,16 @@ int odi_gpon_init_apply(const struct odi_replay_blob *table,
 	 * its CAM. So the rest of the table, which moves the ONU out of O1
 	 * and arms its serial-number answer, runs on clean tables only. What
 	 * was replayed so far wrote nothing inside the GPON MAC but the reset
-	 * pulse.
+	 * pulse. It did open the frame length check of the PON port
+	 * (MAX_FRAME_LEN_1, which the rest of the table closes again until
+	 * O5): closed here the same way, 0, the value a deactivated ONU has
+	 * (odi_gpon_hw.c, hw_link_force_up()), so the port drops every frame.
 	 */
-	if (report->rc)
+	if (report->rc) {
+		if (rest)
+			odi_reg_write(ODI_SW_MAX_FRAME_LEN_1_OFF, 0U);
 		return report->rc;
+	}
 	part = odi_gpon_init_slice(table, rest, table->count - rest);
 	(void)odi_replay_run(&part, &opts);
 	return 0;
