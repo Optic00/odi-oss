@@ -400,6 +400,19 @@ static void test_boot_table_without_wait(void)
 	odi_replay_fw_release(&fw);
 }
 
+/* Whether the part of the boot table after the clean was replayed. Two
+ * registers only that part writes: DSF_ONU_STATE, which its last records
+ * move out of O1 (the activation), and the serial-number word of the PLOAM
+ * slot it arms, which holds the first two bytes of the serial number
+ * passed in ("OD"). The mock register file keeps what was written whether
+ * or not the model let it reach the block.
+ */
+static int rest_replayed(void)
+{
+	return ODI_GPON_DSF_ONU_STATE_ACTIVATION_STATE_GET(*reg(ODI_GPON_DSF_ONU_STATE_OFF)) == 3U &&
+	       *reg(ODI_GPON_USF_PLOAM_TX_WORD(1)) == 0x4f44U;
+}
+
 /* odi_gpon_init_apply() on the same cold stick: it waits the reset out,
  * then the clean lands, every row reads back clear, and the rest of the
  * table follows. The table itself programs no CAM row and no flow type
@@ -417,9 +430,10 @@ static void test_boot_table_cold(void)
 		return;
 	power_up();
 	m.reset_accesses = COLD_RESET_ACCESSES;
-	odi_gpon_init_apply(&fw.blob, sn, pw);
+	CHECK(odi_gpon_init_apply(&fw.blob, sn, pw) == 0, "cold: the apply reports success");
 	CHECK(m.reset_released_at && m.first_clear_at > m.reset_released_at,
 	      "cold: the first clear lands after the reset release");
+	CHECK(rest_replayed(), "cold: the rest of the table ran, the ONU is activated");
 	CHECK(odi_gpon_init_last_clean()->reset_rc == 0 &&
 	      odi_gpon_init_last_clean()->reset_polls > 0U, "cold: the reset was waited out");
 	CHECK(odi_gpon_init_last_clean()->rc == 0 && odi_gpon_init_last_clean()->passes == 1U,
@@ -439,20 +453,24 @@ static void test_boot_table_cold(void)
 }
 
 /* A reset that never completes: the wait gives up at its bound, the clean
- * and the rest of the table still run (and fail, logged), and the call
- * returns.
+ * still runs and fails (logged), and the call returns what the clean
+ * returned without replaying the rest of the table: the ONU is not
+ * activated on tables that may hold another ONU's Alloc-IDs.
  */
 static void test_boot_table_reset_stuck(void)
 {
 	static const uint8_t sn[8] = { 'O', 'D', 'I', 'X', 0x12, 0x34, 0x56, 0x78 };
 	static const uint8_t pw[10];
 	struct odi_replay_fw fw;
+	int rc;
 
 	if (boot_table_load(&fw))
 		return;
 	power_up();
 	m.reset_never_completes = 1;
-	odi_gpon_init_apply(&fw.blob, sn, pw);
+	rc = odi_gpon_init_apply(&fw.blob, sn, pw);
+	CHECK(rc == -EIO, "stuck reset: the apply returns the failure of the clean");
+	CHECK(rc == odi_gpon_init_last_clean()->rc, "stuck reset: the same value as the report");
 	CHECK(m.reset_released_at != 0U, "stuck reset: released");
 	CHECK(odi_gpon_init_last_clean()->reset_rc == -ETIMEDOUT &&
 	      odi_gpon_init_last_clean()->reset_polls == ODI_GPON_INIT_RESET_POLLS,
@@ -460,7 +478,44 @@ static void test_boot_table_reset_stuck(void)
 	CHECK(odi_gpon_init_last_clean()->rc != 0 && odi_gpon_init_last_clean()->passes == 2U,
 	      "stuck reset: the clean failed, after its retry");
 	CHECK(gem_rows_valid() > 100U, "stuck reset: nothing reaches a block that stays in reset");
+	CHECK(!rest_replayed(), "stuck reset: the rest of the table was not replayed");
 	CHECK(odi_mock_locks_idle(), "stuck reset: no lock left held");
+	odi_replay_fw_release(&fw);
+}
+
+/* A clean that fails once and works on the next call, which is what a
+ * second gponact is: the first call stops after the clean, the second
+ * starts again at the first record (the reset pulse included), finds the
+ * tables as the first left them, cleans them and replays the rest.
+ */
+static void test_boot_table_retry(void)
+{
+	static const uint8_t sn[8] = { 'O', 'D', 'I', 'X', 0x12, 0x34, 0x56, 0x78 };
+	static const uint8_t pw[10];
+	struct odi_replay_fw fw;
+	unsigned int released;
+
+	if (boot_table_load(&fw))
+		return;
+	power_up();
+	m.reset_never_completes = 1;
+	CHECK(odi_gpon_init_apply(&fw.blob, sn, pw) == -EIO, "retry: the first apply fails");
+	CHECK(!rest_replayed(), "retry: and stops before the rest of the table");
+	released = m.reset_released_at;
+
+	m.reset_never_completes = 0;
+	m.busy = 0U;
+	m.reset_accesses = COLD_RESET_ACCESSES;
+	CHECK(odi_gpon_init_apply(&fw.blob, sn, pw) == 0, "retry: the second apply succeeds");
+	CHECK(m.reset_released_at > released, "retry: it pulsed the reset again");
+	CHECK(odi_gpon_init_last_clean()->reset_rc == 0 && odi_gpon_init_last_clean()->rc == 0 &&
+	      odi_gpon_init_last_clean()->passes == 1U,
+	      "retry: the report is the one of the second apply");
+	CHECK(odi_gpon_init_last_clean()->before.gem_valid == 120U,
+	      "retry: it found the garbage the first apply left");
+	CHECK(tables_clear(), "retry: every row clear");
+	CHECK(rest_replayed(), "retry: the rest of the table ran, the ONU is activated");
+	CHECK(odi_mock_locks_idle(), "retry: no lock left held");
 	odi_replay_fw_release(&fw);
 }
 
@@ -507,6 +562,7 @@ int main(void)
 	test_boot_table_without_wait();
 	test_boot_table_cold();
 	test_boot_table_reset_stuck();
+	test_boot_table_retry();
 	odi_mock_write_hook = NULL;
 	odi_mock_read_hook = NULL;
 	CHECK(odi_replay_fw_host_loads == odi_replay_fw_host_releases, "every load was released");

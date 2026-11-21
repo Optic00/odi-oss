@@ -1178,38 +1178,52 @@ int odi_gpon_verb(const char *verb, const char *arg)
 			       init_fw_rc);
 			rc = init_fw_rc;
 		} else if (!odi_gpon_booted) {
-			odi_gpon_init_apply(&init_fw.blob, odi_gpon_fsm_inst.serial_number,
-					    odi_gpon_fsm_inst.password);
-			/* The captured boot sequence ends with the FSM's own
-			 * O1->O2 self-transition inside this same odi_init
-			 * call -- the registers are already written by the
-			 * replay above; this poke brings this driver's own
-			 * software state in line with them without re-issuing
-			 * those writes through the ops table a second time
-			 * (the same direct fsm->state poke
-			 * odi_gpon_verb_deactivate() already uses).
-			 */
-			if (odi_gpon_hw_hold_get()) {
-				/* GPON_KEEP_DISABLE: the OLT disabled this ONU
-				 * and has not enabled it since; it starts in
-				 * O7, the line already high (gponhold 1).
+			rc = odi_gpon_init_apply(&init_fw.blob, odi_gpon_fsm_inst.serial_number,
+						 odi_gpon_fsm_inst.password);
+			if (rc) {
+				/* The GPON tables did not come clean
+				 * (odi_gpon_init.h): the replay stopped before
+				 * the records that activate the ONU, so it
+				 * stays off the line rather than answer grants
+				 * meant for other ONUs on the PON. The flag
+				 * stays clear, so the next gponact runs the
+				 * whole replay again, reset and clean included.
 				 */
-				odi_gpon_hw_hold_enter(&odi_gpon_fsm_inst);
+				pr_err("odi_gpon: gponact: the GPON tables are not clean (%d), not activating\n",
+				       rc);
 			} else {
-				odi_gpon_fsm_inst.state = ODI_GPON_STATE_O2;
-				odi_gpon_fsm_inst.onu_id = 0U;
+				/* The captured boot sequence ends with the FSM's own
+				 * O1->O2 self-transition inside this same odi_init
+				 * call -- the registers are already written by the
+				 * replay above; this poke brings this driver's own
+				 * software state in line with them without re-issuing
+				 * those writes through the ops table a second time
+				 * (the same direct fsm->state poke
+				 * odi_gpon_verb_deactivate() already uses).
+				 */
+				if (odi_gpon_hw_hold_get()) {
+					/* GPON_KEEP_DISABLE: the OLT disabled this ONU
+					 * and has not enabled it since; it starts in
+					 * O7, the line already high (gponhold 1).
+					 */
+					odi_gpon_hw_hold_enter(&odi_gpon_fsm_inst);
+				} else {
+					odi_gpon_fsm_inst.state = ODI_GPON_STATE_O2;
+					odi_gpon_fsm_inst.onu_id = 0U;
+				}
+				odi_gpon_booted = true;
+				/* The block is set up: the counter sampler starts, with
+				 * its baseline (the first sample only clears) taken
+				 * here rather than a period later. The downstream
+				 * framer runs from the replay above, and a PLOAM it
+				 * accepts in that first second would reach ds_rx but
+				 * be cleared out of ds_ploam_accepted by a late
+				 * baseline: the two would differ for good.
+				 */
+				odi_gpon_ctr_sample_locked();
+				mod_timer(&odi_gpon_ctr_timer,
+					  jiffies + msecs_to_jiffies(ODI_GPON_CTR_PERIOD_MS));
 			}
-			odi_gpon_booted = true;
-			/* The block is set up: the counter sampler starts, with
-			 * its baseline (the first sample only clears) taken
-			 * here rather than a period later. The downstream
-			 * framer runs from the replay above, and a PLOAM it
-			 * accepts in that first second would reach ds_rx but
-			 * be cleared out of ds_ploam_accepted by a late
-			 * baseline: the two would differ for good.
-			 */
-			odi_gpon_ctr_sample_locked();
-			mod_timer(&odi_gpon_ctr_timer, jiffies + msecs_to_jiffies(ODI_GPON_CTR_PERIOD_MS));
 		} else {
 			odi_gpon_verb_activate(&odi_gpon_fsm_inst);
 		}

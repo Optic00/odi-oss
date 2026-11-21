@@ -305,11 +305,32 @@ it goes on:
 
    A row still set after the clean is logged as an error, with the first
    such row and its entry, and the whole clean runs once more. If rows
-   survive that too (or a CAM request never finishes), the error line
-   says so and the activation goes ahead: the ONU is no worse off than
-   without the clean, and the line is in dmesg and the ramlog.
+   survive that too (or a CAM request never finishes), the replay stops
+   there and the ONU is not activated:
 
-Then the rest of the table runs: it programs this ONU and activates it.
+       odi_gpon: GPON tables NOT clean after 2 passes (-5): GEM-port CAM ... multicast filter 0/256 valid (row -1); the PON is NOT activated, a reboot or another gponact tries again
+       odi_gpon: gponact: the GPON tables are not clean (-5), not activating
+
+   The `gponact` verb fails with what the clean returned (`-EIO` for
+   rows that survived, `-ETIMEDOUT` for a request that never finished),
+   so the boot crumb reads `pon step gponact: ret -5`, the ONU stays in
+   O1 and `/proc/odi_gpon/status` shows it there. A row left in the
+   Alloc-ID CAM is another ONU's upstream timeslot answered by this one,
+   so a stick that stays off the line is the smaller harm: it costs this
+   subscriber the service, the other costs the neighbours theirs. Up to
+   the reset release the table writes nothing in the GPON MAC window but
+   the reset pulse itself (records 0 to 361: the PON queues,
+   `PON_SERDES_MODE`, the frame length and other switch-core registers),
+   so the MAC is left as the reset left it: nothing has written an ONU
+   state, enabled its interrupts or put a serial number in its PLOAM
+   slot. Nothing retries on its own. The next `gponact` (by hand with
+   `echo gponact > /proc/odi_init`, or the one of the next boot) runs
+   the whole replay again from its first record, reset and clean
+   included.
+
+Then, on clean tables only, the rest of the table runs: it programs this
+ONU and activates it (`DSF_ONU_STATE` leaves O1 in its last records, after
+the serial number is in the PLOAM slot).
 Every row of ours (the ONU-ID row, the OMCC GEM port, the T-CONTs and
 flows) is written later, as the OLT assigns it, so all of them land in
 clean tables.

@@ -258,7 +258,10 @@ steps, running concurrently with the respawn entries just started.
     does not do, and a laser lit outside its timeslots takes down every
     ONU on the OLT port. `gponact` is then refused (`-EPERM`, `odi_gpon:
     gponact refused: the laser is off` in the kernel log, whoever writes
-    the verb). `gponsn` and `gponpw` still run. `ODI_LASER_UNVERIFIED=1`
+    the verb). `gponsn` and `gponpw` still run. `gponact` also fails,
+    with `-EIO` or `-ETIMEDOUT`, when the GPON MAC tables do not come
+    clean (`docs/SWITCH.md`, "GPON boot init"): the ONU is not activated
+    and stays in O1 until a later `gponact` or a reboot. `ODI_LASER_UNVERIFIED=1`
     (odi.conf) makes `pon_step_laser` write `laser unverified`, which
     lights the laser whatever the id says; `optics.off` skips the verb and
     leaves it off. `/proc/odi_gpon/status` shows the result as

@@ -396,7 +396,7 @@ static void odi_gpon_init_clean_log(const struct odi_gpon_clean_report *r, int r
 				   ODI_GPON_INIT_GEM_ROWS, ODI_GPON_INIT_MC_ROWS);
 		return;
 	}
-	ODI_GPON_INIT_ERR("GPON tables NOT clean after %u passes (%d): GEM-port CAM %u/%u valid (row %d port %u), Alloc-ID CAM %u/%u valid (row %d id %u), flow type %u/%u set, multicast filter %u/%u valid (row %d); activating anyway, the OLT may deactivate this ONU\n",
+	ODI_GPON_INIT_ERR("GPON tables NOT clean after %u passes (%d): GEM-port CAM %u/%u valid (row %d port %u), Alloc-ID CAM %u/%u valid (row %d id %u), flow type %u/%u set, multicast filter %u/%u valid (row %d); the PON is NOT activated, a reboot or another gponact tries again\n",
 			  r->passes, rc, a->gem_valid, ODI_GPON_INIT_GEM_ROWS, a->gem_row,
 			  (unsigned int)a->gem_port, a->alloc_valid, ODI_GPON_INIT_ALLOC_ROWS,
 			  a->alloc_row, (unsigned int)a->alloc_id, a->flow_type_set,
@@ -410,8 +410,8 @@ const struct odi_gpon_clean_report *odi_gpon_init_last_clean(void)
 	return &odi_gpon_init_report;
 }
 
-void odi_gpon_init_apply(const struct odi_replay_blob *table,
-			 const uint8_t serial_number[8], const uint8_t password[10])
+int odi_gpon_init_apply(const struct odi_replay_blob *table,
+			const uint8_t serial_number[8], const uint8_t password[10])
 {
 	const struct odi_replay_opts opts = {
 		.rmw = 0,
@@ -444,8 +444,18 @@ void odi_gpon_init_apply(const struct odi_replay_blob *table,
 	report->reset_rc = reset_rc;
 	report->reset_polls = polls;
 	odi_gpon_init_clean_log(report, report->rc);
+	/* A row the clean could not clear may hold the Alloc-ID of another
+	 * ONU, and an activated ONU answers the grants of every Alloc-ID in
+	 * its CAM. So the rest of the table, which moves the ONU out of O1
+	 * and arms its serial-number answer, runs on clean tables only. What
+	 * was replayed so far wrote nothing inside the GPON MAC but the reset
+	 * pulse.
+	 */
+	if (report->rc)
+		return report->rc;
 	part = odi_gpon_init_slice(table, rest, table->count - rest);
 	(void)odi_replay_run(&part, &opts);
+	return 0;
 }
 
 /* The serial-number slot write of the boot table, replayed alone: the run

@@ -511,7 +511,7 @@ static void test_gpon_init_apply(void)
 		return;
 	}
 	odi_mock_reset();
-	odi_gpon_init_apply(&fw.blob, sn, pw);
+	CHECK(odi_gpon_init_apply(&fw.blob, sn, pw) == 0, "gpon init: the apply reports success");
 	odi_mock_table_flush();
 	CHECK(odi_mock_locks_idle(), "gpon init: no lock left held");
 

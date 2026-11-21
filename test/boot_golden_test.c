@@ -153,8 +153,10 @@ int odi_gpon_verb(const char *verb, const char *arg)
 		rc = odi_replay_fw_load(ODI_REPLAY_TABLE_GPON_INIT, &fw);
 		if (rc)
 			return rc;
-		odi_gpon_init_apply(&fw.blob, golden_sn, no_password);
+		rc = odi_gpon_init_apply(&fw.blob, golden_sn, no_password);
 		odi_replay_fw_release(&fw);
+		if (rc)
+			return rc;
 		golden_gpon_booted = 1;
 		return 0;
 	}
