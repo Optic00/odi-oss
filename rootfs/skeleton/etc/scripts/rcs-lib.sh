@@ -202,6 +202,29 @@ pon_step_gponpw() {
 # live registration table instead of guessing a fixed delay -- bounded, so
 # a stuck or missing omcid still lets activation happen rather than hang
 # the boot.
+# A gponact the driver refuses because the GPON tables did not come clean
+# (odi_gpon_init_apply(), docs/SWITCH.md "GPON boot init") leaves the ONU
+# in O1, and the driver does not try again by itself. Nothing else in the
+# boot writes gponact a second time, so one failed clean would keep the
+# stick off the line until the next reboot. Each new try runs the whole
+# boot replay again, reset pulse and clean included, so the step tries
+# GPONACT_TRIES times in all, GPONACT_RETRY_S seconds apart.
+# The decision is taken from the boot_replay line of /proc/odi_gpon/status,
+# not from /proc/odi_init, whose read side holds the result of whichever
+# verb ran last: another try only while it reads "failed" with -EIO (-5)
+# or -ETIMEDOUT (-145 on MIPS o32, not the generic 110). Anything else, a
+# refusal for another reason included, ends the step: trying again would
+# not change it. The tries write "gponact boot", which does nothing once
+# another path (an omcid respawn) has activated the ONU meanwhile.
+GPONACT_TRIES=${GPONACT_TRIES:-3}
+GPONACT_RETRY_S=${GPONACT_RETRY_S:-5}
+GPON_STATUS=${GPON_STATUS:-/proc/odi_gpon/status}
+# boot_replay_failed: prints the errno of a boot replay that stopped after
+# a failed table clean, nothing otherwise.
+boot_replay_failed() {
+	v=$(read_proc_bounded "$GPON_STATUS" | sed -n 's/^boot_replay failed //p' | head -n 1)
+	case $v in -5 | -145) echo "$v" ;; esac
+}
 pon_step_gponact() {
 	if [ -f "$SAFE_FLAG" ]; then
 		crumb "pon step gponact: safe-mode boot, not activated"
@@ -223,6 +246,25 @@ pon_step_gponact() {
 		crumb "gponact: omcid NOT registered with odi_omci after 10s, activating anyway"
 	fi
 	pon_step gponact
+	# Anything but 1 to 9 tries and 1 to 59 s (not a number, too long for
+	# the shell's arithmetic or for sleep) could leave the loop unbounded
+	# or end rcS.pon under set -e: the defaults stand in for it.
+	tries=$GPONACT_TRIES wait_s=$GPONACT_RETRY_S
+	case $tries in [1-9]) ;; *) tries=3 ;; esac
+	case $wait_s in [1-9] | [1-5][0-9]) ;; *) wait_s=5 ;; esac
+	n=1
+	while err=$(boot_replay_failed) && [ -n "$err" ]; do
+		if [ "$n" -ge "$tries" ]; then
+			crumb "gponact: GPON tables still not clean after $n tries, the PON stays down until a gponact succeeds"
+			return 0
+		fi
+		n=$((n + 1))
+		crumb "gponact: GPON tables not clean ($err), try $n of $tries in ${wait_s}s"
+		sleep "$wait_s"
+		# An omcid respawn may have activated the ONU meanwhile.
+		[ -n "$(boot_replay_failed)" ] || return 0
+		pon_step "gponact boot"
+	done
 }
 
 # The switch init the stock OMCI modules made when they loaded (platform

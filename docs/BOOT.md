@@ -258,12 +258,18 @@ steps, running concurrently with the respawn entries just started.
     does not do, and a laser lit outside its timeslots takes down every
     ONU on the OLT port. `gponact` is then refused (`-EPERM`, `odi_gpon:
     gponact refused: the laser is off` in the kernel log, whoever writes
-    the verb). `gponsn` and `gponpw` still run. `ODI_LASER_UNVERIFIED=1`
-    (odi.conf) makes `pon_step_laser` write `laser unverified`, which
-    lights the laser whatever the id says; `optics.off` skips the verb and
-    leaves it off. `/proc/odi_gpon/status` shows the result as
-    `laser on X ldd_id Y unverified Z` (`ldd_id` -1: no answer). The order
-    is fixed by the hardware.
+    the verb). `gponsn` and `gponpw` still run. `gponact` also fails,
+    with `-EIO` or `-ETIMEDOUT`, when the GPON MAC tables do not come
+    clean (`docs/SWITCH.md`, "GPON boot init"): `pon_step_gponact`
+    tries again with `gponact boot` while `/proc/odi_gpon/status` reads
+    `boot_replay failed`, three tries in all, five seconds apart, and
+    the ONU is not activated until a `gponact` succeeds (one of those, by
+    hand, after an omcid respawn, or at the next boot). The reason is in the
+    kernel log. `ODI_LASER_UNVERIFIED=1` (odi.conf) makes `pon_step_laser`
+    write `laser unverified`, which lights the laser whatever the id says;
+    `optics.off` skips the verb and leaves it off. `/proc/odi_gpon/status`
+    shows the result as `laser on X ldd_id Y unverified Z` (`ldd_id` -1: no
+    answer). The order is fixed by the hardware.
     The switch init deactivates the ONU, so the activation steps come
     after it (with the switch init last, the ONU stayed in O1); the switch
     init is the `switch_init` write of `/proc/odi_omci`: the platform

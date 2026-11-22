@@ -173,6 +173,17 @@ static DEFINE_SPINLOCK(odi_gpon_lock);
  */
 static bool odi_gpon_booted;
 
+/* How the last boot gponact ended: 1 before the first, 0 once one
+ * completed the replay of gpon_init.bin, otherwise its error: -EIO or
+ * -ETIMEDOUT when the replay stopped after the table clean, the refusal
+ * when it never started (the laser off, no boot table). Shown as the
+ * boot_replay line of /proc/odi_gpon/status, which is what the boot step
+ * (pon_step_gponact, rcs-lib.sh) reads to decide on another try: the read
+ * side of /proc/odi_init holds the result of whichever verb ran last.
+ * Under odi_gpon_lock.
+ */
+static int odi_gpon_boot_rc = 1;
+
 /* Dying_Gasp on a reboot (GPON_DYING_GASP, off by default, experimental).
  * odi_gpon_dg_enabled is set by the gpondg verb at boot; odi_gpon_dg_done
  * makes the send happen once per reboot. Both under odi_gpon_lock.
@@ -1094,6 +1105,7 @@ int odi_gpon_verb(const char *verb, const char *arg)
 	unsigned long flags;
 	enum odi_gpon_state prev;
 	struct odi_board_laser laser;
+	bool boot_noop = false;
 	int rc = 0;
 
 	if (!verb)
@@ -1159,6 +1171,17 @@ int odi_gpon_verb(const char *verb, const char *arg)
 		else	/* the length only: the text is the secret */
 			pr_warn("odi_gpon: gponpw: %zu characters is not a usable PLOAM password (hex up to 20 digits, or text up to 10), keeping the old one\n",
 				arg ? strlen(arg) : (size_t)0);
+	} else if (!strcmp(verb, "gponact") && arg && !strcmp(arg, "boot") &&
+		   odi_gpon_booted) {
+		/* "gponact boot": the boot step trying the boot replay again
+		 * after a table clean that failed. Another path (an omcid
+		 * respawn, a re-registration) may have activated the ONU while
+		 * the step waited; then there is nothing left for it to do,
+		 * and the re-activation a plain gponact would run must not
+		 * touch an ONU that is already up.
+		 */
+		rc = 0;
+		boot_noop = true;
 	} else if (!strcmp(verb, "gponact") && !laser.laser_on) {
 		/* The laser verb kept the laser off (odi_board.h): an
 		 * unknown laser driver may light outside the ONU's timeslots
@@ -1168,6 +1191,8 @@ int odi_gpon_verb(const char *verb, const char *arg)
 		pr_err("odi_gpon: gponact refused: the laser is off (laser verb: laser driver id %d)\n",
 		       laser.ldd_id);
 		rc = -EPERM;
+		if (!odi_gpon_booted)
+			odi_gpon_boot_rc = rc;
 	} else if (!strcmp(verb, "gponact")) {
 		if (!odi_gpon_booted && init_fw_rc) {
 			/* No boot table (odi_replay_fw_load() logged why):
@@ -1177,39 +1202,55 @@ int odi_gpon_verb(const char *verb, const char *arg)
 			pr_err("odi_gpon: gponact: no boot init table (%d), not activating\n",
 			       init_fw_rc);
 			rc = init_fw_rc;
+			odi_gpon_boot_rc = rc;
 		} else if (!odi_gpon_booted) {
-			odi_gpon_init_apply(&init_fw.blob, odi_gpon_fsm_inst.serial_number,
-					    odi_gpon_fsm_inst.password);
-			/* The captured boot sequence ends with the FSM's own
-			 * O1->O2 self-transition inside this same odi_init
-			 * call -- the registers are already written by the
-			 * replay above; this poke brings this driver's own
-			 * software state in line with them without re-issuing
-			 * those writes through the ops table a second time
-			 * (the same direct fsm->state poke
-			 * odi_gpon_verb_deactivate() already uses).
-			 */
-			if (odi_gpon_hw_hold_get()) {
-				/* GPON_KEEP_DISABLE: the OLT disabled this ONU
-				 * and has not enabled it since; it starts in
-				 * O7, the line already high (gponhold 1).
+			rc = odi_gpon_init_apply(&init_fw.blob, odi_gpon_fsm_inst.serial_number,
+						 odi_gpon_fsm_inst.password);
+			odi_gpon_boot_rc = rc;
+			if (rc) {
+				/* The GPON tables did not come clean
+				 * (odi_gpon_init.h): the replay stopped before
+				 * the records that activate the ONU, so it
+				 * stays off the line rather than answer grants
+				 * meant for other ONUs on the PON. The flag
+				 * stays clear, so the next gponact runs the
+				 * whole replay again, reset and clean included.
 				 */
-				odi_gpon_hw_hold_enter(&odi_gpon_fsm_inst);
+				pr_err("odi_gpon: gponact: the GPON tables are not clean (%d), not activating\n",
+				       rc);
 			} else {
-				odi_gpon_fsm_inst.state = ODI_GPON_STATE_O2;
-				odi_gpon_fsm_inst.onu_id = 0U;
+				/* The captured boot sequence ends with the FSM's own
+				 * O1->O2 self-transition inside this same odi_init
+				 * call -- the registers are already written by the
+				 * replay above; this poke brings this driver's own
+				 * software state in line with them without re-issuing
+				 * those writes through the ops table a second time
+				 * (the same direct fsm->state poke
+				 * odi_gpon_verb_deactivate() already uses).
+				 */
+				if (odi_gpon_hw_hold_get()) {
+					/* GPON_KEEP_DISABLE: the OLT disabled this ONU
+					 * and has not enabled it since; it starts in
+					 * O7, the line already high (gponhold 1).
+					 */
+					odi_gpon_hw_hold_enter(&odi_gpon_fsm_inst);
+				} else {
+					odi_gpon_fsm_inst.state = ODI_GPON_STATE_O2;
+					odi_gpon_fsm_inst.onu_id = 0U;
+				}
+				odi_gpon_booted = true;
+				/* The block is set up: the counter sampler starts, with
+				 * its baseline (the first sample only clears) taken
+				 * here rather than a period later. The downstream
+				 * framer runs from the replay above, and a PLOAM it
+				 * accepts in that first second would reach ds_rx but
+				 * be cleared out of ds_ploam_accepted by a late
+				 * baseline: the two would differ for good.
+				 */
+				odi_gpon_ctr_sample_locked();
+				mod_timer(&odi_gpon_ctr_timer,
+					  jiffies + msecs_to_jiffies(ODI_GPON_CTR_PERIOD_MS));
 			}
-			odi_gpon_booted = true;
-			/* The block is set up: the counter sampler starts, with
-			 * its baseline (the first sample only clears) taken
-			 * here rather than a period later. The downstream
-			 * framer runs from the replay above, and a PLOAM it
-			 * accepts in that first second would reach ds_rx but
-			 * be cleared out of ds_ploam_accepted by a late
-			 * baseline: the two would differ for good.
-			 */
-			odi_gpon_ctr_sample_locked();
-			mod_timer(&odi_gpon_ctr_timer, jiffies + msecs_to_jiffies(ODI_GPON_CTR_PERIOD_MS));
 		} else {
 			odi_gpon_verb_activate(&odi_gpon_fsm_inst);
 		}
@@ -1227,7 +1268,16 @@ int odi_gpon_verb(const char *verb, const char *arg)
 	} else if (!strcmp(verb, "gponhold")) {
 		rc = odi_gpon_verb_hold(arg);
 	} else if (!strcmp(verb, "gpondeact")) {
-		odi_gpon_verb_deactivate(&odi_gpon_fsm_inst);
+		/* Before the boot gponact has run its replay (none yet, or one
+		 * that failed) there is nothing to tear down, and the teardown
+		 * would write an ONU state and an interrupt enable into a GPON
+		 * MAC nothing has set up. The verb still succeeds, so a caller
+		 * that deactivates before it activates (the omcid respawn
+		 * re-provisioning, an omcid re-registration) goes on to its
+		 * gponact, which runs the whole boot replay.
+		 */
+		if (odi_gpon_booted)
+			odi_gpon_verb_deactivate(&odi_gpon_fsm_inst);
 	} else if (!strcmp(verb, "gponstat")) {
 		/* A trigger only -- odi_gpon owns its own return convention
 		 * now (odi_gpon.h's own header comment), not the stock
@@ -1243,7 +1293,7 @@ int odi_gpon_verb(const char *verb, const char *arg)
 	 * poll ODI_GPON_LINE_POLL_MS later or the first interrupt; a
 	 * deactivated one is left in O1.
 	 */
-	if (!strcmp(verb, "gponact") && rc == 0)
+	if (!strcmp(verb, "gponact") && rc == 0 && !boot_noop)
 		odi_gpon_line_watch = true;
 	else if (!strcmp(verb, "gpondeact"))
 		odi_gpon_line_watch = false;
@@ -1410,6 +1460,7 @@ static int odi_gpon_proc_status_show(struct seq_file *seq, void *v)
 	struct odi_gpon_ranging_dbg rdbg;
 	bool uo_valid, rng_valid, pid_valid;
 	int hold_keep, hold_held;
+	int boot_rc;
 	u64 state_since;
 	unsigned long state_s;
 	unsigned int state_ms;
@@ -1446,6 +1497,7 @@ static int odi_gpon_proc_status_show(struct seq_file *seq, void *v)
 	hold_keep = odi_gpon_hw_hold_enabled();
 	hold_held = odi_gpon_hw_hold_get();
 	state_since = odi_gpon_state_since;
+	boot_rc = odi_gpon_boot_rc;
 	spin_unlock_irqrestore(&odi_gpon_lock, flags);
 	odi_gpon_elapsed(state_since, &state_s, &state_ms);
 
@@ -1463,6 +1515,17 @@ static int odi_gpon_proc_status_show(struct seq_file *seq, void *v)
 	 * Stop is kept (the OLT disabled this ONU and has not enabled it).
 	 */
 	seq_printf(seq, "o7_hold keep %d held %d\n", hold_keep, hold_held);
+	/* The boot replay of gpon_init.bin: not_run before the first gponact,
+	 * done once one completed, failed <errno> while the last boot
+	 * gponact did not (-EIO, -ETIMEDOUT: a table clean that failed,
+	 * odi_gpon_init.h; any other errno: it was refused before the replay).
+	 */
+	if (boot_rc > 0)
+		seq_puts(seq, "boot_replay not_run\n");
+	else if (boot_rc == 0)
+		seq_puts(seq, "boot_replay done\n");
+	else
+		seq_printf(seq, "boot_replay failed %d\n", boot_rc);
 	seq_printf(seq, "onu_id %d\n", odi_gpon_onu_id_get());
 	seq_printf(seq, "sn %02x%02x%02x%02x%02x%02x%02x%02x\n",
 		   sn[0], sn[1], sn[2], sn[3], sn[4], sn[5], sn[6], sn[7]);

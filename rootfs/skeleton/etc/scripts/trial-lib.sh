@@ -118,8 +118,11 @@ spawn() {
 # ---- the trial
 
 # trial-run ID SECONDS: one second for the caller answer to leave, the
-# apply (trial_apply), then the window, then the expiry. trial_applied and
-# trial_apply_failed record the outcome, under the lock.
+# apply (trial_apply), then the window (trial_window), then the expiry.
+# trial_applied and trial_apply_failed record the outcome, under the lock.
+# trial_window ID SECONDS sleeps the window; a script that has to act
+# during it (host-serdes.sh) defines its own after sourcing this file.
+trial_window() { "$SLEEP" "$2"; }
 trial_run() {
 	id=$1 secs=$2
 	"$SLEEP" 1
@@ -137,7 +140,7 @@ trial_run() {
 		return 1
 	fi
 	unlock
-	"$SLEEP" "$secs"
+	trial_window "$id" "$secs"
 	expire "$id"
 }
 

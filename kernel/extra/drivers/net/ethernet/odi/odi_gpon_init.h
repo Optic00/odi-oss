@@ -40,11 +40,21 @@ struct odi_replay_blob;	/* odi_replay_blob.h */
  * table, which programs this ONU and activates it. A table without that
  * pulse gets the clean before its first record. Both steps log one line.
  *
+ * Returns 0 once the whole table is replayed. When the clean fails, the
+ * rest of the table is not replayed and the return is what the clean
+ * returned (-EIO, -ETIMEDOUT): the ONU is not activated, since a row left
+ * in the Alloc-ID CAM makes it answer grants meant for other ONUs on the
+ * same PON. The records up to the reset release have run by then; none of
+ * them is in the GPON MAC window but the reset pulse itself, and a later
+ * call replays them again from the first. One of them sets MAX_FRAME_LEN_1,
+ * the frame length the PON port accepts; it is written back to 0 (every
+ * frame dropped, as on a deactivated ONU) before the return.
+ *
  * No allocation, no sleeping: odi_gpon.c calls this with its spinlock
  * held, on a table it loaded before taking the lock.
  */
-void odi_gpon_init_apply(const struct odi_replay_blob *table,
-			 const uint8_t serial_number[8], const uint8_t password[10]);
+int odi_gpon_init_apply(const struct odi_replay_blob *table,
+			const uint8_t serial_number[8], const uint8_t password[10]);
 
 /* Writes a new serial number into the PLOAM slot the boot replay armed,
  * after boot: only the run of records that arms that slot, not the whole

@@ -253,3 +253,7 @@ exec /bin/sh ["sh", "-c", "echo \"$1\" > \"$2\"", "_", "gponact", "/proc/odi_ini
 write /proc/odi_init "gponact\n"
 exec /bin/timeout ["timeout", "5", "cat", "/proc/odi_init"]
 exec /bin/cat ["cat", "/proc/odi_init"]
+exec /bin/timeout ["timeout", "5", "cat", "/proc/odi_gpon/status"]
+exec /bin/cat ["cat", "/proc/odi_gpon/status"]
+exec /bin/sed ["sed", "-n", "s/^boot_replay failed //p"]
+exec /bin/head ["head", "-n", "1"]

@@ -78,7 +78,7 @@ fi
 crumb "omci respawn: ONU deactivated, waiting for the respawned omcid to register"
 
 new=$(omci_reactivate "$t0" "$REGISTER_WAIT" "$DEACT_HOLD") || {
-	crumb "omci respawn: gponact failed, the ONU stays off the line until a reboot"
+	crumb "omci respawn: gponact failed, the ONU stays off the line until a gponact succeeds (a reboot, the next respawn, or by hand)"
 	exit 1
 }
 if [ -n "$new" ]; then

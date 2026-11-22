@@ -814,7 +814,12 @@ for value, and a stick already in it is not written at all.
 later, in RAM only, and reverts by itself after 120 s unless `host-serdes.sh
 confirm` arrives first, which can only happen over the link in the new
 mode. Only the confirm stores `HOST_SERDES` (confirming `fiber1g` removes
-it). A reboot during the trial also undoes it. A trial is refused while
+it). In `2500basex` and `hisgmii` the window re-latches the lane every 5 s
+while bit 17 of 0x214 reads clear (`docs/SWITCH.md`, "The re-latch"): the
+host port is usually switched to 2.5G by hand only after the trial applied,
+and a lane started before the host sends does not sync until it is started
+again. A lane in sync is not touched. In HiSGMII bit 17 serves the window
+only; the status still has no link source for it. A reboot during the trial also undoes it. A trial is refused while
 another one runs, while the boot watch (below) runs, while a
 `host-autoneg.sh` trial or boot watch runs, in a safe-mode boot, and with
 `/etc/config/sds.off`. The web UI runs the same trial: Config, Network,
@@ -842,7 +847,9 @@ protections are not the same in every mode, and not the same as
 | `hisgmii` | yes | none: nothing tells a dead host from a live one | as `2500basex` |
 
 **The boot watch of 2500basex.** A boot with `HOST_SERDES=2500basex`
-applies it and watches the SerDes sync for 30 s. With no sync it switches
+applies it and watches the SerDes sync for 30 s, re-latching the lane
+every 5 s while there is none, so a host port switched to 2.5G during the
+phase links in it. With no sync it switches
 to Fiber 1G for 30 s, watching `host_link` there (the port is no longer
 forced), then back to 2500BASE-X, and so on until one of them links, for at
 most 10 minutes. A link in Fiber 1G is the **fallback**: `event=fallback`,

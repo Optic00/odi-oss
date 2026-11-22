@@ -114,7 +114,7 @@ t "the signal went to the running omcid" "told to reload" "$out"
 printf 'running vlan rebuild pending VLAN_MANU_TAG_VID 0 - 6 0\ndone vlan rebuild ok VLAN_MANU_TAG_VID 400 - 6 0\n' > "$T/script"
 out=$(run omci); rc=$?
 t "vlan: exit 0" "^0$" "$rc"
-t "vlan: rebuilt in place, and the ONU stayed" "VLAN handling changed (VLAN_MANU_TAG_VID): connections rebuilt in place in 0.4 s, the ONU stayed in O5" "$out"
+t "vlan: rebuilt in place, with no claim about the ONU state" "VLAN handling changed (VLAN_MANU_TAG_VID): connections rebuilt in place in 0.4 s, the ONU was not re-registered" "$out"
 t "vlan: still the same omcid" "^$first$" "$(cat "$T/omcid.pid")"
 
 # A re-registration that finishes in time.

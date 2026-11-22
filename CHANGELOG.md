@@ -6,6 +6,44 @@ listed here.
 ## Unreleased
 
 - GPON: an OLT Emergency Stop (Disable_Serial_Number) is kept across this stick's restarts and reboots by default, as G.984.3 asks. `GPON_KEEP_DISABLE=0` restores the old behaviour; empty or absent now means on. A safe-mode boot still ignores the key and the marker, and `gpon-hold.sh clear` releases a kept disable by hand. The rcS goldens gain the `gponkeep 1` step (#482).
+- Host SerDes: a 2500BASE-X or HiSGMII lane out of sync is re-latched
+  every 5 s (`HOLD_CLK_GLITCH` set, the lane parked, 20 ms, the mode word
+  back, so a re-latch cut before its restore is undone by the next) during a
+  `2500basex` or `hisgmii` trial and in each 2500BASE-X phase of the boot
+  watch, until bit 17 of 0x214 reads set. A lane started before the host sends 3.125
+  Gbaud does not sync when the host starts later, and started again while
+  the host sends it syncs within seconds; a trial writes the sequence one
+  second after `try` and the host port is switched to 2.5G by hand after
+  that, so against a MikroTik hEX S 2025 (E60iUGS) a `2500basex` trial
+  never synced, on HSGQ sticks of 2025 and 2026 batches, while a boot with
+  the router port already at 2.5G synced in 1 s. A lane in sync is never
+  touched; `fiber1g` trials and the other users of `trial-lib.sh` are
+  unchanged. HiSGMII has the same race (#477, an LL-XS2510 against a
+  MikroTik RB5009: no sync and no frames until `reapply`), which is likely
+  #478; in HiSGMII bit 17 is the sync check of the trial window only, and
+  the status keeps no link source for it. `trial-lib.sh` gets a `trial_window` hook,
+  which sleeps the window as before unless the script defines its own. The
+  re-latches take the lock with `lock_try` and skip a busy tick, so a busy
+  lock cannot end a trial run before its expiry. The window ends
+  once the trial is confirmed or reverted. A failed write in a re-latch is
+  reported as a failed re-latch.
+
+- Kernel: the ONU is not activated when the boot clean of the GPON MAC
+  tables fails; before, it was logged and activated anyway, on tables that
+  could hold the Alloc-IDs of other ONUs, whose grants it then answers.
+  `gponact` now fails with `-EIO` or `-ETIMEDOUT`, the reason is in the
+  kernel log, `/proc/odi_gpon/status` gains `boot_replay
+  not_run|done|failed <errno>`, and the PON port drops every frame. The
+  boot step tries again with `gponact boot` while that line reads
+  `failed -5` or `failed -145` (`-ETIMEDOUT` on MIPS), three tries in
+  all, five seconds apart; each one runs the whole replay again, and
+  `gponact boot` does nothing once the ONU was activated by another
+  path. After the boot a later
+  `gponact` (by hand, an omcid respawn) does the same, and a `gpondeact`
+  before any completed boot replay no longer writes the GPON MAC.
+  `apply.sh omci` reports a VLAN rebuild as `the ONU was not
+  re-registered` instead of `stayed in O5`, which it does not know
+  (`docs/SWITCH.md`, "GPON boot init").
 - Upgrade: `fwu_starter.sh` says in the page log what the fallback
   environment copy answered when it lets the write go on (its `sw_commit`,
   or no valid second copy), and warns, as `fwu.sh` does, when that copy

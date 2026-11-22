@@ -305,11 +305,57 @@ it goes on:
 
    A row still set after the clean is logged as an error, with the first
    such row and its entry, and the whole clean runs once more. If rows
-   survive that too (or a CAM request never finishes), the error line
-   says so and the activation goes ahead: the ONU is no worse off than
-   without the clean, and the line is in dmesg and the ramlog.
+   survive that too (or a CAM request never finishes), the replay stops
+   there and the ONU is not activated:
 
-Then the rest of the table runs: it programs this ONU and activates it.
+       odi_gpon: GPON tables NOT clean after 2 passes (-5): GEM-port CAM ... multicast filter 0/256 valid (row -1); the PON is NOT activated, a reboot or another gponact tries again
+       odi_gpon: gponact: the GPON tables are not clean (-5), not activating
+
+   The `gponact` verb fails with what the clean returned (`-EIO` for
+   rows that survived, `-ETIMEDOUT` for a request that never finished),
+   so the boot crumb reads `pon step gponact: ret -5` for `-EIO` and
+   `ret -145` for `-ETIMEDOUT` (MIPS o32 numbers it 145, not 110).
+   `/proc/odi_gpon/status` shows state O1 and `boot_replay failed -5`
+   (or `-145`); its other values are `not_run` before the first
+   `gponact`, `done` once a boot replay completed, and `failed` with
+   another errno when the last boot `gponact` was refused before the
+   replay (`-1` with the laser off). The reason is the two lines above,
+   in the kernel log. A row left in the
+   Alloc-ID CAM is another ONU's upstream timeslot answered by this one,
+   so a stick that stays off the line is the smaller harm: it costs this
+   subscriber the service, the other costs the neighbours theirs. Up to
+   the reset release the table writes nothing in the GPON MAC window but
+   the reset pulse itself (records 0 to 361: the PON queues,
+   `PON_SERDES_MODE`, the frame length and other switch-core registers),
+   so the MAC is left as the reset left it: nothing has written an ONU
+   state, enabled its interrupts or put a serial number in its PLOAM
+   slot. One of those records opens the frame length check of the PON
+   port (`MAX_FRAME_LEN_1` 0x7ef, record 351; the rest of the table
+   closes it again at record 386, until O5): the failed replay writes it
+   back to 0, so the port drops every frame, as on a deactivated ONU.
+   The driver does not retry, but the boot step does: while
+   `boot_replay` reads `failed -5` or `failed -145`, `pon_step_gponact`
+   (`rcs-lib.sh`) writes `gponact boot`, up to three writes in all, five
+   seconds apart (`GPONACT_TRIES` 1 to 9, `GPONACT_RETRY_S` 1 to 59;
+   anything else falls back to these defaults), and logs each try
+   as a boot crumb. It reads the status line rather than
+   `/proc/odi_init`, whose read side holds the result of whichever verb
+   ran last. Anything else ends it at once, and so does a `done` that
+   another path (an omcid respawn) brought about while it waited;
+   `gponact boot` itself does nothing once a boot replay has completed,
+   so it never re-activates an ONU that is up. Until one has completed,
+   each `gponact` runs the whole replay again from its first record,
+   reset and clean included. After the boot it takes another one: by hand
+   (`echo gponact > /proc/odi_init`), at the next boot, after an omcid
+   respawn (`omci-respawn-reprovision.sh`) or in a re-registration omcid
+   makes for a changed identity (`apply.sh omci`). A `gpondeact` before
+   that one (both of the last two write it first) does nothing while no
+   boot replay has completed: there is nothing to tear down, and it
+   writes nothing into the GPON MAC.
+
+Then, on clean tables only, the rest of the table runs: it programs this
+ONU and activates it (`DSF_ONU_STATE` leaves O1 in its last records, after
+the serial number is in the PLOAM slot).
 Every row of ours (the ONU-ID row, the OMCC GEM port, the T-CONTs and
 flows) is written later, as the OLT assigns it, so all of them land in
 clean tables.
@@ -1359,6 +1405,27 @@ Read back from the HSGQ stick in 2500BASE-X: 0x214 = 0x00260016, 0x21c00 =
 0x21808 bit 8 clear) the HiSGMII SerDes is in sync and the host link up,
 and no frame is received from the host; which of the three the newer
 hosts need is not isolated (docs/QUALIFICATION.md).
+
+**The re-latch.** A 2500BASE-X lane started before the host sends 3.125
+Gbaud does not sync when the host starts later: bit 17 of 0x214 reads set
+for one read in fifteen to fifty, never for long. Started again while the
+host sends, it syncs within seconds. The re-latch starts it again in its
+mode: 0x214 `HOLD_CLK_GLITCH` bit 13 := 1, `LINK_MODE` [4:0] := 0x1f
+(parked), 20 ms, then the word read before with the mode word under 0xa11f
+(0x16 in 2500BASE-X, 0x112 in HiSGMII, bit 13 clear), the word a lane in
+that mode held. A re-latch cut before that last write leaves the lane
+parked; the next one starts it again. A `2500basex` or `hisgmii` trial and
+each 2500BASE-X phase of the boot watch run it every 5 s (`RESYNC_S`) while
+bit 17 reads clear, and never on a lane in sync. Measured against a
+MikroTik hEX S 2025 (E60iUGS) on HSGQ sticks: a re-latch with the router
+port still at 1G gave one read in 25 with the bit set; the next, after the
+port was switched to 2.5G-baseX, 0x214 = 0x00260016 within 2 s and frames
+both ways. HiSGMII has the same race (#477, an LL-XS2510 against a MikroTik
+RB5009): with the host port moved to 2.5G after a live switch to
+`hisgmii`, bit 17 stayed clear apart from brief flickers and no frames
+arrived until `reapply`. In HiSGMII bit 17 reads set in sync whether or not
+frames pass, so it is the sync check of the trial window only, not the
+link of the status.
 
 HiSGMII is not an IEEE 802.3 mode: SGMII signalling at 3.125 Gbaud, no
 standard to define the line or its negotiation. The host port is set to

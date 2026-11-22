@@ -346,7 +346,7 @@ omci() {
 	none:ok)
 		say "nothing changed in the store; nothing done" ;;
 	vlan:ok)
-		say "VLAN handling changed ($keys): connections rebuilt in place in ${dur} s, the ONU stayed in O5" ;;
+		say "VLAN handling changed ($keys): connections rebuilt in place in ${dur} s, the ONU was not re-registered" ;;
 	identity:ok)
 		if [ "$retry" = 1 ]; then
 			say "re-registered: the ONU is back in O5 with $(snap_get services) service(s) after $(secs "$(snap_get o5_ms)") s (omcid $(snap_get duration_ms) ms in all)"

@@ -14,8 +14,15 @@
 # 2.5G host that syncs only while the stick runs 2500BASE-X with
 # auto-negotiation off (it sets bit 17 of 0x214, as a stick in sync reads),
 # "f1g" one that links only in Fiber 1G (host_link 1), "none" neither, and
-# "late:<uptime>:<model>" behaves as "none" until that uptime; with no model
-# the registers are left as they are. Bit 17 is set in sync in either mode
+# "late:<uptime>:<model>" behaves as "none" until that uptime, and
+# "latch:<uptime>" is a 2.5G host that starts to send at that uptime and
+# syncs only with a lane started (0x214 written in 2500BASE-X or HiSGMII
+# with HOLD_CLK_GLITCH clear) at or after it, as a MikroTik hEX S 2025
+# (E60iUGS) or RB5009 port switched to 2.5G-baseX after the stick does; it
+# syncs 2500BASE-X with auto-negotiation off, and HiSGMII; with no model
+# the registers are left as they are. With "$T/failrestore" the next write
+# of 0x214 with HOLD_CLK_GLITCH clear fails and is not written, as a
+# re-latch cut before its restore. Bit 17 is set in sync in either mode
 # (a Fiber 1G stick linked to its host reads 0x260004). A forced port
 # (host_forced 1) reads host_link 1 whatever the host does, as the kernel
 # does. The real flash wrapper stores the key, in a temporary odi.conf.
@@ -65,6 +72,8 @@ case "\$1 \$2" in
 	a=\$(norm "\$3"); v=\$(printf "0x%x" "\$(( \$4 ))")
 	echo "set \$a \$v" >> "$T/sdsset"
 	[ -f "$T/readonly" ] && exit 0
+	[ -f "$T/failrestore" ] && [ "\$a" = 0x214 ] && [ \$(( v & 0x2000 )) = 0 ] && { rm -f "$T/failrestore"; exit 1; }
+	[ "\$a" = 0x214 ] && { [ \$(( v & 0x1f )) = 22 ] || [ \$(( v & 0x1f )) = 18 ]; } && [ \$(( v & 0x2000 )) = 0 ] && cut -d. -f1 "$T/uptime" > "$T/lanestart"
 	grep -v "^\$a=" "$T/regs" > "$T/regs.n" 2>/dev/null; echo "\$a=\$v" >> "$T/regs.n"
 	mv "$T/regs.n" "$T/regs"
 	;;
@@ -89,6 +98,10 @@ fo=\$(cat "$T/param/host_forced" 2>/dev/null)
 sync=0 l=0
 case \$m in
 x2500) [ "\$mode" = 22 ] && { [ "\$an" = 0 ] || [ "\$an" = N ]; } && sync=1 ;;
+latch:*)
+	at=\${m#latch:}; ls=\$(cat "$T/lanestart" 2>/dev/null || echo 0)
+	[ "\$up" -ge "\$at" ] && [ "\$ls" -ge "\$at" ] &&
+		{ [ "\$mode" = 18 ] || { [ "\$mode" = 22 ] && { [ "\$an" = 0 ] || [ "\$an" = N ]; }; }; } && sync=1 ;;
 f1g)   [ "\$mode" = 4 ] && l=1 sync=1 ;;
 esac
 { [ "\$fo" = 1 ] || [ "\$fo" = Y ]; } && l=1
@@ -116,6 +129,7 @@ up=\$(cut -d. -f1 "$T/uptime")
 echo "\$((up + \$1)).00 1.00" > "$T/uptime"
 "$T/bin/model"
 [ -x "$T/hook" ] && [ "\$1" -gt 1 ] && { "$T/hook"; rm -f "$T/hook"; }
+[ -x "$T/everyhook" ] && "$T/everyhook"
 exit 0
 EOF
 chmod +x "$T/bin/"* "$T/diag"
@@ -166,7 +180,7 @@ REGS
 # their defaults (host_forced N, host_autoneg Y), the registers in Fiber 1G
 # unless the test changes them; the config partition is kept.
 newboot() {
-	rm -rf "$T/run" "$T/spawned" "$T/hook" "$T/model" "$T/sdsset" "$T/readonly"
+	rm -rf "$T/run" "$T/spawned" "$T/hook" "$T/everyhook" "$T/model" "$T/sdsset" "$T/readonly" "$T/lanestart" "$T/failrestore"
 	mkdir -p "$T/run"
 	echo "15.00 1.00" > "$T/uptime"
 	echo N > "$T/param/host_forced"
@@ -341,6 +355,14 @@ same "watch, Fiber 1G host: the thirteen Fiber 1G writes" "$T/want-fiber1g-from-
 t "watch, Fiber 1G host: HOST_SERDES stays 2500basex" "^2500basex$" "$(key)"
 t "status shows the fallback" "fallback=1.*link_source=host_link" "$(sh "$S" status | tr '\n' ' ')"
 
+# The same with re-latches inside the 2500BASE-X phase (RESYNC_S below
+# WATCH_S): the phase still ends after WATCH_S.
+newboot
+sh "$S" boot > /dev/null 2>&1
+echo f1g > "$T/model"
+WATCH_S=6 RESYNC_S=2 /usr/bin/timeout 60 sh "$S" watch > /dev/null 2>&1
+t "watch, Fiber 1G host, re-latching in the phase: still falls back to Fiber 1G" "^fallback 1 fiber1g steady$" "$(st event) $(st fallback) $(st running) $(st phase)"
+
 # A 2.5G host that comes up late: Fiber 1G, then 2500BASE-X again.
 newboot
 echo late:30:x2500 > "$T/model"
@@ -499,6 +521,142 @@ printf '#!/bin/sh\nsh "%s" confirm >> "%s/confirm.out" 2>&1\n' "$S" "$T" > "$T/h
 sh "$S" trial-run "$id" 20 > /dev/null 2>&1
 t "confirm fiber1g: the key is removed" "^$" "$(key)"
 t "confirm fiber1g: setting fiber1g, the port follows its SerDes" "^trial_confirmed fiber1g 0 1$" "$(st event) $(st setting) $(p host_forced) $(p host_autoneg)"
+
+# ---- the race: a host switched to 2.5G after the trial applied
+# The trial writes the sequence 1 s after try; the host port is set to
+# 2.5G-baseX by hand after that, over the link the trial just dropped. A
+# lane started before the host sends never syncs; while bit 17 stays clear
+# the trial re-latches the lane every RESYNC_S seconds, and leaves a lane in
+# sync alone.
+# confirm_on_sync: an everyhook that confirms once the lane reads in sync,
+# as a user does once the ping answers.
+confirm_on_sync() {
+	cat > "$T/everyhook" <<EOF
+#!/bin/sh
+[ -f "$T/confirmed" ] && exit 0
+r=\$(sed -n 's/^0x214=//p' "$T/regs")
+[ \$(( (r >> 17) & 1 )) = 1 ] || exit 0
+: > "$T/confirmed"
+sh "$S" confirm >> "$T/confirm.out" 2>&1
+EOF
+	chmod +x "$T/everyhook"
+	rm -f "$T/confirmed"
+}
+setkey ""
+newboot
+sh "$S" boot > /dev/null
+echo latch:20 > "$T/model"
+: > "$T/spawned"
+sh "$S" try 2500basex > /dev/null
+id=$(st trial_id)
+confirm_on_sync
+out=$(sh "$S" trial-run "$id" 20 2>&1)
+t "race: a host at 2.5G only after the apply, the trial still syncs and is confirmed" \
+	"^trial_confirmed 2500basex 2500basex$" "$(st event) $(key) $(st running)"
+t "race: said so" "re-latching the lane every 5 s" "$out"
+[ "$(printf '%s\n' "$out" | grep -c 're-latching')" = 1 ] &&
+	ok "  ... in one line, not one per re-latch" || no "  ... in one line" "$out"
+up=$(cut -d. -f1 "$T/uptime")
+[ "$up" -lt $((15 + 1 + 20)) ] && ok "  ... and the window ends with the confirm (uptime $up)" ||
+	no "  ... and the window ends with the confirm" "uptime $up"
+rm -f "$T/everyhook"
+# Reverted within the window: the window ends there too.
+setkey ""
+newboot
+sh "$S" boot > /dev/null
+echo none > "$T/model"
+: > "$T/spawned"
+sh "$S" try 2500basex > /dev/null
+id=$(st trial_id)
+printf '#!/bin/sh\nsh "%s" revert >> "%s/revert.out" 2>&1\n' "$S" "$T" > "$T/hook"
+chmod +x "$T/hook"
+sh "$S" trial-run "$id" 20 > /dev/null 2>&1
+up=$(cut -d. -f1 "$T/uptime")
+t "race, reverted: back to fiber1g" "^trial_reverted fiber1g$" "$(st event) $(st running)"
+[ "$up" -lt $((15 + 1 + 20)) ] && ok "  ... and the window ends with the revert (uptime $up)" ||
+	no "  ... and the window ends with the revert" "uptime $up"
+# A host already at 2.5G: in sync from the apply, never re-latched.
+setkey ""
+newboot
+sh "$S" boot > /dev/null
+echo x2500 > "$T/model"
+: > "$T/spawned"
+sh "$S" try 2500basex > /dev/null
+id=$(st trial_id)
+out=$(sh "$S" trial-run "$id" 20 2>&1)
+t "race control: a host in sync, the trial expires as before" "^trial_expired fiber1g$" "$(st event) $(st running)"
+t "race control: the lane parked by the sequences only (in, and back out)" "^2$" "$(grep -c 'set 0x214 0x[0-9a-f]*201f' "$T/sdsset")"
+n "race control: nothing re-latched" "re-latching" "$out"
+# No host at all: re-latched within the window, then the expiry as before.
+setkey ""
+newboot
+sh "$S" boot > /dev/null
+echo none > "$T/model"
+: > "$T/spawned"
+sh "$S" try 2500basex > /dev/null
+id=$(st trial_id)
+sh "$S" trial-run "$id" 20 > /dev/null 2>&1
+t "race, no host: the expiry back to fiber1g, the key unchanged" "^trial_expired fiber1g $" "$(st event) $(st running) $(key)"
+t "race, no host: the registers are Fiber 1G again" "^0x4 0x1264$" "$(printf '0x%x' $(( $(reg 0x214) & 0xa11f ))) $(reg 0x215b4)"
+up=$(cut -d. -f1 "$T/uptime")
+[ "$up" -le $((15 + 1 + 20 + 6)) ] && ok "race, no host: the window not stretched by the re-latches (uptime $up)" ||
+	no "race, no host: the window not stretched" "uptime $up"
+# HiSGMII has the same race (a host port switched to 2.5G after a live
+# switch to it, as measured on a MikroTik RB5009): the window re-latches it
+# too, back into HiSGMII. Bit 17 is the sync check of the window only; the
+# status keeps no link source for HiSGMII.
+setkey ""
+newboot
+sh "$S" boot > /dev/null
+echo latch:20 > "$T/model"
+: > "$T/spawned"
+sh "$S" try hisgmii > /dev/null
+id=$(st trial_id)
+confirm_on_sync
+out=$(sh "$S" trial-run "$id" 20 2>&1)
+t "race, hisgmii: a host at 2.5G only after the apply, the trial still syncs and is confirmed" \
+	"^trial_confirmed hisgmii hisgmii$" "$(st event) $(key) $(st running)"
+t "race, hisgmii: said so" "no sync in HiSGMII.*re-latching the lane every 5 s" "$out"
+t "race, hisgmii: re-latched into HiSGMII (0x112 under 0xa11f), 0x21808 bit 8 kept" "^0x112 0x71e0$" \
+	"$(printf '0x%x' $(( $(reg 0x214) & 0xa11f ))) $(reg 0x21808)"
+t "race, hisgmii: the status keeps no link source" "link_source=none" "$(sh "$S" status | tr '\n' ' ')"
+rm -f "$T/everyhook"
+# A Fiber 1G trial sleeps its window as before: no re-latch.
+echo none > "$T/model"
+: > "$T/spawned"
+sh "$S" try fiber1g > /dev/null
+id=$(st trial_id)
+: > "$T/sdsset"
+out=$(sh "$S" trial-run "$id" 20 2>&1)
+n "race: a fiber1g trial is not re-latched" "re-latching" "$out"
+t "  ... the lane parked by the sequences only (in, and back out)" "^2$" "$(grep -c 'set 0x214 0x[0-9a-f]*1f$' "$T/sdsset")"
+setkey ""
+# The boot watch: a host switched to 2.5G after the boot applied. Each
+# 2500BASE-X phase re-latches every RESYNC_S seconds while out of sync, so
+# it syncs within the phase, with no fallback to Fiber 1G.
+setkey 2500basex
+newboot
+sh "$S" boot > /dev/null 2>&1
+echo latch:17 > "$T/model"
+RESYNC_S=2 sh "$S" watch > /dev/null 2>&1
+t "race, boot watch: in sync in 2500basex within the first phase, no fallback" "^serdes_link 0 2500basex$" "$(st event) $(st fallback) $(st running)"
+n "race, boot watch: no switch to Fiber 1G" "watch_switch" "$(cat "$T/kmsg")"
+# A re-latch cut between the park and the restore (a diag timeout, a
+# failed write) leaves the lane parked. The next one starts it again in
+# 2500BASE-X, not with the parked word it reads, and the failed write is
+# reported.
+setkey 2500basex
+newboot
+sh "$S" boot > /dev/null 2>&1
+echo latch:17 > "$T/model"
+: > "$T/failrestore"
+out=$(RESYNC_S=2 sh "$S" watch 2>&1)
+t "re-latch cut before its restore: the failed write reported" "SerDes write 0x214 failed.*could not be re-latched" "$(printf '%s' "$out" | tr '\n' ' ')"
+t "  ... the next re-latch syncs the lane, no fallback" "^serdes_link 0 2500basex$" "$(st event) $(st fallback) $(st running)"
+n "  ... within the first phase, no switch to Fiber 1G" "watch_switch" "$(cat "$T/kmsg")"
+t "  ... the lane in 2500BASE-X, the clock running" "^0x16$" "$(printf '0x%x' $(( $(reg 0x214) & 0xa11f )))"
+setkey ""
+rm -f "$T/model"
 
 # 0x21808 bit 8 (in-band negotiation forced off on the host lane): HiSGMII
 # sets it, Fiber 1G and 2500BASE-X clear it, so no change out of HiSGMII

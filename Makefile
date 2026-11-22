@@ -182,6 +182,7 @@ test-host:
 	bash test/config_reseed_test.sh
 	bash test/ntp_event_test.sh
 	bash test/gpon_hold_test.sh
+	bash test/gponact_retry_test.sh
 	bash test/svc_igmpd_test.sh
 	bash test/omci_respawn_test.sh
 	bash test/omcli_table_test.sh
