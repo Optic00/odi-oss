@@ -5,7 +5,16 @@ listed here.
 
 ## Unreleased
 
-- GPON: an OLT Emergency Stop (Disable_Serial_Number) is kept across this stick's restarts and reboots by default, as G.984.3 asks. `GPON_KEEP_DISABLE=0` restores the old behaviour; empty or absent now means on. A safe-mode boot still ignores the key and the marker, and `gpon-hold.sh clear` releases a kept disable by hand. The rcS goldens gain the `gponkeep 1` step (#482).
+- GPON: an OLT Emergency Stop (Disable_Serial_Number) is kept across this
+  stick's restarts and reboots by default, as G.984.3 asks.
+  `GPON_KEEP_DISABLE=0` restores the old behaviour; empty or absent now
+  means on. A safe-mode boot still ignores the key and the marker, and
+  `gpon-hold.sh clear` releases a kept disable by hand. The rcS goldens gain
+  the `gponkeep 1` step (#482). Before upgrading a stick that once had the
+  key at `1`: a marker `/etc/config/gpon-hold` left from an earlier disable or
+  a `gponhold sim` test counts again unless the key is `0`, and the first
+  boot then starts in O7 with the laser off. Check `gpon-hold.sh status` and
+  run `gpon-hold.sh clear` if it shows `marker=1`.
 - Host SerDes: a 2500BASE-X or HiSGMII lane out of sync is re-latched
   every 5 s (`HOLD_CLK_GLITCH` set, the lane parked, 20 ms, the mode word
   back, so a re-latch cut before its restore is undone by the next) during a

@@ -536,8 +536,8 @@ a rogue ONU, or one an operator has barred. The ONU goes to Emergency Stop
 (O7), shuts its laser off and ignores everything but the OLT's enable.
 G.984.3 (Table 10-1 and the DIS alarm) says it stays there even after
 power-off, until the OLT enables it with Disable_Serial_Number and the enable
-code, or with the broadcast enable. Without this key the stick keeps O7 only
-until its own next PON restart or reboot, and then ranges again.
+code, or with the broadcast enable. With `GPON_KEEP_DISABLE=0` the stick keeps
+O7 only until its own next PON restart or reboot, and then ranges again.
 
 Unless `GPON_KEEP_DISABLE=0`:
 
@@ -553,11 +553,11 @@ Unless `GPON_KEEP_DISABLE=0`:
   changing the serial number or the password, a reload omcid makes on SIGHUP,
   a write to `/proc/odi_init` by hand) end in O7, the laser line still high.
   Changing the serial number does not clear it.
-- A boot with the key set and the marker present starts in O7: the `gponhold 1`
-  PON step raises the laser line before the MAC is brought up, the activation
-  ends in O7, and nothing answers on the fibre. The OLT's enable moves it to
-  O2 and ranging goes on as usual; the driver then asks `gpon-hold.sh` to
-  remove the marker.
+- A boot with the key not `0` and the marker present starts in O7: the
+  `gponhold 1` PON step raises the laser line before the MAC is brought up,
+  the activation ends in O7, and nothing answers on the fibre. The OLT's
+  enable moves it to O2 and ranging goes on as usual; the driver then asks
+  `gpon-hold.sh` to remove the marker.
 - In O7 the laser line is high, so nothing leaves the stick on the fibre; the
   feature opens no service to the PON side, and OMCI stays the only way the
   OLT talks to the stick.
@@ -579,8 +579,8 @@ the file stays until `clear`, and counts again once the key is no longer `0`).
 
 `/proc/odi_gpon/status` has the line `o7_hold keep <0|1> held <0|1>`: `keep 1`
 is the key as the driver was told at boot, `held 1` is a kept disable in force.
-`state 7 (O7)` alone does not say which: without the key, O7 is also reached
-by an OLT disable and left by any restart. The kernel log has
+`state 7 (O7)` alone does not say which: with the key at `0`, O7 is also
+reached by an OLT disable and left by any restart. The kernel log has
 `odi_gpon: event=o7_hold action=<recorded|kept|released|cleared> cause=<...>`
 and `gpon-hold: event=marker action=<written|removed|failed>`.
 

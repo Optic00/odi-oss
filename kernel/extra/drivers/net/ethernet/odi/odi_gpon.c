@@ -1260,7 +1260,7 @@ int odi_gpon_verb(const char *verb, const char *arg)
 		else
 			rc = -EINVAL;
 	} else if (!strcmp(verb, "gponkeep")) {
-		/* GPON_KEEP_DISABLE=1, written at boot by rcs-lib.sh. */
+		/* GPON_KEEP_DISABLE not 0, written at boot by rcs-lib.sh. */
 		if (arg && (!strcmp(arg, "0") || !strcmp(arg, "1")))
 			odi_gpon_hw_hold_enable(arg[0] == '1');
 		else
