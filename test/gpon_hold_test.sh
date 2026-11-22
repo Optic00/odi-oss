@@ -13,8 +13,9 @@
 # says nothing, re-reads after writing (a state that moved meanwhile ends on
 # the current one), and logs each change; clear removes the marker, tells the
 # driver, and works with no driver and with no marker; status; and the boot
-# step: nothing at all with the key off or absent, gponkeep alone with no
-# marker, gponkeep then gponhold with one, and neither in a safe-mode boot.
+# step: nothing at all with the key at 0, gponkeep alone with no marker,
+# gponkeep then gponhold with one (key absent, empty, 1 or any other value),
+# and neither in a safe-mode boot, with the key set or absent.
 # shellcheck disable=SC2329 # the stubs are called by the sourced step
 set -u
 cd "$(dirname "$0")/.." || exit 1
@@ -163,6 +164,24 @@ run
 eq "boot: a safe-mode boot ignores key and marker" "" "$steps"
 eq "boot: and says so" 1 "$(printf '%s' "$crumbs" | grep -c 'safe-mode boot')"
 eq "boot: the marker is left as it was" 1 "$(marker)"
+rm -f "$ODI_CONF"
+run
+eq "boot: safe mode, no odi.conf, a marker: nothing" "" "$steps"
+eq "boot: and says so with no odi.conf" 1 "$(printf '%s' "$crumbs" | grep -c 'safe-mode boot')"
+eq "boot: the marker is still there" 1 "$(marker)"
+rm -f "$SAFE_FLAG"
+
+# Only an exact GPON_KEEP_DISABLE=0 turns it off; anything else counts as on.
+for v in off no false 00 '0 '; do
+	printf 'GPON_KEEP_DISABLE=%s\n' "$v" > "$ODI_CONF"
+	run
+	eq "boot: key \"$v\" with a marker counts as on" "[gponkeep 1][gponhold 1]" "$steps"
+done
+printf 'GPON_KEEP_DISABLE=0\r\n' > "$ODI_CONF"
+run
+eq "boot: key \"0\" and a CR (a CRLF odi.conf) with a marker counts as on" "[gponkeep 1][gponhold 1]" "$steps"
+printf 'GPON_KEEP_DISABLE=off\n' > "$ODI_CONF"; status 1 1
+eq "status: key \"off\" counts as on" "key=1 marker=1 held=1" "$(sh "$S" status | tr '\n' ' ' | sed 's/ $//')"
 
 # The default list calls the step, between the Dying_Gasp step and gponact.
 order=$(sed -n '/^pon_steps_default()/,/^}/p' "$LIB" | grep -n 'pon_step_dyinggasp\|pon_step_keepdisable\|pon_step_gponact' | sed 's/^[0-9]*:[[:space:]]*//' | tr '\n' ' ')
