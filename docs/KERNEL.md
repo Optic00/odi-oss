@@ -1,12 +1,12 @@
 # The kernel
 
-Linux **6.18.63**, the current longterm release, built for the RTL9602C.
+Linux **6.18.65**, the current longterm release, built for the RTL9602C.
 There is no dual-kernel build any more: `kernel/build.sh` builds 6.18 and
 nothing else, from a pristine `cdn.kernel.org` tree with our own patches and
 drivers on top — no vendor kernel tree is fetched, patched or linked at any
 point in this build.
 
-    kernel/618/fetch.sh    fetches and verifies linux-6.18.63.tar.xz
+    kernel/618/fetch.sh    fetches and verifies linux-6.18.65.tar.xz
     kernel/618/mainline/   the pristine tree it extracts, gitignored
     kernel/618/patches/    our edits to mainline files, applied in order
     kernel/618/debug/      debug-only edits, applied with CRUMBS_CORE=1

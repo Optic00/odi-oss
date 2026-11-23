@@ -5,6 +5,11 @@ listed here.
 
 ## Unreleased
 
+- Docs: `BUILDING.md`, `COMPARISON.md`, `HACKING.md` and `KERNEL.md` name
+  Linux 6.18.65, the version `kernel/618/fetch.sh` pins since the
+  dependency bump (#508). `make lint` (`check-doc-pins`) failed on the
+  older 6.18.63.
+
 - CI: `make cppcheck` runs cppcheck over every tracked C file, and CI runs
   it as its own job on ubuntu-24.04 (#482). Of the nine findings on main,
   one was a test that read `rec.log[-1]` when the action it looked for was

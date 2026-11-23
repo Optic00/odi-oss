@@ -31,10 +31,10 @@ RAM, default `JOBS=4`, measured 2026-09-25:
 
 | step | what it does | first run |
 |---|---|---|
-| `make kernel-tree` | fetches linux-6.18.63 from cdn.kernel.org, checks its SHA-256 and GPG signature, extracts it to `kernel/618/mainline` and packs it into `build/kernel-618/tree.tar` (`kernel/tree.sh`) | 1.5 min (mostly the 150 MB download) |
+| `make kernel-tree` | fetches linux-6.18.65 from cdn.kernel.org, checks its SHA-256 and GPG signature, extracts it to `kernel/618/mainline` and packs it into `build/kernel-618/tree.tar` (`kernel/tree.sh`) | 1.5 min (mostly the 150 MB download) |
 | `make toolchain` | pulls the two prebuilt toolchain images, pinned by digest in `toolchain/images.env`: gcc 16.2.0 / binutils 2.47 / uClibc-ng 1.0.59 for this CPU, and the freestanding Debian cross-gcc (see `toolchain/README.md`, and "The toolchain images" below) | under a minute, once the images pull |
 | `make toolchain-audit` | re-proves the target libraries in the uclibc image carry no instruction this CPU traps on (the image build already refused any) | seconds |
-| `make kernel` | Linux 6.18.63 for the RTL9602C (`VERSION=` stamps the ramlog build id, `CRUMBS_CORE=1` adds the debug crumbs) — `docs/KERNEL.md` | 2 min |
+| `make kernel` | Linux 6.18.65 for the RTL9602C (`VERSION=` stamps the ramlog build id, `CRUMBS_CORE=1` adds the debug crumbs) — `docs/KERNEL.md` | 2 min |
 | `make packages` | busybox (`make busybox`) with our applet list and config fragment, then dropbear (with `scp`) and iproute2, all ISA-audited | 2 min |
 | `make src` | our own tools (`diag`, `omcid`, `omcli`, `omciprobe`, `omcicap`, `nv`, `igmpd`), freestanding, into `out/bin` — `docs/CROSS-COMPILING.md` | 10 s |
 | `make releases` | fetches `confd` and `metricsd` as pinned release assets, checked against the release `SHA256SUMS` and the hashes committed in `src/release-sha256.txt` (confd v1.19.0, metricsd v1.11.1; `CONFD_TAG=`/`METRICSD_TAG=` to override, or `CONFD_TAG= CONFD_BIN=<binary>` / `METRICSD_TAG= METRICSD_BIN=<binary>` for a local `confd` / `metricsd` build) | 5 s |
