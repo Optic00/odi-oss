@@ -5,6 +5,10 @@ listed here.
 
 ## Unreleased
 
+- Documentation: release-specific qualification evidence records, keyed
+  to an exact release commit, supplement the last-checked hardware matrices.
+  Historical partial results and an untested template are kept separate (#268).
+
 - omcid: the upload limit an OLT sets per GEM port (its upstream traffic
   descriptor, class 280) is no longer applied by default. One OLT names
   about 10 Mbit/s on every GEM port of a 200 Mbit/s service, and since

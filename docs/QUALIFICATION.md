@@ -243,11 +243,20 @@ release you used.
 
 ## Keeping it up to date
 
-A row records the **last release it was checked on**, not one line per
-release, so it only changes when someone checks it again. Nothing here is
-rewritten for a release that changes nothing a row covers. What a release
-changed, and what it was checked on, is in `CHANGELOG.md` and the release
-notes; this page does not repeat it.
+The matrices above are the **last checked** view, not a claim about the
+latest release. Keep that view; additionally record release-specific
+evidence in [RELEASE-QUALIFICATION.md](RELEASE-QUALIFICATION.md). Each
+record binds one hardware/line combination and its observed feature
+results to the exact released commit (or identifies a non-release build
+separately). A release does not inherit a previous release's passes.
+The checklist above is a guide to what remains to be verified, not a
+requirement to run unneeded or unsafe field tests merely to publish a record.
+
+When reporting a release, identify the immutable release commit, then
+append only checks actually run on it. Record untested/not applicable
+checks as such; missing details remain unknown. The existing matrices
+continue to tell the reader the newest evidence for each hardware and
+feature path.
 
 Change a row when:
 
